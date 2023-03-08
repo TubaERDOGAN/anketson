@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   List pages = [
-    const HomePageScreen(),
+    HomePageScreen(),
     const SearchScreen(),
     const Notifications(),
     const SettingsScreen(),
