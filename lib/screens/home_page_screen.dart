@@ -34,7 +34,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     if (response.statusCode == 200) {
       for (var anketverisi in returnedData.Anketler) {
         Anket anket = Anket(
-            anketverisi["id"], anketverisi["userId"], anketverisi["title"]);
+            anketverisi["UnicID"], anketverisi["AnketAdi"], "https://yt3.ggpht.com/ukCrRkXonAVl29DJoIiDfasQ9Kvic5jV-ZLR5Osmnnqs5KyQEjvOyO-3MOb2aFR2hHgInrV_LA=s48-c-k-c0x00ffffff-no-rj");
 
         //Adding user to the list.
         anketler.add(anket);
