@@ -42,7 +42,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
         Anket anket = Anket(
           row["Tarih"],
           row["AnketAdi"],
-          "",
+          row["ImageUrl"],
         );
 
         anketler.add(anket);
@@ -144,7 +144,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                  child: Container(
                                    height:170,
                                    child:Image.network(
-                                   'https://images.unsplash.com/photo-1500491460312-c32fc2dbc751?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+                                     snapshot.data[index].imgUrl,
                                    fit: BoxFit.fill,
                                  ),
                                  ),
