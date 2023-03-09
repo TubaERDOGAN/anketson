@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ankets/screens/anket_sayfasi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:adobe_xd/pinned.dart';
@@ -56,6 +57,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
     return Scaffold(
         backgroundColor: const Color(0xffc45d54),
+        extendBody: true,
         body:
         Stack(
             children: <Widget>[
@@ -74,15 +76,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       stops: [0.0, 0.402, 1.0],
                     ),
                   ),
-                ),
-              ),
-              Pinned.fromPins(
-                Pin(start: 0.0, end: 0.0),
-                Pin(size: 164.0, end: 0.0),
-                child: SvgPicture.string(
-                  _svg_nh01o2,
-                  allowDrawingOutsideViewBox: true,
-                  fit: BoxFit.fill,
                 ),
               ),
               Pinned.fromPins(
@@ -149,14 +142,18 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               ),
                                GestureDetector(
                                  child: Container(
-                                   child: ,
+                                   height:170,
+                                   child:Image.network(
+                                   'https://images.unsplash.com/photo-1500491460312-c32fc2dbc751?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
+                                   fit: BoxFit.fill,
+                                 ),
                                  ),
                                  onTap: () {
                                    Navigator.push(
                                        context,
                                        MaterialPageRoute(
                                            builder: (context) =>
-                                               AnketSayfası()));
+                                               AnketSayfasi()));
                                  },
                                )
                               ],
