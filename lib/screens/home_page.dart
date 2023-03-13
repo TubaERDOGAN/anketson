@@ -314,14 +314,14 @@ class _HomePageState extends State<HomePage> {
                   destinations: const [
                   NavigationDestination(
                     icon: Icon(Icons.home, color: Colors.white, size: 40),
-                     label: "Anasayfa",
+                     label: "",
                      ),
                    NavigationDestination(
                      icon: Icon(Icons.search, color: Colors.white, size: 40),
-                   label: "Arama"),
+                   label: ""),
                   NavigationDestination(
-                     icon: Icon(Icons.notifications, color: Colors.white, size: 40),
-                   label: "Bildirimler"),
+                     icon: Icon(Icons.notifications, color: Colors.white, size: 40), label: '',
+                   ),
                 ],
                 selectedIndex: selectedIndex,
                   onDestinationSelected: (value) {
