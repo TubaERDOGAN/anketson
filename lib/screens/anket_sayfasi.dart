@@ -8,9 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AnketSayfasi extends StatefulWidget {
-  final String unicID;
+  const AnketSayfasi({Key? key}) : super(key: key);
 
-  const AnketSayfasi(UnicID,  {Key? key, required this.unicID,}) : super(key: key);
   @override
   State<AnketSayfasi> createState() => _AnketSayfasiState();
 }
@@ -18,7 +17,7 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
 
   Future<List<String>> getAnketSorulari(String anketUnicID) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String unicId = sharedPreferences.getString("UnicID") ?? "";
+    String unicId = sharedPreferences.getString("unicID") ?? "";
 
     String url = 'http://172.16.64.200/ANKET/hs/getdata/anketsorulari/';
     Uri urlU = Uri.parse(url);
@@ -42,9 +41,9 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
     List<String>sorular = [];
     //print(returnedData);
     if (response.statusCode == 200) {
-      print(returnedData["Sorular"]);
-      for (var row in returnedData["Sorular"]) {
-        sorular.add(row["Soru"]);
+      print(returnedData["AnketBilgisi"]["Sorular"]);
+      for (var row in returnedData["AnketBilgisi"]["Sorular"]) {
+        print(row["Soru"]);
       }
       return sorular;
     }else{
@@ -56,7 +55,10 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
   @override
   Widget build(BuildContext context) {
 
-    //buraya yukardaki unic ıd gelmeli
+    final data = ModalRoute.of(context)!.settings;
+    print(data);
+    print(data.arguments.toString());
+    getAnketSorulari(data.arguments.toString());
 
     return Scaffold(
       backgroundColor: const Color(0xffc45d54),

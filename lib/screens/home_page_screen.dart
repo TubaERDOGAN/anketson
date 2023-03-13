@@ -160,7 +160,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                        context,
                                        MaterialPageRoute(
                                            builder: (context) =>
-                                               AnketSayfasi(snapshot.data[index].UnicID, unicID: '',)));
+                                               AnketSayfasi(),
+                                           settings: RouteSettings(
+                                         arguments: snapshot.data[index].UnicID,
+                                       )));
                                    //buraya anket unic gidecek.snapshot.data[index].UnicID şeklinde
                                  },
                                )
