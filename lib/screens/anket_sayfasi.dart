@@ -57,9 +57,7 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
   Widget build(BuildContext context) {
 
     final data = ModalRoute.of(context)!.settings;
-    print(data);
     print(data.arguments.toString());
-    getAnketSorulari(data.arguments.toString());
 
     return Scaffold(
       backgroundColor: const Color(0xffc45d54),
@@ -108,21 +106,8 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                           ),
                           child: Column(
                             children: [
-                              ListTile(
-                              subtitle: ReadMoreText(snapshot.data[index].Soru,
-                                style: const TextStyle(
-                                  fontFamily: 'Work Sans',
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                                trimMode: TrimMode.Line,
-                                trimLines: 3,
-                                colorClickableText: Colors.black,
-                                trimCollapsedText:
-                                'Daha fazla göster',
-                                trimExpandedText: ' Daha az göster',
-                              ),
-                            ),
+                              Text(snapshot.data[index].Soru),
+                              _buildRowList(getAnketSorulari(data.arguments.toString()));
                             ],
                           ),
                         ),
@@ -137,5 +122,13 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
         ],
       ),
     );
+  }
+
+  List<Widget> _buildRowList(List<String> list) {
+    List<Widget> lines = []; // this will hold Rows according to available lines
+    for (var line in list) {
+      lines.add(Text(""));
+    }
+    return lines;
   }
 }

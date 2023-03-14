@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ankets/screens/home_page.dart';
 import 'package:ankets/screens/sign_in_page.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +6,6 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'dart:convert';
-//import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
