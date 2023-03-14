@@ -16,7 +16,7 @@ class AnketSatiri extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Image.network(
-                  this.item.imgUrl,
+                  this.item.ImageUrl,
                   width: 200,
                 ),
                 Expanded(

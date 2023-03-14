@@ -26,15 +26,10 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
-  void initState() {
-    super.initState();
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     return  Scaffold(
-         backgroundColor: const Color(0xff919b95),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xff919b95),
      body: Form(
      key: _formKey,
       child:Stack(

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:ankets/screens/home_page.dart';
 import 'package:ankets/screens/sign_in_page.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class LoginPage extends StatefulWidget {
 
   @override
   State<LoginPage> createState() => _LoginPageState();
+
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -22,10 +25,17 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool girisyapildimi = false;
-  late SharedPreferences sharedPreferences;
+
+  bool passwordVisible=false;
+  @override
+  void initState(){
+    super.initState();
+    passwordVisible=true;
+  }
 
   @override
   Widget build(BuildContext context) {
+
     readySharedPreferences();
 
     if (girisyapildimi) {
@@ -71,11 +81,14 @@ class _LoginPageState extends State<LoginPage> {
                   fit: BoxFit.fill,
                 ),
               ),
-              ////passwordpinn
-              //
+
+
+              ///passwordpinn
+
               Pinned.fromPins(
                 Pin(start: 57.0, end: 57.0),
                 Pin(size: 52.0, middle: 0.7525),
+
                 child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xc7ffffff),
@@ -92,18 +105,18 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: const Alignment(-0.188, 0.478),
                       child: TextFormField(
                         autovalidateMode: AutovalidateMode.onUserInteraction,
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
                         controller: passwordController,
+                        obscureText: passwordVisible,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-
                             return 'Please enter password';
                           }
-
                           if (value.length < 8) {
                             return 'Must be more than 8 charater';
                           }
                           return null;
-
                         },
                         decoration: const InputDecoration(
                           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -116,7 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+
+
                 ),
               ),
               //////login buton pini
@@ -259,7 +274,6 @@ class _LoginPageState extends State<LoginPage> {
               Pinned.fromPins(
                   Pin(size: 196.0, end: 57.0),
                   Pin(size: 14.0, middle: 0.7912),
-
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -279,14 +293,10 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   )
               ),
+             ], )));
 
-            ],
-
-          ),
-        ),);
     }
   }
-
   Future<http.Response> postRequest(BuildContext context, String username,
       String password) async {
     String url = 'http://172.16.64.200/ANKET/hs/getdata/checkuser/';
@@ -295,7 +305,6 @@ class _LoginPageState extends State<LoginPage> {
       'Username': username,
       'Password': password,
     };
-
     //encode Map to JSON
     var body = json.encode(data);
 
@@ -303,15 +312,20 @@ class _LoginPageState extends State<LoginPage> {
         headers: {"Content-Type": "application/json"},
         body: body
     );
-
     final returnedData = jsonDecode(response.body);
-
+    print(response.body);
     if (response.statusCode == 200) {
       String mUnicID = returnedData['UnicID'];
+      print(mUnicID);
       if(mUnicID != "") {
-        sharedPreferences.setBool("girisyapildi", true);
-        sharedPreferences.setString("username", username);
-        sharedPreferences.setString("password", password);
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setBool("girisyapildi", true);
+        pref.setString("username", username);
+        pref.setString("password", password);
+        pref.setString("unicID", mUnicID);
+
+        print(pref.getString("unicID") ?? "-");
+
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -320,16 +334,13 @@ class _LoginPageState extends State<LoginPage> {
       }else{
         showAlertDialog(context, "Beklenmeyen hata oluştu!", false);
       }
-
       //burayı alma
       //devam et
     } else {
       showAlertDialog(context, returnedData['Message'], false);
     }
-
     return response;
   }
-
   showAlertDialog(BuildContext context, String message, bool status) {
     // set up the button
     Widget okButton = TextButton(
@@ -360,13 +371,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> readySharedPreferences() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    girisyapildimi = sharedPreferences.getBool("girisyapildi") ?? false;
-    setState(() {});
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    girisyapildimi = prefs.getBool("girisyapildi") ?? false;
+    setState(() {
+
+    });
   }
 }
-
-
 
 
 
