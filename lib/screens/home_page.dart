@@ -7,7 +7,6 @@ import 'notification_screen.dart';
 import 'settings_screen.dart';
 import 'home_page_screen.dart';
 import 'package:ankets/screens/profile_screen.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 

@@ -52,6 +52,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           row["AnketAdi"],
           row["ImageUrl"],
           row["UnicID"],
+          row["OnizlemeAciklamasi"],
         );
         anketler.add(anket);
       }
@@ -136,7 +137,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                subtitle: ReadMoreText(snapshot.data[index].id,
+                                subtitle: ReadMoreText(snapshot.data[index].OnizlemeAciklamasi,
                                     style: const TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,

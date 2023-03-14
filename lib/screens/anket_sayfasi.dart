@@ -7,16 +7,18 @@ import 'dart:ui' as ui;
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/anket_sorulari.dart';
+enum SingingCharacter { cevap1, cevap2,cevap3,cevap4,cevap5, }
+
 
 class AnketSayfasi extends StatefulWidget {
   const AnketSayfasi({Key? key}) : super(key: key);
-
   @override
   State<AnketSayfasi> createState() => _AnketSayfasiState();
 }
 class _AnketSayfasiState extends State<AnketSayfasi> {
 
-  Future<List<String>> getAnketSorulari(String anketUnicID) async {
+  Future<List<AnketSorulari>> getAnketSorulari() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
 
@@ -24,10 +26,10 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
     Uri urlU = Uri.parse(url);
     Map data = {
       'UserUnicID': unicId,
-      'UnicID': anketUnicID,   //??
+      'UnicID': "e544696e-9706-428f-9a98-ad15f3c80d4e",
     };
 
-    print(data);
+    //print(data);
 
     //encode Map to JSON
     var body = json.encode(data);
@@ -39,12 +41,24 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
 
     final returnedData = jsonDecode(response.body);
 
-    List<String>sorular = [];
-    //print(returnedData);
+    List<AnketSorulari> sorular = [];
+    print(returnedData);
+
     if (response.statusCode == 200) {
-      print(returnedData["AnketBilgisi"]["Sorular"]);
-      for (var row in returnedData["AnketBilgisi"]["Sorular"]) {
-        row["Soru"];
+      print(returnedData["Anket"]["Sorular"]);
+      for (var row in returnedData["Anket"]["Sorular"]) {
+        AnketSorulari anketsorusu = AnketSorulari(
+            row["Soru"],
+            row["SoruKodu"],
+            row["Cevap1"],
+            row["Cevap2"],
+            row["Cevap3"],
+            row["Cevap5"],
+            row["LineUnicID"],
+            "",
+            "",
+        );
+        sorular.add(anketsorusu);
       }
       return sorular;
     }else{
@@ -54,10 +68,24 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
   }
 
   @override
+
+  String? cevap1;
+  String? cevap2;
+
+  final _buttonOptions = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+  ];
+
   Widget build(BuildContext context) {
 
-    final data = ModalRoute.of(context)!.settings;
-    print(data.arguments.toString());
+    final AUnicID = ModalRoute.of(context)!.settings.arguments.toString();
+    print(AUnicID);
+    print("Anket soruları alınıyor");
+
 
     return Scaffold(
       backgroundColor: const Color(0xffc45d54),
@@ -86,7 +114,7 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
               child:Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: FutureBuilder(
-                  future: getAnketSorulari(data.arguments.toString()),
+                  future: getAnketSorulari(),
                   builder: (BuildContext ctx, AsyncSnapshot snapshot) {
                     if (snapshot.data == null) {
                       return Container(
@@ -106,10 +134,36 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                           ),
                           child: Column(
                             children: [
-                              Text(snapshot.data[index].Soru),
-                              _buildRowList(getAnketSorulari(data.arguments.toString()));
-                            ],
-                          ),
+                              ListTile(
+                              subtitle: ReadMoreText(snapshot.data[index].Soru,
+                                style: const TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 14,
+                                  color: Color(0xff000000),
+                                ),
+                                trimMode: TrimMode.Line,
+                                trimLines: 3,
+                                colorClickableText: Colors.black,
+                                trimCollapsedText:
+                                'Daha fazla göster',
+                                trimExpandedText: ' Daha az göster',
+                              ),
+                            ),
+                              Divider(),
+                        ListView(
+                          padding: EdgeInsets.all(8.0),
+                          children: _buttonOptions.map((timeValue) => RadioListTile<String>(
+                            groupValue: cevap1,
+                            title: Text(timeValue),
+                            value: timeValue,
+                            onChanged: (val) {
+                              setState(() {
+                                cevap1 = val;
+                              });
+                            },
+                          )).toList(),
+                            ),
+                          ]),
                         ),
                         separatorBuilder: (BuildContext context, int index) => const SizedBox(
                           height: 10,
@@ -122,13 +176,5 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
         ],
       ),
     );
-  }
-
-  List<Widget> _buildRowList(List<String> list) {
-    List<Widget> lines = []; // this will hold Rows according to available lines
-    for (var line in list) {
-      lines.add(Text(""));
-    }
-    return lines;
   }
 }
