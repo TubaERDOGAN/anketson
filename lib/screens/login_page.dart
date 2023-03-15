@@ -6,7 +6,7 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'dart:convert';
-//import 'dart:io';
+import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,12 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool girisyapildimi = false;
 
-  bool passwordVisible=false;
-  @override
-  void initState(){
-    super.initState();
-    passwordVisible=true;
-  }
+  bool _isObscure = false;//boolean value to track password view enable disable.
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +67,22 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Pinned.fromPins(
                 Pin(start: 0.0, end: 0.0),
-                Pin(size: 405.0, end: 0.0),
-                child: SvgPicture.string(
-                  _svg_ws6n7,
-                  allowDrawingOutsideViewBox: true,
-                  fit: BoxFit.fill,
+                Pin(size: 480.0, end: 0.0),
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0x8affffff),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(36.0),
+                          topRight: Radius.circular(36.0),
+                        ),
+                        border:
+                        Border.all(width: 1.0, color: const Color(0x4fffffff)),
+                      ),
+                    ),
+                  ),
                 ),
               ),
 
@@ -85,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
 
               Pinned.fromPins(
                 Pin(start: 57.0, end: 57.0),
-                Pin(size: 52.0, middle: 0.7525),
+                Pin(size: 52.0, middle: 0.6000),
 
                 child: Container(
                     decoration: BoxDecoration(
@@ -106,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                         keyboardType: TextInputType.visiblePassword,
                         textInputAction: TextInputAction.done,
                         controller: passwordController,
-                        obscureText: passwordVisible,
+                        obscureText: _isObscure, //if passenable == true, show **, else show password character
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter password';
@@ -116,7 +122,15 @@ class _LoginPageState extends State<LoginPage> {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
+                          suffixIcon: IconButton(
+                              icon: Icon(
+                                  _isObscure ? Icons.visibility : Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              }),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: InputBorder.none,
                           labelText: 'Password',
@@ -132,10 +146,10 @@ class _LoginPageState extends State<LoginPage> {
 
                 ),
               ),
-              //////login buton pini
+              ///login buton pini
               Pinned.fromPins(
                 Pin(start: 57.0, end: 57.0),
-                Pin(size: 52.0, end: 62.0),
+                Pin(size: 52.0, end: 175.0),
                 child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xffc45d54),
@@ -185,31 +199,13 @@ class _LoginPageState extends State<LoginPage> {
                     )
                 ),
               ),
-              //// ne işe yaradığını anlamadım
+
+
+
+              ///Usermane Pin
               Pinned.fromPins(
                 Pin(start: 57.0, end: 57.0),
-                Pin(size: 52.0, middle: 0.6675),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xc7ffffff),
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color(0x14000000),
-                        offset: Offset(3, 3),
-                        blurRadius: 3,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              //
-              //
-              //usermane pin
-              //
-              Pinned.fromPins(
-                Pin(start: 57.0, end: 57.0),
-                Pin(size: 52.0, middle: 0.6675),
+                Pin(size: 52.0, middle: 0.5150),
                 child: Container(
                     decoration: BoxDecoration(
                       color: const Color(0xc7ffffff),
@@ -249,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Pinned.fromPins(
                   Pin(size: 196.0, middle: 0.5025),
-                  Pin(size: 14.0, end: 37.0),
+                  Pin(size: 14.0, end: 150.0),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -263,15 +259,18 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(
                         fontFamily: 'Work Sans',
                         fontSize: 12,
-                        color: Color(0xffc45d54),
+                        color: Color(0xff000000),
                       ),
                       textAlign: TextAlign.center,
                     ),
                   )
               ),
+
+
+              /// Forgot
               Pinned.fromPins(
                   Pin(size: 196.0, end: 57.0),
-                  Pin(size: 14.0, middle: 0.7912),
+                  Pin(size: 14.0, middle: 0.6500),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -376,7 +375,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 }
-
 
 
 const String _svg_xp7tu =

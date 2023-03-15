@@ -25,7 +25,7 @@ class SignInPage extends StatefulWidget {
 class   _SignInPageState extends State<SignInPage> {
 
   bool girisyapildimi = false;
-
+  bool _isObscure = false;//boolean value to track password view enable disable.
   final _formKey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -68,7 +68,7 @@ class   _SignInPageState extends State<SignInPage> {
           ),
           Pinned.fromPins(
             Pin(start: 0.0, end: 0.0),
-            Pin(size: 531.0, end: 0.0),
+            Pin(size: 600.0, end: 0.0),
             child: ClipRect(
               child: BackdropFilter(
                 filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
@@ -86,26 +86,10 @@ class   _SignInPageState extends State<SignInPage> {
               ),
             ),
           ),
-
-          Pinned.fromPins(
-            Pin(size: 196.0, middle: 0.5025),
-            Pin(size: 37.0, start: 88.0),
-            child: const Text(
-              'LOGO',
-              style: TextStyle(
-                fontFamily: 'Work Sans',
-                fontSize: 31,
-                color: Color(0xff000000),
-                fontWeight: FontWeight.w800,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-
           /// En tepedeki Sign up yazısı
           Pinned.fromPins(
             Pin(start: 98.0, end: 99.0),
-            Pin(size: 24.0, middle: 0.4324),
+            Pin(size: 24.0, middle: 0.2800),
             child: const Text(
               'Sign Up',
               style: TextStyle(
@@ -121,7 +105,7 @@ class   _SignInPageState extends State<SignInPage> {
           /// USERNAME
           Pinned.fromPins(
             Pin(start: 56.0, end: 58.0),
-            Pin(size: 52.0, middle: 0.5138),
+            Pin(size: 52.0, middle: 0.3614),
             child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xc7ffffff),
@@ -163,7 +147,7 @@ class   _SignInPageState extends State<SignInPage> {
           /// email
           Pinned.fromPins(
             Pin(start: 56.0, end: 58.0),
-            Pin(size: 52.0, middle: 0.5988),
+            Pin(size: 52.0, middle: 0.4464),
             child: Container(
               decoration: BoxDecoration(
                 color: const Color(0xc7ffffff),
@@ -199,7 +183,7 @@ class   _SignInPageState extends State<SignInPage> {
           /// PASWORD
           Pinned.fromPins(
             Pin(start: 57.0, end: 57.0),
-            Pin(size: 52.0, middle: 0.6863),
+            Pin(size: 52.0, middle: 0.5314),
             child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xc7ffffff),
@@ -217,6 +201,9 @@ class   _SignInPageState extends State<SignInPage> {
                   child: TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: passwordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
+                    obscureText: _isObscure, //if passenable == true, show **, else show password character
                     validator: (value) {
                       if (value == null || value.isEmpty) {
 
@@ -229,11 +216,19 @@ class   _SignInPageState extends State<SignInPage> {
                       return null;
 
                     },
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
                       labelText: 'Password',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontFamily: 'Work Sans',
                         fontSize: 14,
                         color: Color(0xff000000),
@@ -247,7 +242,7 @@ class   _SignInPageState extends State<SignInPage> {
           /// Confirm Password
           Pinned.fromPins(
             Pin(start: 57.0, end: 57.0),
-            Pin(size: 52.0, middle: 0.7713),
+            Pin(size: 52.0, middle: 0.6164),
             child: Container(
                 decoration: BoxDecoration(
                   color: const Color(0xc7ffffff),
@@ -265,6 +260,9 @@ class   _SignInPageState extends State<SignInPage> {
                   child: TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: cpasswordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
+                    obscureText: _isObscure, //if passenable == true, show **, else show password character
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
@@ -274,11 +272,19 @@ class   _SignInPageState extends State<SignInPage> {
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
                       labelText: 'Confirm Password',
-                      labelStyle: TextStyle(
+                      labelStyle: const TextStyle(
                         fontFamily: 'Work Sans',
                         fontSize: 14,
                         color: Color(0xff000000),
@@ -292,7 +298,7 @@ class   _SignInPageState extends State<SignInPage> {
           /// SIGNUPBUTTON
           Pinned.fromPins(
             Pin(start: 57.0, end: 57.0),
-            Pin(size: 52.0, end: 67.0),
+            Pin(size: 52.0, end: 175.0),
             child: Container(
               decoration: BoxDecoration(
                 color: const Color(0xffc45d54),
@@ -348,42 +354,30 @@ class   _SignInPageState extends State<SignInPage> {
                 )
             ),
           ),
-/// burada boxlar bitiyo
+          /// burada boxlar bitiyo
           Pinned.fromPins(
-            Pin(size: 196.0, middle: 0.5025),
-            Pin(size: 14.0, end: 42.0),
-            child:  TextButton(
-                 onPressed: () {
-                   Navigator.push(
-                       context,
-                       MaterialPageRoute(
-                           builder: (context) =>
-                               LoginPage()));
-                 },
-                 child:const Text.rich(
-              TextSpan(
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 12,
-                  color: Color(0xff000000),
+              Pin(size: 196.0, middle: 0.5025),
+              Pin(size: 14.0, end: 150.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LoginPage()));
+                },
+                child: const Text(
+                  'Already have an account?  Log in!',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Work Sans',
+                    fontSize: 12,
+                    color: Color(0xff000000),
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                children: [
-                  TextSpan(
-                    text: 'Already have an account? ',
-                  ),
-                  TextSpan(
-                    text: 'Log in',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              textHeightBehavior:
-              TextHeightBehavior(applyHeightToFirstAscent: false),
-              textAlign: TextAlign.center,
-            ),
-          ),),
+              )
+          ),
 
         ],
       ),
