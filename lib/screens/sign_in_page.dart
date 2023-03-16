@@ -1,5 +1,7 @@
 //import 'dart:js';
 
+import 'dart:ffi';
+
 import 'package:ankets/screens/login_page.dart';
 import 'package:ankets/screens/second_sign_in_page.dart';
 import 'package:flutter/material.dart';
@@ -130,6 +132,12 @@ class   _SignInPageState extends State<SignInPage> {
                       return null;
                     },
                     decoration: const InputDecoration(
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.people,
+                              color: Color(0xffc45d54))
+                      ),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
                       labelText: 'Username',
@@ -166,6 +174,12 @@ class   _SignInPageState extends State<SignInPage> {
                     autovalidateMode: AutovalidateMode.disabled,
                     controller: emailController,
                     decoration: const InputDecoration(
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.email,
+                              color: Color(0xffc45d54))
+                      ),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
                       labelText: 'Email',
@@ -217,8 +231,15 @@ class   _SignInPageState extends State<SignInPage> {
 
                     },
                     decoration:  InputDecoration(
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.lock,
+                              color: Color(0xffc45d54))
+                      ),
                       suffixIcon: IconButton(
                           icon: Icon(
+                              color: Color(0xffc45d54),
                               _isObscure ? Icons.visibility : Icons.visibility_off),
                           onPressed: () {
                             setState(() {
@@ -273,8 +294,15 @@ class   _SignInPageState extends State<SignInPage> {
                       return null;
                     },
                     decoration:  InputDecoration(
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.lock,
+                              color: Color(0xffc45d54))
+                      ),
                       suffixIcon: IconButton(
                           icon: Icon(
+                              color: Color(0xffc45d54),
                               _isObscure ? Icons.visibility : Icons.visibility_off),
                           onPressed: () {
                             setState(() {
@@ -425,6 +453,42 @@ class   _SignInPageState extends State<SignInPage> {
 
     return response;
   }
+
+  //username kontrolü - username veritabanında yoksa true değer dönüyor!
+  Future<bool> postRequestCheckUsername (BuildContext context, String username) async {
+    String url = 'http://172.16.64.200/ANKET/hs/getdata/userdata/';
+    Uri urlU = Uri.parse(url);
+    Map data = {
+      'Username': username
+    };
+
+    //encode Map to JSON
+    var body = json.encode(data);
+
+    final response = await http.post(urlU,
+        headers: {"Content-Type": "application/json"},
+        body: body
+    );
+
+    final returnedData = jsonDecode(response.body);
+
+    if(response.statusCode == 200){
+
+      if(returnedData["Check"] == true){
+        return true;
+      }else{
+        return false;
+      }
+
+    }else{
+      //hata kontrolü ve uyarısı
+      showAlertDialog1(context, response.body);
+
+    }
+
+    return false;
+  }
+
   Future<void> readySharedPreferences() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {});

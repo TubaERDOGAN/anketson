@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool girisyapildimi = false;
 
-  bool _isObscure = false;//boolean value to track password view enable disable.
+  bool _isObscure = true;//boolean value to track password view enable disable.
 
   @override
   Widget build(BuildContext context) {
@@ -123,8 +123,15 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         },
                         decoration:  InputDecoration(
+                          icon: const Padding(
+                              padding:  EdgeInsets.only(left:5.0),
+                              child: Icon(
+                                  Icons.lock,
+                                  color: Color(0xffc45d54))
+                          ),
                           suffixIcon: IconButton(
                               icon: Icon(
+                                color:Color(0xffc45d54),
                                   _isObscure ? Icons.visibility : Icons.visibility_off),
                               onPressed: () {
                                 setState(() {
@@ -134,10 +141,10 @@ class _LoginPageState extends State<LoginPage> {
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: InputBorder.none,
                           labelText: 'Password',
-                          labelStyle: TextStyle(
+                          labelStyle: const TextStyle(
                             fontFamily: 'Work Sans',
                             fontSize: 14,
-                            color: const Color(0xff000000),
+                            color: Color(0xff000000),
                           ),
                         ),
                       ),
@@ -230,6 +237,12 @@ class _LoginPageState extends State<LoginPage> {
                           return null;
                         },
                         decoration: const InputDecoration(
+                          icon: Padding(
+                            padding:  EdgeInsets.only(left:5.0),
+                            child: Icon(
+                                Icons.people,
+                                color: Color(0xffc45d54))
+                          ),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: InputBorder.none,
                           labelText: 'Username',
@@ -255,10 +268,11 @@ class _LoginPageState extends State<LoginPage> {
                                   SignInPage()));
                     },
                     child: const Text(
-                      'Sing Up!',
+                      'Don\'t have an account? Sing Up!',
                       style: TextStyle(
                         fontFamily: 'Work Sans',
                         fontSize: 12,
+                        fontWeight: FontWeight.w700,
                         color: Color(0xff000000),
                       ),
                       textAlign: TextAlign.center,
