@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
-
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 import 'package:http/http.dart' as http;
@@ -24,6 +24,19 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   TextEditingController educationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  final List<String> genderItems = [
+    'Male',
+    'Female',
+    'Others',
+  ];
+
+  final List<String> educationItems = [
+    'Primary school',
+    'High school',
+    'University',
+  ];
+  String? selectedValue;
+  String? selectedValue2;
 
   @override
   Widget build(BuildContext context) {
@@ -99,6 +112,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         return null;
                       },
                       decoration: const InputDecoration(
+                        icon:  Padding(
+                            padding:  EdgeInsets.only(left:5.0),
+                            child: Icon(
+                                Icons.location_city,
+                                color: Color(0xff919a94))
+                        ),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: InputBorder.none,
                         labelText: 'City',
@@ -108,6 +127,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                           color:  Color(0xff000000),
                         ),
                       ),
+
                     ),
                   )
               ),
@@ -128,29 +148,56 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                     ),
                   ],
                 ),
-                  child:  Align(
-                    alignment: const Alignment(-0.198, 0.615),
-                    child: TextFormField(
-                      controller: educationController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter education level';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: InputBorder.none,
-                        labelText: 'Education',
-                        labelStyle: TextStyle(
+                  child:  DropdownButtonHideUnderline(
+                    child:
+                    DropdownButton2(
+                      value: selectedValue2,
+                      isExpanded: true,
+                      hint: const Text(
+                        'Education',
+                        style: TextStyle(
                           fontFamily: 'Work Sans',
                           fontSize: 14,
-                          color:  Color(0xff000000),
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                      items: educationItems
+                          .map((item) => DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(
+                          item,
+                          style: const TextStyle(
+                            fontFamily: 'Work Sans',
+                            fontSize: 14,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                      ))
+                          .toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue2 = newValue!;
+                        });
+                      },
+                      buttonStyleData: const ButtonStyleData(
+                        height: 60,
+                        padding: EdgeInsets.only(left: 20, right: 10),
+                      ),
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color:Color(0xff919a94),
+                        ),
+                        iconSize: 30,
+                      ),
+
+                      dropdownStyleData: DropdownStyleData(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
                     ),
-                  )
+                  ),
               ),
             ),
             /// Next butonu
@@ -240,6 +287,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         return null;
                       },
                       decoration: const InputDecoration(
+                        icon:  Padding(
+                            padding:  EdgeInsets.only(left:5.0),
+                            child: Icon(
+                                Icons.map,
+                                color: Color(0xff919a94))
+                        ),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: InputBorder.none,
                         labelText: 'Country',
@@ -281,6 +334,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         return null;
                       },
                       decoration: const InputDecoration(
+                        icon:Padding(
+                            padding:  EdgeInsets.only(left:5.0),
+                            child: Icon(
+                                Icons.calendar_month,
+                                color: Color(0xff919a94))
+                        ),
                         floatingLabelBehavior: FloatingLabelBehavior.never,
                         border: InputBorder.none,
                         labelText: 'Birth of Year',
@@ -310,31 +369,58 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                     ),
                   ],
                 ),
-                  child:  Align(
-                    alignment: const Alignment(-0.494, 0.455),
-                    child: TextFormField(
-                      controller: genderController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter gender';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: InputBorder.none,
-                        labelText: 'Gender',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Work Sans',
-                          fontSize: 14,
-                          color:  Color(0xff000000),
+                  child:DropdownButtonHideUnderline(
+                    child:
+                      DropdownButton2(
+                          value: selectedValue,
+                        isExpanded: true,
+                        hint: const Text(
+                          'Gender',
+                          style: TextStyle(
+                            fontFamily: 'Work Sans',
+                            fontSize: 14,
+                            color: Color(0xff000000),
+                          ),
+                        ),
+                        items: genderItems
+                            .map((item) => DropdownMenuItem<String>(
+                          value: item,
+                          child: Text(
+                            item,
+                            style: const TextStyle(
+                              fontFamily: 'Work Sans',
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                          ),
+                        ))
+                            .toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedValue = newValue!;
+                          });
+                        },
+                        buttonStyleData: const ButtonStyleData(
+                          height: 60,
+                          padding: EdgeInsets.only(left: 20, right: 10),
+                        ),
+                        iconStyleData: const IconStyleData(
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color:Color(0xff919a94),
+                          ),
+                          iconSize: 30,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
                         ),
                       ),
-                    ),
-                  )
+
+              ),)
               ),
-            ),
+
             Pinned.fromPins(
               Pin(start: 98.0, end: 99.0),
               Pin(size: 24.0, middle: 0.4000),

@@ -55,7 +55,7 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
             row["Cevap3"],
             row["Cevap5"],
             row["LineUnicID"],
-            "",
+            row["LineNumber"],
             "",
         );
         sorular.add(anketsorusu);
@@ -69,19 +69,7 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
 
   @override
 
-  String? cevap1;
-  String? cevap2;
-
-  final _buttonOptions = [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-  ];
-
   Widget build(BuildContext context) {
-
     final AUnicID = ModalRoute.of(context)!.settings.arguments.toString();
     print(AUnicID);
     print("Anket soruları alınıyor");
@@ -150,19 +138,36 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                               ),
                             ),
                               Divider(),
-                        ListView(
-                          padding: EdgeInsets.all(8.0),
-                          children: _buttonOptions.map((timeValue) => RadioListTile<String>(
-                            groupValue: cevap1,
-                            title: Text(timeValue),
-                            value: timeValue,
-                            onChanged: (val) {
-                              setState(() {
-                                cevap1 = val;
-                              });
-                            },
-                          )).toList(),
-                            ),
+                              RadioListTile<int>(
+                                title: Text(snapshot.data[index].Cevap1),
+                                value: snapshot.data[index].SoruKodu + "1",
+                                groupValue: snapshot.data[index].SoruKodu + "1",
+                                onChanged: ( int? value) {
+                                  setState(() {
+                                    snapshot.data[index].SoruKodu = value;
+                                  });
+                                },
+                              ),
+                              RadioListTile<int>(
+                                title: Text(snapshot.data[index].Cevap2),
+                                value: snapshot.data[index].SoruKodu + "2",
+                                groupValue: snapshot.data[index].SoruKodu + "2",
+                                onChanged: ( int? value) {
+                                  setState(() {
+                                    snapshot.data[index].SoruKodu= value;
+                                  });
+                                },
+                              ),
+                              RadioListTile<int>(
+                                title: Text(snapshot.data[index].Cevap3),
+                                value: snapshot.data[index].SoruKodu,
+                                groupValue: snapshot.data[index].SoruKodu,
+                                onChanged: (int? value) {
+                                  setState(() {
+                                    snapshot.data[index].SoruKodu = value;
+                                  });
+                                },
+                              ),
                           ]),
                         ),
                         separatorBuilder: (BuildContext context, int index) => const SizedBox(
