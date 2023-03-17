@@ -1,11 +1,7 @@
 //import 'dart:js';
-
-import 'dart:ffi';
-
 import 'package:ankets/screens/login_page.dart';
 import 'package:ankets/screens/second_sign_in_page.dart';
 import 'package:flutter/material.dart';
-//import 'package:ankets/screens/second_sign_in_page.dart';
 //import 'package:ankets/constants.dart';
 //import 'package:ankets/localekeys.dart';
 import 'package:easy_localization/easy_localization.dart';

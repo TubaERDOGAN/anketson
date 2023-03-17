@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/anket_sorulari.dart';
+
 enum SingingCharacter { cevap1, cevap2,cevap3,cevap4,cevap5, }
 
 
@@ -42,21 +43,22 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
     final returnedData = jsonDecode(response.body);
 
     List<AnketSorulari> sorular = [];
-    print(returnedData);
+    //print(returnedData);
 
     if (response.statusCode == 200) {
-      print(returnedData["Anket"]["Sorular"]);
+      //print(returnedData["Anket"]["Sorular"]);
       for (var row in returnedData["Anket"]["Sorular"]) {
         AnketSorulari anketsorusu = AnketSorulari(
             row["Soru"],
-            row["SoruKodu"],
-            row["Cevap1"],
-            row["Cevap2"],
-            row["Cevap3"],
-            row["Cevap5"],
-            row["LineUnicID"],
-            row["LineNumber"],
-            "",
+          row["SoruKodu"],
+          row["Cevap1"],
+          '',
+          '',
+             '',
+             '',
+             '',
+             '',
+
         );
         sorular.add(anketsorusu);
       }
@@ -67,8 +69,8 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
     return sorular;
   }
 
+  String cevap1 = "";
   @override
-
   Widget build(BuildContext context) {
     final AUnicID = ModalRoute.of(context)!.settings.arguments.toString();
     print(AUnicID);
@@ -137,34 +139,23 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                                 trimExpandedText: ' Daha az göster',
                               ),
                             ),
-                              Divider(),
-                              RadioListTile<int>(
-                                title: Text(snapshot.data[index].Cevap1),
-                                value: snapshot.data[index].SoruKodu + "1",
+                              RadioListTile<String>(
                                 groupValue: snapshot.data[index].SoruKodu + "1",
-                                onChanged: ( int? value) {
+                                title: Text(snapshot.data[index].Cevap1),
+                                value: "",
+                                onChanged: (val) {
                                   setState(() {
-                                    snapshot.data[index].SoruKodu = value;
+                                    cevap1 = val!;
                                   });
                                 },
                               ),
-                              RadioListTile<int>(
-                                title: Text(snapshot.data[index].Cevap2),
-                                value: snapshot.data[index].SoruKodu + "2",
+                              RadioListTile<String>(
                                 groupValue: snapshot.data[index].SoruKodu + "2",
-                                onChanged: ( int? value) {
+                                title: Text(snapshot.data[index].Cevap2),
+                                value: "",
+                                onChanged: (val) {
                                   setState(() {
-                                    snapshot.data[index].SoruKodu= value;
-                                  });
-                                },
-                              ),
-                              RadioListTile<int>(
-                                title: Text(snapshot.data[index].Cevap3),
-                                value: snapshot.data[index].SoruKodu,
-                                groupValue: snapshot.data[index].SoruKodu,
-                                onChanged: (int? value) {
-                                  setState(() {
-                                    snapshot.data[index].SoruKodu = value;
+                                    cevap1 = val!;
                                   });
                                 },
                               ),
