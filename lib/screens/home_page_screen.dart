@@ -67,8 +67,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        backgroundColor: const Color(0xffc45d54),
+        extendBodyBehindAppBar: true,
         extendBody: true,
+        backgroundColor: const Color(0xffc45d54),
         body:
         Stack(
             children: <Widget>[
@@ -90,15 +91,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 ),
               ),
               Pinned.fromPins(
-                //Başlık
                 Pin(size: 196.0, middle: 0.5025),
-                Pin(size: 24.0, start: 40.0),
-                child: const Text(
-                  'Günün Anketleri',
+                Pin(size: 24.0, start: 21.0),
+                child: Text(
+                  'Daily Surveys',
                   style: TextStyle(
                     fontFamily: 'Work Sans',
                     fontSize: 20,
-                    color: Colors.white,
+                    color: const Color(0xff000000),
                     fontWeight: FontWeight.w600,
                   ),
                   textAlign: TextAlign.center,
