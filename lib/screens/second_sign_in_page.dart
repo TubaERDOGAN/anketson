@@ -35,11 +35,33 @@ class _SecondSignInPage extends State<SecondSignInPage> {
     'High school',
     'University',
   ];
+
+  final List<String> items1 = [];
+
+  void getYears(int year) {
+    int currentYear = DateTime.now().year;
+
+    while (year <= currentYear) {
+      items1.add(year.toString());
+      year++;
+    }
+  }
+
   String? selectedValue;
   String? selectedValue2;
+  String? selectedValue3;
+
+  @override
+  void dispose() {
+    yearController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    getYears(1960);
+
     return  Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xff919b95),
@@ -322,35 +344,58 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                     ),
                   ],
                 ),
-                  child:  Align(
-                    alignment: const Alignment(-0.482, 0.292),
-                    child: TextFormField(
-                      controller: yearController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter birth of year';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        icon:Padding(
-                            padding:  EdgeInsets.only(left:5.0),
-                            child: Icon(
-                                Icons.calendar_month,
-                                color: Color(0xff919a94))
-                        ),
-                        floatingLabelBehavior: FloatingLabelBehavior.never,
-                        border: InputBorder.none,
-                        labelText: 'Birth of Year',
-                        labelStyle: TextStyle(
-                          fontFamily: 'Work Sans',
-                          fontSize: 14,
-                          color:  Color(0xff000000),
-                        ),
+                child:DropdownButtonHideUnderline(
+                  child:
+                  DropdownButton2(
+                    value: selectedValue3,
+                    isExpanded: true,
+                    hint: const Text(
+                      'Birth of Year',
+                      style: TextStyle(
+                        fontFamily: 'Work Sans',
+                        fontSize: 14,
+                        color: Color(0xff000000),
                       ),
                     ),
-                  )
+                    items: items1
+                        .map((item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontFamily: 'Work Sans',
+                          fontSize: 14,
+                          color: Color(0xff000000),
+                        ),
+                      ),
+                    )).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        if(newValue != null) {
+                          selectedValue3 = newValue!;
+                        }
+                      });
+                    },
+                    buttonStyleData: const ButtonStyleData(
+                      height: 60,
+                      padding: EdgeInsets.only(left: 20, right: 10),
+                    ),
+                    iconStyleData: const IconStyleData(
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color:Color(0xff919a94),
+                      ),
+                      iconSize: 30,
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      maxHeight: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ),
+
+                ),
               ),
             ),
             /// gender 4. sıra
@@ -395,9 +440,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                           ),
                         ))
                             .toList(),
-                        onChanged: (String? newValue) {
+                        onChanged: (String? value) {
                           setState(() {
-                            selectedValue = newValue!;
+                            selectedValue = value;
                           });
                         },
                         buttonStyleData: const ButtonStyleData(

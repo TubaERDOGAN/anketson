@@ -110,6 +110,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
               ),
             ),
           ),
+
           /// Country Box
           Pinned.fromPins(
             Pin(start: 56.0, end: 58.0),
@@ -402,15 +403,12 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                     controller: odlpasswordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-
                         return 'Please enter password';
                       }
-
                       if (value.length < 8) {
                         return 'Must be more than 8 charater';
                       }
                       return null;
-
                     },
                     decoration: const InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
