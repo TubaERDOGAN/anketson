@@ -15,12 +15,13 @@ class SettingProfilePage extends StatefulWidget {
 
 class _SettingProfilePageState extends State<SettingProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  bool _isObscure = false;//boolean value to track password view enable disable.
   TextEditingController emailController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController odlpasswordController = TextEditingController();
   TextEditingController newpasswordController = TextEditingController();
-  TextEditingController cnextpasswordController = TextEditingController();
+  TextEditingController cnewpasswordController = TextEditingController();
 
   String _savedText = '';
   String _savedText2 = '';
@@ -46,6 +47,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child:Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xff919b95),
       body:Form(
         key: _formKey,
@@ -68,26 +70,45 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
               ),
             ),
           ),
-
-          /// tasarım burada bitiyor
-          Align(
-            alignment: Alignment(0.005, -0.345),
-            child: SizedBox(
-              width: 196.0,
-              height: 24.0,
-              child: Text(
-                _savedText,
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 20,
-                  color: const Color(0xff000000),
-                  fontWeight: FontWeight.w600,
+          /// ARKA PLANDAKI YEŞİL ŞEY
+          Pinned.fromPins(
+            Pin(start: -243.2, end: -143.0),
+            Pin(size: 716.5, start: -327.5),
+            child: SvgPicture.string(
+              _svg_ahsnb9,
+              allowDrawingOutsideViewBox: true,
+              fit: BoxFit.fill,
+            ),
+          ),
+          /// BİLİNMİYOR
+          Pinned.fromPins(
+            Pin(size: 32.0, start: 16.0),
+            Pin(size: 32.0, start: 11.0),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: const AssetImage(''),
+                  fit: BoxFit.cover,
                 ),
-                textAlign: TextAlign.center,
+                border: Border.all(width: 1.0, color: const Color(0x00000000)),
               ),
             ),
           ),
-
+          /// BİLİNMİYOR
+          Align(
+            alignment: Alignment(0.36, -0.541),
+            child: Container(
+              width: 24.0,
+              height: 24.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: const AssetImage(''),
+                  fit: BoxFit.cover,
+                ),
+                border: Border.all(width: 1.0, color: const Color(0x00000000)),
+              ),
+            ),
+          ),
           /// profil fotografı
           Pinned.fromPins(
             Pin(size: 157.0, middle: 0.5),
@@ -101,7 +122,84 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
               ),
             ),
           ),
-
+          Pinned.fromPins(
+            Pin(size: 81.0, middle: 0.5),
+            Pin(size: 33.0, start: 119.0),
+            child: const Text(
+              'Fotoğraf Ekle',
+              style: TextStyle(
+                fontFamily: 'Work Sans',
+                fontSize: 14,
+                color: Color(0xff000000),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Align(
+            alignment: Alignment(0.36, -0.541),
+            child: GestureDetector(
+              onTap: () {
+                /// buraya tıklayınca galeriye gidecek :)
+                //Navigator.push(
+                //context,
+                //MaterialPageRoute(
+                //builder: (context) =>
+                //??()));
+              },
+              child: Container(
+                width: 24.0,
+                height: 24.0,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1.0, color: const Color(0x00000000)),
+                ),
+                child: const Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ),
+              ),),
+          ),
+          /// Email Box
+          Pinned.fromPins(
+            Pin(start: 56.0, end: 57.0),
+            Pin(size: 52.0, middle: 0.3975),
+            child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xc7ffffff),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x14000000),
+                      offset: Offset(3, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
+                ),
+                child:  Align(
+                  alignment: const Alignment(-0.494, -0.196),
+                  child: TextFormField(
+                    autovalidateMode: AutovalidateMode.disabled,
+                    controller: emailController,
+                    decoration:  InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: InputBorder.none,
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.email,
+                              color: Color(0xff919a94))
+                      ),
+                      /// email
+                      labelText: _savedText2,
+                      labelStyle: TextStyle(
+                        fontFamily: 'Work Sans',
+                        fontSize: 14,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                  ),
+                )
+            ),
+          ),
           /// Country Box
           Pinned.fromPins(
             Pin(start: 56.0, end: 58.0),
@@ -133,11 +231,126 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.map,
+                              color: Color(0xff919a94))
+                      ),
                       labelText: _savedText4.toString(),
                       labelStyle: TextStyle(
                         fontFamily: 'Work Sans',
                         fontSize: 14,
                         color:  Color(0xff000000),
+                      ),
+                    ),
+                  ),
+                )
+            ),
+          ),
+          /// City Box
+          Pinned.fromPins(
+            Pin(start: 56.0, end: 58.0),
+            Pin(size: 52.0, middle: 0.5675),
+            child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xc7ffffff),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x14000000),
+                      offset: Offset(3, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
+                ),
+                child:  Align(
+                  alignment: Alignment(-0.482, 0.127),
+                  child: TextFormField(
+                    controller: cityController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter city';
+                      }
+                      return null;
+                    },
+                    decoration:  InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: InputBorder.none,
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.location_city,
+                              color: Color(0xff919a94))
+                      ),
+                      labelText: _savedText5.toString(),
+                      labelStyle: TextStyle(
+                        fontFamily: 'Work Sans',
+                        fontSize: 14,
+                        color:  Color(0xff000000),
+                      ),
+                    ),
+                  ),
+                )
+            ),
+          ),
+          /// Old Password
+          Pinned.fromPins(
+            Pin(start: 56.0, end: 58.0),
+            Pin(size: 52.0, middle: 0.6525),
+            child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xc7ffffff),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x14000000),
+                      offset: Offset(3, 3),
+                      blurRadius: 3,
+                    ),
+                  ],
+                ),
+                child: Align(
+                  alignment: Alignment(-0.39, 0.289),
+                  child: TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    controller: odlpasswordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
+                    obscureText: _isObscure,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter password';
+                      }
+                      if (value.length < 8) {
+                        return 'Must be more than 8 charater';
+                      }
+                      return null;
+                    },
+                    decoration:  InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      border: InputBorder.none,
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              color: Color(0xff919a94),
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.lock,
+                              color: Color(0xff919a94))
+                      ),
+                      labelText: 'Old Password',
+                      labelStyle: TextStyle(
+                        fontFamily: 'Work Sans',
+                        fontSize: 14,
+                        color: const Color(0xff000000),
                       ),
                     ),
                   ),
@@ -165,6 +378,9 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                   child: TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     controller: newpasswordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
+                    obscureText: _isObscure,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
 
@@ -177,9 +393,24 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                       return null;
 
                     },
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              color: Color(0xff919a94),
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.lock,
+                              color: Color(0xff919a94))
+                      ),
                       labelText: 'New Password',
                       labelStyle: TextStyle(
                         fontFamily: 'Work Sans',
@@ -211,7 +442,10 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                   alignment: Alignment(-0.198, 0.61),
                   child: TextFormField(
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: cnextpasswordController,
+                    controller: cnewpasswordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    textInputAction: TextInputAction.done,
+                    obscureText: _isObscure,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter password';
@@ -221,9 +455,24 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              color: Color(0xff919a94),
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });
+                          }),
+                      icon: const Padding(
+                          padding:  EdgeInsets.only(left:5.0),
+                          child: Icon(
+                              Icons.lock,
+                              color: Color(0xff919a94))
+                      ),
                       labelText: 'Confirm New Password',
                       labelStyle: TextStyle(
                         fontFamily: 'Work Sans',
@@ -291,127 +540,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                           textAlign: TextAlign.center,
                         )
                     )
-                )
-            ),
-          ),
-          /// Email Box
-          Pinned.fromPins(
-            Pin(start: 56.0, end: 57.0),
-            Pin(size: 52.0, middle: 0.3975),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xc7ffffff),
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x14000000),
-                    offset: Offset(3, 3),
-                    blurRadius: 3,
-                  ),
-                ],
-              ),
-                child:  Align(
-                  alignment: const Alignment(-0.494, -0.196),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.disabled,
-                    controller: emailController,
-                    decoration:  InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      border: InputBorder.none,
-                      /// email
-                      labelText: _savedText2,
-                      labelStyle: TextStyle(
-                        fontFamily: 'Work Sans',
-                        fontSize: 14,
-                        color: Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                )
-            ),
-          ),
-          /// City Box
-          Pinned.fromPins(
-            Pin(start: 56.0, end: 58.0),
-            Pin(size: 52.0, middle: 0.5675),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xc7ffffff),
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x14000000),
-                    offset: Offset(3, 3),
-                    blurRadius: 3,
-                  ),
-                ],
-              ),
-                child:  Align(
-                  alignment: Alignment(-0.482, 0.127),
-                  child: TextFormField(
-                    controller: cityController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter city';
-                      }
-                      return null;
-                    },
-                    decoration:  InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      border: InputBorder.none,
-                      labelText: _savedText5.toString(),
-                      labelStyle: TextStyle(
-                        fontFamily: 'Work Sans',
-                        fontSize: 14,
-                        color:  Color(0xff000000),
-                      ),
-                    ),
-                  ),
-                )
-            ),
-          ),
-          /// Old Password
-          Pinned.fromPins(
-            Pin(start: 56.0, end: 58.0),
-            Pin(size: 52.0, middle: 0.6525),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xc7ffffff),
-                borderRadius: BorderRadius.circular(10.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x14000000),
-                    offset: Offset(3, 3),
-                    blurRadius: 3,
-                  ),
-                ],
-              ),
-                child: Align(
-                  alignment: Alignment(-0.39, 0.289),
-                  child: TextFormField(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    controller: odlpasswordController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter password';
-                      }
-                      if (value.length < 8) {
-                        return 'Must be more than 8 charater';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      border: InputBorder.none,
-                      labelText: 'Old Password',
-                      labelStyle: TextStyle(
-                        fontFamily: 'Work Sans',
-                        fontSize: 14,
-                        color: const Color(0xff000000),
-                      ),
-                    ),
-                  ),
                 )
             ),
           ),

@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Pinned.fromPins(
             Pin(start: 0.0, end: 0.0),
-            Pin(size: 500.0, end: 0.0),
+            Pin(size: 450.0, end: 0.0),
             child: ClipRect(
               child: BackdropFilter(
                 filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          /// test score
+          /// test score burası veri tabanından gelecek
           Align(
             alignment: Alignment(-0.508, 0.069),
             child: SizedBox(
@@ -153,7 +153,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
 
-          /// survey score
+          /// survey score burası veri tabanından gelecek
           Align(
             alignment: Alignment(0.508, 0.069),
             child: SizedBox(
@@ -171,8 +171,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
+          /// buraya username gelecek
           Align(
-            alignment: Alignment(0.005, -0.425),
+            alignment: Alignment(0.005, -0.345),
               child: Text(
                 _savedText,
                 style: TextStyle(
@@ -185,6 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
 
           ),
+          /// fotograf eklenin boxı burası düzenlecek sanırım
           Pinned.fromPins(
             Pin(size: 157.0, middle: 0.5),
             Pin(size: 157.0, start: 57.0),
@@ -210,6 +212,7 @@ class _ProfilePageState extends State<ProfilePage> {
               textAlign: TextAlign.center,
             ),
           ),
+          /// profil düzenleme kısmı
           Pinned.fromPins(
             Pin(size: 30.0, end: 16.0),
             Pin(size: 30.0, start: 17.0),
@@ -229,20 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           ),
-          Align(
-            alignment: Alignment(0.36, -0.541),
-            child: Container(
-              width: 24.0,
-              height: 24.0,
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.0, color: const Color(0x00000000)),
-              ),
-              child: Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-            ),
-          ),
+
         ],
       ),
     ));

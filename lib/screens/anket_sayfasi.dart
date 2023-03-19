@@ -21,7 +21,7 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
 
-    String url = 'http://172.16.64.200/ANKET/hs/getdata/anketsorulari/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/anketsorulari/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'UserUnicID': unicId,
