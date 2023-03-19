@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -18,6 +19,7 @@ void main() async {
     ),
   );
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
           color: Color(0xffc45d54),
           foregroundColor: Colors.black,
           systemOverlayStyle: SystemUiOverlayStyle( //<-- SEE HERE
+// Status bar color
             statusBarColor: Color(0xffc45d54),
             statusBarIconBrightness: Brightness.dark,
             statusBarBrightness: Brightness.light,

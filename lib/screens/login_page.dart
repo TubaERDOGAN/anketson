@@ -319,12 +319,17 @@ class _LoginPageState extends State<LoginPage> {
     //encode Map to JSON
     var body = json.encode(data);
 
+    print(body);
+
     final response = await http.post(urlU,
         headers: {"Content-Type": "application/json"},
         body: body
     );
+
     final returnedData = jsonDecode(response.body);
+
     print(response.body);
+
     if (response.statusCode == 200) {
       String mUnicID = returnedData['UnicID'];
       print(mUnicID);

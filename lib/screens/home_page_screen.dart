@@ -3,8 +3,6 @@ import 'package:ankets/screens/anket_sayfasi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:adobe_xd/pinned.dart';
-import 'dart:ui' as ui;
-import 'package:path/path.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/anket.dart';
@@ -67,11 +65,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        backgroundColor: const Color(0xffc45d54),
-        body:
-        Stack(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color(0xffffffff),
+        body: Stack(
             children: <Widget>[
               Transform.rotate(
                 angle: 3.1416,
