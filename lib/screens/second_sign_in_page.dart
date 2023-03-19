@@ -62,7 +62,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
     getYears(1960);
 
-    return  Scaffold(
+    return SafeArea(child:Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xff919b95),
      body: Form(
@@ -484,7 +484,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
      ),
      )
-    );
+    ));
   }
 
   Future<http.Response> postRequest (BuildContext context, String country, String city, String year,String gender,String education,) async {

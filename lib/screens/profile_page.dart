@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
       backgroundColor: const Color(0xff919b95),
       body: Stack(
         children: <Widget>[
@@ -245,6 +245,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }

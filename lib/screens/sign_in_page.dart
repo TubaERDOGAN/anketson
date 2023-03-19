@@ -34,7 +34,7 @@ class   _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
         resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xffffffff),
       body: Form(
@@ -406,7 +406,7 @@ class   _SignInPageState extends State<SignInPage> {
         ],
       ),
     )
-    );
+    ));
   }
 
   Future<http.Response> postRequest (BuildContext context, String username, String email, String password) async {

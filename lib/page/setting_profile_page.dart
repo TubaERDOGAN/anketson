@@ -45,7 +45,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
       backgroundColor: const Color(0xff919b95),
       body:Form(
         key: _formKey,
@@ -66,15 +66,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                   stops: [0.0, 0.268, 1.0],
                 ),
               ),
-            ),
-          ),
-          Pinned.fromPins(
-            Pin(start: -243.2, end: -143.0),
-            Pin(size: 716.5, start: -327.5),
-            child: SvgPicture.string(
-              _svg_ahsnb9,
-              allowDrawingOutsideViewBox: true,
-              fit: BoxFit.fill,
             ),
           ),
 
@@ -427,7 +418,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
         ],
       ),
     ),
-    );
+    ));
   }
 }
 

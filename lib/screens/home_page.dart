@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(child:Scaffold(
       extendBodyBehindAppBar: true,
       extendBody: true,
       drawer: Drawer(
@@ -329,6 +329,6 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),),),
-    );
+    ));
   }
 }

@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_polls/flutter_polls.dart';
-import 'package:adobe_xd/pinned.dart';
 import 'dart:ui' as ui;
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/anket_sorulari.dart';
@@ -49,15 +47,15 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
       //print(returnedData["Anket"]["Sorular"]);
       for (var row in returnedData["Anket"]["Sorular"]) {
         AnketSorulari anketsorusu = AnketSorulari(
-            row["Soru"],
-          row["SoruKodu"],
-          row["Cevap1"],
-          '',
-          '',
-             '',
-             '',
-             '',
-             '',
+              row["Soru"],
+              row["SoruKodu"],
+              row["Cevap1"],
+              row["Cevap2"],
+              row["Cevap3"],
+              row["Cevap4"],
+               '',
+               '',
+               '',
 
         );
         sorular.add(anketsorusu);
@@ -152,6 +150,26 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                               RadioListTile<String>(
                                 groupValue: snapshot.data[index].SoruKodu + "2",
                                 title: Text(snapshot.data[index].Cevap2),
+                                value: "",
+                                onChanged: (val) {
+                                  setState(() {
+                                    cevap1 = val!;
+                                  });
+                                },
+                              ),
+                              RadioListTile<String>(
+                                groupValue: snapshot.data[index].SoruKodu + "2",
+                                title: Text(snapshot.data[index].Cevap3),
+                                value: "",
+                                onChanged: (val) {
+                                  setState(() {
+                                    cevap1 = val!;
+                                  });
+                                },
+                              ),
+                              RadioListTile<String>(
+                                groupValue: snapshot.data[index].SoruKodu + "2",
+                                title: Text(snapshot.data[index].Cevap4),
                                 value: "",
                                 onChanged: (val) {
                                   setState(() {

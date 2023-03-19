@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context) => MaterialApp(
           debugShowCheckedModeBanner: false,
           title: title,
-          home: ProfilePage(),
+          home:  ProfilePage(),
         ),
       ),
     );
