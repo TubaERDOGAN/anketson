@@ -410,7 +410,7 @@ class   _SignInPageState extends State<SignInPage> {
   }
 
   Future<http.Response> postRequest (BuildContext context, String username, String email, String password) async {
-    String url = 'http://172.16.64.200/ANKET/hs/getdata/userdata/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/userdata/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username,
@@ -452,7 +452,7 @@ class   _SignInPageState extends State<SignInPage> {
 
   //username kontrolü - username veritabanında yoksa true değer dönüyor!
   Future<bool> postRequestCheckUsername (BuildContext context, String username) async {
-    String url = 'http://172.16.64.200/ANKET/hs/getdata/userdata/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/userdata/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username

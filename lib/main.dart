@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
           color: Color(0xffc45d54),
           foregroundColor: Colors.black,
           systemOverlayStyle: SystemUiOverlayStyle( //<-- SEE HERE
-// Status bar color
             statusBarColor: Color(0xffc45d54),
             statusBarIconBrightness: Brightness.dark,
             statusBarBrightness: Brightness.light,

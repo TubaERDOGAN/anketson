@@ -310,7 +310,7 @@ class _LoginPageState extends State<LoginPage> {
   }
   Future<http.Response> postRequest(BuildContext context, String username,
       String password) async {
-    String url = 'http://172.16.64.200/ANKET/hs/getdata/checkuser/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/checkuser/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username,

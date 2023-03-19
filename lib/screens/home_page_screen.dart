@@ -22,7 +22,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     String username = sharedPreferences.getString("username") ?? "";
     String password = sharedPreferences.getString("password") ?? "";
 
-    String url = 'http://172.16.64.200/ANKET/hs/getdata/anketler/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/anketler/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username,

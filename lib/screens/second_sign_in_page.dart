@@ -488,7 +488,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   }
 
   Future<http.Response> postRequest (BuildContext context, String country, String city, String year,String gender,String education,) async {
-    String url = 'http://172.16.64.200/ANKET/hs/getdata/userinformationdata/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/userinformationdata/';
     Uri urlU = Uri.parse(url);
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

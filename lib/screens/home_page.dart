@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              ExpansionTile(
+              ListTile(
                   leading: IconButton(
                     onPressed: null,
                     icon: Image.asset(
@@ -59,19 +59,13 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  trailing: const Icon(Icons.arrow_drop_down),
-                  children: [
-                    ListTile(
-                      title: const Text('Profil Ayarları'),
-                      trailing: const Icon(Icons.arrow_right),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ProfileScreen()));
-                      },
-                    ),
-                  ]),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ProfileScreen()));
+                  },
+              ),
               ExpansionTile(
                   leading: IconButton(
                     onPressed: null,
@@ -92,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  children: [
+                  children: [ SingleChildScrollView( child: Column( children: [
                     ListTile(
                       title: const Text('İlişki Testleri'),
                       trailing: const Icon(Icons.arrow_right),
@@ -135,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.pushNamed(context, "");
                       },
                     ),
-                  ]),
+                  ],), ), ]),
               ExpansionTile(
                   leading: IconButton(
                     onPressed: null,
