@@ -9,6 +9,7 @@ class AnketSorulari {
   final String Cevap5;
   final String LineUnicID;
   final String LineNumber;
+  final List<String> Cevaplar;
 
   AnketSorulari(
       this.Soru,
@@ -21,11 +22,12 @@ class AnketSorulari {
       this.Cevap5,
       this.LineUnicID,
       this.LineNumber,
+      this.Cevaplar,
       );
   factory AnketSorulari.fromMap(Map<String, dynamic> json) {
-    return AnketSorulari(json['Soru'],json['SoruKodu'],json['Cevap1'],json['Cevap2'],json['Cevap3'],json['Cevap4'],json['Cevap5'],json['LineUnicID'],json['LineNumber']);
+    return AnketSorulari(json['Soru'],json['SoruKodu'],json['Cevap1'],json['Cevap2'],json['Cevap3'],json['Cevap4'],json['Cevap5'],json['LineUnicID'],json['LineNumber'],json['Cevaplar']);
   }
   factory AnketSorulari.fromJson(Map<String, dynamic> json) {
-    return AnketSorulari(json['Soru'],json['SoruKodu'],json['Cevap1'],json['Cevap2'],json['Cevap3'],json['Cevap4'], json['Cevap5'],json['LineUnicID'],json['LineNumber']);
+    return AnketSorulari(json['Soru'],json['SoruKodu'],json['Cevap1'],json['Cevap2'],json['Cevap3'],json['Cevap4'], json['Cevap5'],json['LineUnicID'],json['LineNumber'],json['Cevaplar']);
   }
 }

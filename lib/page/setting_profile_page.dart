@@ -2,7 +2,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../widget/profile_widget.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -109,6 +108,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
               ),
             ),
           ),
+
           /// profil fotografı
           Pinned.fromPins(
             Pin(size: 157.0, middle: 0.5),
@@ -158,6 +158,8 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                 ),
               ),),
           ),
+
+
           /// Email Box
           Pinned.fromPins(
             Pin(start: 56.0, end: 57.0),
@@ -222,12 +224,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                   child: TextFormField(
                     controller: countryController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter country';
-                      }
-                      return null;
-                    },
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
@@ -269,12 +265,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                   child: TextFormField(
                     controller: cityController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter city';
-                      }
-                      return null;
-                    },
                     decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
@@ -319,15 +309,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
                     obscureText: _isObscure,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter password';
-                      }
-                      if (value.length < 8) {
-                        return 'Must be more than 8 charater';
-                      }
-                      return null;
-                    },
                     decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,
@@ -381,18 +362,6 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                     keyboardType: TextInputType.visiblePassword,
                     textInputAction: TextInputAction.done,
                     obscureText: _isObscure,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-
-                        return 'Please enter password';
-                      }
-
-                      if (value.length < 8) {
-                        return 'Must be more than 8 charater';
-                      }
-                      return null;
-
-                    },
                     decoration:  InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       border: InputBorder.none,

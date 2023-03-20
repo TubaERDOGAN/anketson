@@ -27,14 +27,17 @@ class MyApp extends StatelessWidget {
 
     return  MaterialApp(
         debugShowCheckedModeBanner: false,
+
+      /// burası anlaşılmadı
       theme: ThemeData(
+          primaryColor:Color(0xffc45d54),
         appBarTheme: AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.black),
-          color: Color(0xffc45d54),
-          foregroundColor: Colors.black,
+          iconTheme: IconThemeData(color: Colors.white), // günlük anket yanındaki ikonun rengi değişti
+          color: Color(0xffc45d54), // değişiklik yapınca pek farketmedi
+          foregroundColor: Colors.black, // değişiklik yapınca farketmedi
           systemOverlayStyle: SystemUiOverlayStyle( //<-- SEE HERE
 // Status bar color
-            statusBarColor: Color(0xffc45d54),
+            statusBarColor: Color(0xffc45d54), // değişiklik yapınca farkettemedi
             statusBarIconBrightness: Brightness.dark,
             statusBarBrightness: Brightness.light,
           ),
