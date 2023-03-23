@@ -142,7 +142,8 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                     },
 
                     themeData: ThemeData.dark().copyWith(
-                      primaryColor:Colors.white,
+                      primaryColor:Color(0xff8fa8a2),
+
                       backgroundColor:Colors.transparent,
                       scaffoldBackgroundColor: const Color(0x66ffffff),
                       appBarTheme: AppBarTheme(
@@ -158,6 +159,69 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                           fontFamily: 'Work Sans',
                           fontSize: 14,
                           color: Color(0xff000000),
+                        ),
+                      ),
+                      textSelectionTheme: TextSelectionThemeData(
+                        cursorColor: const Color(0xff000000),
+                        selectionColor: const Color(0xff919a94),
+                        selectionHandleColor:const Color(0xffc45d54),
+                      ),
+
+                      /// ne işe yaradığı anlaşılmadı
+                      cupertinoOverrideTheme: CupertinoThemeData(
+                        primaryColor: const Color(0xffc45d54),
+                      ),
+
+                      outlinedButtonTheme: OutlinedButtonThemeData(
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            Size(150.0, 60.0),
+                          ),
+                          side: MaterialStateProperty.resolveWith(
+                                (Set<MaterialState> state) {
+                              if (state.contains(MaterialState.disabled)) {
+                                return BorderSide(
+                                  color: const Color(0xffcbcac6),
+                                );
+                              }
+                              return BorderSide(
+                                color:const Color(0xffc45d54),
+                              );
+                            },
+                          ),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          textStyle: MaterialStateProperty.resolveWith(
+                                (Set<MaterialState> state) {
+                              if (state.contains(MaterialState.disabled)) {
+                                return Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(
+                                  color: Color(0xff000000),
+                                );
+                              }
+                              return Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                color: Colors.cyan,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      /// ne işe yaradığı anlaşılmadı
+                      textButtonTheme: TextButtonThemeData(
+                        style: ButtonStyle(
+                          textStyle: MaterialStateProperty.all(
+                            Theme.of(context).textTheme.labelLarge?.copyWith(
+                              color: Colors.cyan,
+                            ),
+                          ),
                         ),
                       ),
                     ),
