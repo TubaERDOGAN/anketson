@@ -34,15 +34,6 @@
   "steps": [
     {
       "stepIdentifier": {
-        "id": "1"
-      },
-      "type": "intro",
-      "title": "AGA\nMEGASOFTa\nHoşgeldin",
-      "text": "Sorulara cevap ver",
-      "buttonText": "Yürü"
-    },
-    {
-      "stepIdentifier": {
         "id": "2"
       },
       "type": "question",

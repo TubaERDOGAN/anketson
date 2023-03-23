@@ -31,14 +31,16 @@ class _LoginPageState extends State<LoginPage> {
 
     readySharedPreferences();
 
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+
     if (girisyapildimi) {
       return HomePage();
     }else{
 
       return Scaffold(
-        resizeToAvoidBottomInset: false,
-        backgroundColor: const Color(0xffffffff),
-        body: Form(
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
+          body: Form(
           key: _formKey,
           child:Stack(
             children: <Widget>[
