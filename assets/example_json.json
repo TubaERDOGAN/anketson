@@ -2,16 +2,7 @@
   "id": "123",
   "type": "navigable",
   "rules": [
-    {
-      "type": "conditional",
-      "triggerStepIdentifier": {
-        "id": "3"
-      },
-      "values": {
-        "Yes": "2",
-        "No": "10"
-      }
-    },
+
     {
       "type": "direct",
       "triggerStepIdentifier": {
@@ -21,6 +12,17 @@
         "id": "2"
       }
     },
+
+    {
+      "type": "direct",
+      "triggerStepIdentifier": {
+        "id": "2"
+      },
+      "destinationStepIdentifier": {
+        "id": "3"
+      }
+    },
+
     {
       "type": "direct",
       "triggerStepIdentifier": {
@@ -31,31 +33,80 @@
       }
     }
   ],
+
   "steps": [
+
+    {
+      "stepIdentifier": {
+        "id": "1"
+      },
+      "type": "question",
+      "title": "Known allergies hnhhvgcvbnn gvfdcgh gbfvdcvbn",
+      "text": "Cinsiyet ?",
+      "answerFormat": {
+        "type": "single",
+        "textChoices": [{
+          "text": "Kadın",
+          "value": "Kadın"
+        },
+          {
+            "text": "Erkek",
+            "value": "Erkek"
+          }
+        ]
+      }
+    },
     {
       "stepIdentifier": {
         "id": "2"
       },
       "type": "question",
-      "title": "How old are you?",
+      "title": "Known allergies hnhhvgcvbnn gvfdcgh gbfvdcvbn",
+      "text": "Yaş aralığınız ?",
       "answerFormat": {
-        "type": "integer",
-        "defaultValue": 25,
-        "hint": "Please enter your age"
+        "type": "single",
+        "textChoices": [{
+          "text": "20-30",
+          "value": "20-30"
+        },
+          {
+            "text": "30-40",
+            "value": "30-40"
+          },
+          {
+            "text": "40-50",
+            "value": "40-50"
+          }
+        ]
       }
     },
+
     {
       "stepIdentifier": {
         "id": "3"
       },
       "type": "question",
-      "title": "Medication?",
-      "text": "Are you using any medication",
+      "title": "Known allergies hnhhvgcvbnn gvfdcgh gbfvdcvbn",
+      "text": "Tükettiğiniz cips markası ?",
       "answerFormat": {
-        "type": "bool",
-        "positiveAnswer": "Yes",
-        "negativeAnswer": "No",
-        "result": "POSITIVE"
+        "type": "single",
+        "textChoices": [{
+          "text": "Doritos",
+          "value": "Doritos"
+        },
+          {
+            "text": "lays",
+            "value": "lays"
+          },
+          {
+            "text": "Raffels",
+            "value": "Raffels"
+          },
+          {
+            "text": "Patos",
+            "value": "Patos"
+          }
+        ]
       }
     },
     {
@@ -65,7 +116,7 @@
       "type": "completion",
       "text": "Vay üşenmedin!",
       "title": "Bitti",
-      "buttonText": "Gaydet"
+      "buttonText": "Kaydet"
     }
   ]
 }

@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:adobe_xd/pinned.dart';
+import 'package:ankets/screens/home_page.dart';
+import 'package:ankets/screens/home_page_screen.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter_polls/flutter_polls.dart';
 import 'dart:ui' as ui;
-import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/anket_sorulari.dart';
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:survey_kit/survey_kit.dart';
@@ -132,17 +131,22 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                   return SurveyKit(
                     onResult: (SurveyResult result) {
                       print(result.finishReason);
-                      Navigator.pushNamed(context, '/');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage())
+                      );
                     },
                     task: task,
                     showProgress: true,
                     localizations: {
-                      'cancel': 'Cancel',
-                      'next': 'Next',
+                      'cancel': 'Çık',
+                      'next': 'Devam',
                     },
 
                     themeData: ThemeData.dark().copyWith(
-                      primaryColor:Color(0xff8fa8a2),
+                      primaryColor:Colors.white,
+
 
                       backgroundColor:Colors.transparent,
                       scaffoldBackgroundColor: const Color(0x66ffffff),
@@ -151,16 +155,23 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                         shape: BeveledRectangleBorder(
                             borderRadius:BorderRadius.circular(0) ,
                         ),
+
+                        /// app bardaki geri butonu
                         iconTheme: IconThemeData(
                           color: Colors.white,
                           size: 30,
+
                         ) ,
+
+                        /// herhangi bir işe yaramıyor yada şuanda bir işe yaramıyor
                         titleTextStyle: TextStyle(
                           fontFamily: 'Work Sans',
-                          fontSize: 14,
+                          fontSize: 40,
                           color: Color(0xff000000),
                         ),
                       ),
+
+                      /// cevap kısmındaki yazılan cevapı seçmede kullanılan alan ama kopyala yapıştır yapmıyor
                       textSelectionTheme: TextSelectionThemeData(
                         cursorColor: const Color(0xff000000),
                         selectionColor: const Color(0xff919a94),
@@ -169,9 +180,12 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
 
                       /// ne işe yaradığı anlaşılmadı
                       cupertinoOverrideTheme: CupertinoThemeData(
-                        primaryColor: const Color(0xffc45d54),
+                        primaryColor:  Color(0xffc45d54),/// bilinmiyor
+                        primaryContrastingColor:Color(0xffc45d54) ,/// bilinnmiyor
+                        scaffoldBackgroundColor: Color(0xffc45d54) ,/// bilinmiyor
+                        barBackgroundColor: Color(0xffc45d54),/// bilinmiyor
                       ),
-
+                       /// ilerleme butonu
                       outlinedButtonTheme: OutlinedButtonThemeData(
                         style: ButtonStyle(
                           minimumSize: MaterialStateProperty.all(
@@ -181,11 +195,11 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                                 (Set<MaterialState> state) {
                               if (state.contains(MaterialState.disabled)) {
                                 return BorderSide(
-                                  color: const Color(0xffcbcac6),
+                                  color: Colors.transparent,
                                 );
                               }
                               return BorderSide(
-                                color:const Color(0xffc45d54),
+                                color:Colors.white,
                               );
                             },
                           ),
@@ -224,9 +238,46 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
                           ),
                         ),
                       ),
+                      textTheme: const TextTheme(
+                        displayMedium: TextStyle(
+                          fontSize: 10.0,
+                          color: Colors.black,
+                        ),
+                        headlineSmall: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                        ),
+                        bodyMedium: TextStyle(
+                          fontSize: 24.0,
+                          color: Colors.black,
+                        ),
+                        titleMedium: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      /// ne işe yaradığı anlaşılmadı
+                      inputDecorationTheme: InputDecorationTheme(
+                        labelStyle: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      /// ne işe yaradığı anlaşılmadı
+                      colorScheme: ColorScheme.fromSwatch(
+                        primarySwatch: Colors.cyan,
+                      )
+                          .copyWith(
+                        onPrimary: Colors.white,
+                      )
+                          .copyWith(background: Colors.white),
                     ),
+                    /// ilerleme barı
                     surveyProgressbarConfiguration: SurveyProgressConfiguration(
-                      backgroundColor: Colors.lime,
+                      progressbarColor:Colors.transparent ,  /// barın kendi rengi
+                      backgroundColor: Colors.black,
+                      valueProgressbarColor:Colors.white,/// app bardaki ilerleme rengi
                     ),
                   );
                 }
