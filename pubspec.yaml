@@ -92,6 +92,7 @@ flutter:
     - lib/assets/icons/menu_icons/yakinda.png
     - lib/assets/top/topImage.png
     - assets/example_json.json
+    - assets/profil.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
