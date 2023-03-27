@@ -90,6 +90,7 @@ flutter:
     - lib/assets/icons/menu_icons/profil.png
     - lib/assets/icons/menu_icons/test.png
     - lib/assets/icons/menu_icons/yakinda.png
+    - lib/assets/top/topImage.png
     - assets/example_json.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
