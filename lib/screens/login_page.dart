@@ -58,8 +58,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Form MobilePage (){
-    return Form(
+  Scaffold MobilePage (){
+    return Scaffold( body: Form(
         key: _formKey,
         child:Stack(
         children: <Widget>[
@@ -316,15 +316,17 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   )
               )),
-        ]));
+        ])));
   }
 
   /// WEB DESIGN
   /// WEB DESIGN
   /// WEB DESIGN
 
-  Stack WebPage (){
-    return Stack(
+  Scaffold WebPage (){
+    return Scaffold( body: Form(
+    key: _formKey,
+    child:Stack(
         children: <Widget>[
           Container(
             decoration: const BoxDecoration(
@@ -579,7 +581,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   )
               )),
-        ]);
+        ])));
   }
 
   Future<http.Response> postRequest(BuildContext context, String username,
