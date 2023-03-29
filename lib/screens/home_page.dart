@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:adobe_xd/pinned.dart';
 import 'package:ankets/screens/login_page.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'notification_screen.dart';
 import 'settings_screen.dart';
 import 'home_page_screen.dart';
 import 'package:ankets/screens/profile_screen.dart';
+import 'package:http/http.dart' as http;
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -23,11 +26,66 @@ class _HomePageState extends State<HomePage> {
     const SettingsScreen(),
     const ProfileScreen(),
   ];
+
+  List<String> listKategoriler = [];
+
   void _Cikiss() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setBool('girisyapildi',false);
     });
+  }
+
+  void getAnketKategorileri() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String unicId = sharedPreferences.getString("unicID") ?? "";
+    String username = sharedPreferences.getString("username") ?? "";
+    String password = sharedPreferences.getString("password") ?? "";
+
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/kategoriler/';
+    Uri urlU = Uri.parse(url);
+    Map data = {
+      'Username': username,
+      'Password': password,
+      'UnicID': unicId,
+    };
+
+    //encode Map to JSON
+    var body = json.encode(data);
+
+    final response = await http.post(urlU,
+        headers: {"Content-Type": "application/json"},
+        body: body
+    );
+
+    final returnedData = jsonDecode(response.body);
+    //print(returnedData);
+    if (response.statusCode == 200) {
+
+      for (var row in returnedData["Kategoriler"]) {
+        if(!listKategoriler.contains(row["Tanim"])) {
+          listKategoriler.add(row["Tanim"]);
+        }
+      }
+
+    }else{
+      print("hata");
+    }
+
+  }
+
+  List<Widget> kategorilerList(){
+    List<Widget> list = [];
+    for(var tanim in listKategoriler){
+      list.add(ListTile(
+        title: Text(tanim),
+        trailing: const Icon(Icons.arrow_right),
+        onTap: () {
+          //Navigator.pushNamed(context, "");
+        },
+      ),);
+    }
+    return list;
   }
 
   @override
@@ -42,6 +100,8 @@ class _HomePageState extends State<HomePage> {
     final orientation = MediaQuery
         .of(context)
         .orientation; //getting the orientation
+
+    getAnketKategorileri();
 
     return LayoutBuilder(
         builder: (context, constraints) {
@@ -175,15 +235,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   trailing: const Icon(Icons.arrow_drop_down),
-                  children: [
-                    ListTile(
-                      title: const Text('Seçim 2023'),
-                      trailing: const Icon(Icons.arrow_right),
-                      onTap: () {
-                        Navigator.pushNamed(context, "");
-                      },
-                    ),
-                  ]),
+              children: kategorilerList()),
               ExpansionTile(
                   leading: IconButton(
                     onPressed: null,
