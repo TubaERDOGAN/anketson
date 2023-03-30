@@ -153,14 +153,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                                    child:Image.network(snapshot.data[index].ImageUrl,fit: BoxFit.fill)
                                  ),
                                  onTap: () {
+                                   print(snapshot.data[index].UnicID);
                                    Navigator.push(
                                        context,
                                        MaterialPageRoute(
                                            builder: (context) =>
-                                               AnketSayfasi(),
-                                           settings: RouteSettings(
-                                         arguments: snapshot.data[index].UnicID,
-                                       )));
+                                               AnketSayfasi(anketID: snapshot.data[index].UnicID)));
                                    //buraya anket unic gidecek.snapshot.data[index].UnicID şeklinde
                                  },
                                )

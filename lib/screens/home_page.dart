@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:adobe_xd/pinned.dart';
 import 'package:ankets/screens/anketler.dart';
 import 'package:ankets/screens/login_page.dart';
@@ -27,8 +26,6 @@ class _HomePageState extends State<HomePage> {
     const SettingsScreen(),
     const ProfileScreen(),
   ];
-
-  List<String> listKategoriler = [];
 
   void _Cikiss() async {
     final prefs = await SharedPreferences.getInstance();
@@ -150,57 +147,14 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => const ProfileScreen()));
                 },
               ),
-              ListTile(
-                title: const Text(style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 20,
-                  color: const Color(0xff000000),
-                  fontWeight: FontWeight.w600,),'Bize Ulaşın'),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Bize ulaşabilirsiniz'),
-                        content: const Text(''),
-                        actions: <Widget>[
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              textStyle: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            child: const Text('Tamam'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              textStyle: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            child: const Text('Git'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                leading: IconButton(
-                  onPressed: null,
-                  icon: Image.asset(
-                    'lib/assets/icons/menu_icons/yakinda.png',
-                    width: 24.0,
-                    height: 24.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              const SizedBox(height: 320),
+              const Divider(
+                thickness: 1,
               ),
               ListTile(
                 title: const Text(style: TextStyle(
                   fontFamily: 'Work Sans',
-                  fontSize: 20,
+                  fontSize: 18,
                   color: const Color(0xff000000),
                   fontWeight: FontWeight.w600,),'Çıkış Yap'),
                 onTap: () {
@@ -208,32 +162,97 @@ class _HomePageState extends State<HomePage> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        backgroundColor: const Color(0x66ffffff),
-                        content: const Text('Çıkış yapmak istediğinizden emin misiniz ?'),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        content: const Text(
+                          'Çıkış yapmak istediğinizden emin misiniz ?',
+                          style: TextStyle(
+                            fontFamily: 'Work Sans',
+                            fontSize: 16,
+                            color: const Color(0xff000000),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                         actions: <Widget>[
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              textStyle: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            child: const Text('Hayır'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              textStyle: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            child: const Text('Evet'),
-                            onPressed: () {
-                              _Cikiss();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          LoginPage()));
-                            },
-                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Align(
+                                alignment: Alignment(-0.549, 0.238),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffc45d54),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x14000000),
+                                        offset: Offset(3, 3),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child:
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle:const TextStyle (
+                                        fontFamily: 'Work Sans',
+                                        fontSize: 16,
+                                        color: Color(0xffffffff),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    child: const Text('Hayır',
+                                      style: TextStyle(
+                                        fontFamily: 'Work Sans',
+                                        color: Color(0xffffffff),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),),),
+                              SizedBox(width: 15,),
+                              Align(
+                                alignment: Alignment(0.549, 0.238),
+                                child:Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff929a94),
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color(0x14000000),
+                                        offset: Offset(3, 3),
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child:
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle:const TextStyle (
+                                        fontFamily: 'Work Sans',
+                                        fontSize: 16,
+                                        color: Color(0xffffffff),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    child: const Text('Evet',
+                                      style: TextStyle(
+                                        fontFamily: 'Work Sans',
+                                        color: const Color(0xffffffff),
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      _Cikiss();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginPage()));
+                                    },
+                                  ),),),],),
                         ],
                       );
                     },
@@ -249,9 +268,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 20),
+              const Text(
+                'info@megasoft.com.tr',
+                style:TextStyle(
+                  fontFamily: 'Work Sans',
+                  fontSize: 15,
+                  color: Colors.black26,
+                  fontWeight: FontWeight.w600,),
+              ),
             ],
           )),
-      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
+      appBar: AppBar(),
       body: pages[selectedIndex],
       bottomNavigationBar: Pinned.fromPins(
         Pin(start: 0.0, end: 0.0),

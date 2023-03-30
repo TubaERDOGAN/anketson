@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:ankets/screens/anket_sayfasi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:adobe_xd/pinned.dart';
-import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/anket.dart';
 import '../model/anketModel.dart';
@@ -92,8 +90,8 @@ class _AnketlerState extends State<Anketler> {
   }
 
   void _onItemFocus(int index) {
-      _focusedIndex = index;
-      print(_focusedIndex);
+    _focusedIndex = index;
+    print(_focusedIndex);
   }
 
   @override
@@ -104,13 +102,15 @@ class _AnketlerState extends State<Anketler> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-              'Anket Kategorileri',
-              style:  TextStyle(
+            'Anket Kategorileri',
+            style:  TextStyle(
               fontFamily: 'Work Sans',
               fontSize: 18,
-                color:  Color(0xff000000),
+              color: const Color(0xffffffff),
+              fontWeight: FontWeight.w600,
+
             ),
-            textAlign: TextAlign.center,
+
           ),
         ),
         extendBodyBehindAppBar: false,
@@ -162,12 +162,12 @@ class _AnketlerState extends State<Anketler> {
                                       child: Column( children: <Widget>[
                                         Container(
                                           padding: const EdgeInsets.only(top: 8.0),
-                                          height: 40.0,
+                                          height: 30.0,
                                           child: Text(
                                             snapshot.data[index].Tanim,
                                             style: const TextStyle(
                                               fontFamily: 'Work Sans',
-                                              fontSize: 20,
+                                              fontSize: 15,
                                               color: Color(0xff000000),
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -181,23 +181,31 @@ class _AnketlerState extends State<Anketler> {
                                             itemSize: 140,
                                             dynamicItemSize: true,
                                             shrinkWrap: true,
-                                            padding: const EdgeInsets.all(12),
+                                            padding: const EdgeInsets.all(6),
                                             scrollDirection: Axis.horizontal,
                                             itemCount: snapshot.data[index].Anketler.length,
                                             itemBuilder: (ctx, indexAnket) => Padding(padding: const EdgeInsets.all(10),child: Container(
                                                 color: Colors.white60,
-                                                width: 120.0,
-                                                height: 100.0,
-                                                child: Container(
+                                                width: 180.0,
+                                                height: 150.0,
+                                                child: GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  AnketSayfasi(anketID: snapshot.data[index].Anketler[indexAnket].UnicID)));
+                                                    },
+                                                    child: Container(
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
-                                                        image: NetworkImage(snapshot.data[index].Anketler[indexAnket].ImageUrl),
-                                                        fit: BoxFit.contain,
+                                                      image: NetworkImage(snapshot.data[index].Anketler[indexAnket].ImageUrl),
+                                                      fit: BoxFit.contain,
                                                     ),
                                                   ),
                                                   child: Text(
-                                                      snapshot.data[index].Anketler[indexAnket].AnketAdi,
-                                                      style: const TextStyle(
+                                                    snapshot.data[index].Anketler[indexAnket].AnketAdi,
+                                                    style: const TextStyle(
                                                       fontFamily: 'Work Sans',
                                                       fontSize: 16,
                                                       color: Color(0xff000000),
@@ -209,7 +217,7 @@ class _AnketlerState extends State<Anketler> {
                                             ),
                                           ),
                                         )
-                                      ]
+                                        )]
                                       )
                                   )
                               )
