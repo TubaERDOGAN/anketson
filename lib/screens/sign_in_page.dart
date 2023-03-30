@@ -6,6 +6,7 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -260,13 +261,12 @@ class   _SignInPageState extends State<SignInPage> {
                                   textInputAction: TextInputAction.done,
                                   controller: passwordController,
                                   obscureText: _isObscure,
-                                  //if passenable == true, show **, else show password character
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter password';
                                     }
                                     if (value.length < 8) {
-                                      return 'Must be more than 8 charater';
+                                      return 'Must be more than 8 character';
                                     }
                                     return null;
                                   },
@@ -341,7 +341,7 @@ class   _SignInPageState extends State<SignInPage> {
                                     return 'Please confirm password';
                                   }
                                   if (value.length < 8) {
-                                    return 'Must be more than 8 charater';
+                                    return 'Must be more than 8 character';
                                   }
                                   return null;
                                 },
@@ -408,21 +408,30 @@ class   _SignInPageState extends State<SignInPage> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           bool mCheckError = false;
+
                                           if (emailController.value.text ==
                                               "") {
                                             mCheckError = true;
                                           }
+
                                           if (usernameController.value.text ==
                                               "") {
                                             mCheckError = true;
                                           }
+
                                           if (passwordController.value.text ==
                                               "") {
                                             mCheckError = true;
                                           }
+
                                           if (cpasswordController.value.text ==
                                               "") {
                                             mCheckError = true;
+                                          }
+
+                                          if (passwordController.value.text != cpasswordController.value.text) {
+                                            mCheckError = true;
+                                            showAlertDialog1(context, "Şifreler aynı değildir!");
                                           }
 
                                           if (!mCheckError) {

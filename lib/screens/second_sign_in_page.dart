@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'home_page.dart';
-import 'login_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -296,11 +295,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             )).toList(),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                if(newValue != null) {
+                              if(newValue != null) {
                                   selectedValue3 = newValue.toString();
                                 }
-                              });
                             },
 
                             buttonStyleData: const ButtonStyleData(
@@ -502,18 +499,23 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                                       // If the form is valid, display a snackbar. In the real world,
                                       // you'd often call a server or save the information in a database.
                                       bool mCheckError = false;
+
                                        if (countryController.value.text == ""){
                                       mCheckError = true;
                                       }
+
                                        if (cityController.value.text == ""){
                                        mCheckError = true;
                                       }
+
                                        if (yearController.value.text == ""){
                                            mCheckError = true;
                                         }
+
                                       if (genderController.value.text == ""){
                                          mCheckError = true;
                                       }
+
                                       if (educationController.value.text == ""){
                                         mCheckError = true;
                                       }
