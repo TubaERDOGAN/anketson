@@ -1,12 +1,6 @@
-//import 'dart:js';
-import 'dart:ffi';
-
-import 'package:ankets/screens/forgot_password.dart';
 import 'package:ankets/screens/login_page.dart';
 import 'package:ankets/screens/second_sign_in_page.dart';
 import 'package:flutter/material.dart';
-//import 'package:ankets/constants.dart';
-//import 'package:ankets/localekeys.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'package:flutter/services.dart';
@@ -866,10 +860,10 @@ class   _SignInPageState extends State<SignInPage> {
 
                                           if (!mCheckError) {
                                             postRequest(context,
-                                                  usernameController.value.text,
-                                                  emailController.value.text,
-                                                  passwordController.value
-                                                      .text);
+                                                usernameController.value.text,
+                                                emailController.value.text,
+                                                passwordController.value
+                                                    .text);
                                           }
                                         } else {
                                           showAlertDialog1(context, "2");

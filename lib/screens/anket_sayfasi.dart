@@ -15,7 +15,7 @@ import 'package:survey_kit/survey_kit.dart';
 
 
 class AnketSayfasi extends StatefulWidget {
-   AnketSayfasi({Key? key}) : super(key: key);
+  AnketSayfasi({Key? key}) : super(key: key);
   @override
   State<AnketSayfasi> createState() => _AnketSayfasiState();
 }
@@ -91,151 +91,151 @@ class _AnketSayfasiState extends State<AnketSayfasi> {
     print("Anket soruları alınıyor");
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea( child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBody: true,
-        body:Stack(
-          children: <Widget>[
-        Transform.rotate(
-        angle: 3.1416,
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment(0.0, -1.0),
-                end: Alignment(0.0, 1.0),
-                colors: [
-                  Color(0xff8f9d97),
-                  Color(0xff919a94),
-                  Color(0xffc45d54)
-                ],
-                stops: [0.0, 0.402, 1.0],
+        debugShowCheckedModeBanner: false,
+        home: SafeArea( child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          extendBody: true,
+          body:Stack(
+            children: <Widget>[
+              Transform.rotate(
+                angle: 3.1416,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.0, -1.0),
+                      end: Alignment(0.0, 1.0),
+                      colors: [
+                        Color(0xff8f9d97),
+                        Color(0xff919a94),
+                        Color(0xffc45d54)
+                      ],
+                      stops: [0.0, 0.402, 1.0],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
 
 
-        Center(
+              Center(
 
-          child:Padding(
-            padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0 ),
-          child:Align(
-            alignment: Alignment.center,
-            child: FutureBuilder<Task>(
-              future: getJsonTask(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData &&
-                    snapshot.data != null) {
-                  final task = snapshot.data!;
-                  return SurveyKit(
-                    onResult: (SurveyResult result) {
-                      print(result.finishReason);
-                      Navigator.pushNamed(context, '/');
-                    },
-                    task: task,
-                    showProgress: true,
-                    localizations: {
-                      'cancel': 'Cancel',
-                      'next': 'Next',
-                    },
-
-                    themeData: ThemeData.dark().copyWith(
-                      primaryColor:Color(0xff8fa8a2),
-
-                      backgroundColor:Colors.transparent,
-                      scaffoldBackgroundColor: const Color(0x66ffffff),
-                      appBarTheme: AppBarTheme(
-                        backgroundColor:const Color(0x66ffffff),
-                        shape: BeveledRectangleBorder(
-                            borderRadius:BorderRadius.circular(0) ,
-                        ),
-                        iconTheme: IconThemeData(
-                          color: Colors.white,
-                          size: 30,
-                        ) ,
-                        titleTextStyle: TextStyle(
-                          fontFamily: 'Work Sans',
-                          fontSize: 14,
-                          color: Color(0xff000000),
-                        ),
-                      ),
-                      textSelectionTheme: TextSelectionThemeData(
-                        cursorColor: const Color(0xff000000),
-                        selectionColor: const Color(0xff919a94),
-                        selectionHandleColor:const Color(0xffc45d54),
-                      ),
-
-                      /// ne işe yaradığı anlaşılmadı
-                      cupertinoOverrideTheme: CupertinoThemeData(
-                        primaryColor: const Color(0xffc45d54),
-                      ),
-
-                      outlinedButtonTheme: OutlinedButtonThemeData(
-                        style: ButtonStyle(
-                          minimumSize: MaterialStateProperty.all(
-                            Size(150.0, 60.0),
-                          ),
-                          side: MaterialStateProperty.resolveWith(
-                                (Set<MaterialState> state) {
-                              if (state.contains(MaterialState.disabled)) {
-                                return BorderSide(
-                                  color: const Color(0xffcbcac6),
-                                );
-                              }
-                              return BorderSide(
-                                color:const Color(0xffc45d54),
-                              );
+                child:Padding(
+                  padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0 ),
+                  child:Align(
+                    alignment: Alignment.center,
+                    child: FutureBuilder<Task>(
+                      future: getJsonTask(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done &&
+                            snapshot.hasData &&
+                            snapshot.data != null) {
+                          final task = snapshot.data!;
+                          return SurveyKit(
+                            onResult: (SurveyResult result) {
+                              print(result.finishReason);
+                              Navigator.pushNamed(context, '/');
                             },
-                          ),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          textStyle: MaterialStateProperty.resolveWith(
-                                (Set<MaterialState> state) {
-                              if (state.contains(MaterialState.disabled)) {
-                                return Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(
+                            task: task,
+                            showProgress: true,
+                            localizations: {
+                              'cancel': 'Cancel',
+                              'next': 'Next',
+                            },
+
+                            themeData: ThemeData.dark().copyWith(
+                              primaryColor:Color(0xff8fa8a2),
+
+                              backgroundColor:Colors.transparent,
+                              scaffoldBackgroundColor: const Color(0x66ffffff),
+                              appBarTheme: AppBarTheme(
+                                backgroundColor:const Color(0x66ffffff),
+                                shape: BeveledRectangleBorder(
+                                  borderRadius:BorderRadius.circular(0) ,
+                                ),
+                                iconTheme: IconThemeData(
+                                  color: Colors.white,
+                                  size: 30,
+                                ) ,
+                                titleTextStyle: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 14,
                                   color: Color(0xff000000),
-                                );
-                              }
-                              return Theme.of(context)
-                                  .textTheme
-                                  .labelLarge
-                                  ?.copyWith(
-                                color: Colors.cyan,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      /// ne işe yaradığı anlaşılmadı
-                      textButtonTheme: TextButtonThemeData(
-                        style: ButtonStyle(
-                          textStyle: MaterialStateProperty.all(
-                            Theme.of(context).textTheme.labelLarge?.copyWith(
-                              color: Colors.cyan,
+                                ),
+                              ),
+                              textSelectionTheme: TextSelectionThemeData(
+                                cursorColor: const Color(0xff000000),
+                                selectionColor: const Color(0xff919a94),
+                                selectionHandleColor:const Color(0xffc45d54),
+                              ),
+
+                              /// ne işe yaradığı anlaşılmadı
+                              cupertinoOverrideTheme: CupertinoThemeData(
+                                primaryColor: const Color(0xffc45d54),
+                              ),
+
+                              outlinedButtonTheme: OutlinedButtonThemeData(
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                    Size(150.0, 60.0),
+                                  ),
+                                  side: MaterialStateProperty.resolveWith(
+                                        (Set<MaterialState> state) {
+                                      if (state.contains(MaterialState.disabled)) {
+                                        return BorderSide(
+                                          color: const Color(0xffcbcac6),
+                                        );
+                                      }
+                                      return BorderSide(
+                                        color:const Color(0xffc45d54),
+                                      );
+                                    },
+                                  ),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  textStyle: MaterialStateProperty.resolveWith(
+                                        (Set<MaterialState> state) {
+                                      if (state.contains(MaterialState.disabled)) {
+                                        return Theme.of(context)
+                                            .textTheme
+                                            .labelLarge
+                                            ?.copyWith(
+                                          color: Color(0xff000000),
+                                        );
+                                      }
+                                      return Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                        color: Colors.cyan,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              /// ne işe yaradığı anlaşılmadı
+                              textButtonTheme: TextButtonThemeData(
+                                style: ButtonStyle(
+                                  textStyle: MaterialStateProperty.all(
+                                    Theme.of(context).textTheme.labelLarge?.copyWith(
+                                      color: Colors.cyan,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
+                            surveyProgressbarConfiguration: SurveyProgressConfiguration(
+                              backgroundColor: Colors.lime,
+                            ),
+                          );
+                        }
+                        return CircularProgressIndicator.adaptive();
+                      },
                     ),
-                    surveyProgressbarConfiguration: SurveyProgressConfiguration(
-                      backgroundColor: Colors.lime,
-                    ),
-                  );
-                }
-                return CircularProgressIndicator.adaptive();
-              },
-            ),
-          ),
-        ),
-        ),],),),));
+                  ),
+                ),
+              ),],),),));
   }
 
   Future<Task> getSampleTask() {
