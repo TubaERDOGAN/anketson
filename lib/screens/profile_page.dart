@@ -211,8 +211,11 @@ class _ProfilePageState extends State<ProfilePage> {
           /// buraya username gelecek
           Positioned(
             top: MediaQuery.of(context).size.height * 0.33,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.45 ),
+            child: Align(
+              alignment: Alignment(0.005, -0.389),
+              child: SizedBox(
+                width: 196.0,
+                height: 24.0,
               child: Text(
                 _savedText,
                 style: const TextStyle(
@@ -223,7 +226,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-            ),),
+            ),),),
           /// fotograf eklenin boxı burası düzenlecek sanırım
           Positioned(
             top: MediaQuery.of(context).size.height * 0.09,
