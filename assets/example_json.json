@@ -1,40 +1,7 @@
 {
   "id": "123",
   "type": "navigable",
-  "rules": [
-
-    {
-      "type": "direct",
-      "triggerStepIdentifier": {
-        "id": "1"
-      },
-      "destinationStepIdentifier": {
-        "id": "2"
-      }
-    },
-
-    {
-      "type": "direct",
-      "triggerStepIdentifier": {
-        "id": "2"
-      },
-      "destinationStepIdentifier": {
-        "id": "3"
-      }
-    },
-
-    {
-      "type": "direct",
-      "triggerStepIdentifier": {
-        "id": "3"
-      },
-      "destinationStepIdentifier": {
-        "id": "10"
-      }
-    }
-  ],
-
-  "steps": [
+   "steps": [
 
     {
       "stepIdentifier": {

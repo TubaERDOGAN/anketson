@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'home_page.dart';
+import 'login_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -39,7 +40,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
   void getYears(int year) {
     int currentYear = DateTime.now().year;
-    items1.clear();
+
     while (year < currentYear) {
       items1.add(year.toString());
       year++;
@@ -60,7 +61,6 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   Widget build(BuildContext context) {
     getYears(1960);
     print(items1);
-    print(educationItems);
     final bottom = MediaQuery
         .of(context)
         .viewInsets
@@ -296,9 +296,11 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             )).toList(),
                             onChanged: (String? newValue) {
-                              if(newValue != null) {
-                                selectedValue3 = newValue;
-                              }
+                              setState(() {
+                                if(newValue != null) {
+                                  selectedValue3 = newValue.toString();
+                                }
+                              });
                             },
 
                             buttonStyleData: const ButtonStyleData(
@@ -375,8 +377,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? value) {
-                             selectedValue = value;
-
+                              setState(() {
+                                selectedValue = value;
+                              });
                             },
                             buttonStyleData: const ButtonStyleData(
                               padding: EdgeInsets.only(left: 20, right: 10),
@@ -449,7 +452,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? newValue) {
-                              selectedValue2 = newValue!;
+                              setState(() {
+                                selectedValue2 = newValue!;
+                              });
                             },
                             buttonStyleData: const ButtonStyleData(
                               padding: EdgeInsets.only(left: 20, right: 10),
@@ -494,26 +499,28 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               child: TextButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
+                                      // If the form is valid, display a snackbar. In the real world,
+                                      // you'd often call a server or save the information in a database.
                                       bool mCheckError = false;
-                                      if (countryController.value.text == ""){
-                                        mCheckError = true;
+                                       if (countryController.value.text == ""){
+                                      mCheckError = true;
                                       }
-                                      if (cityController.value.text == ""){
-                                        mCheckError = true;
+                                       if (cityController.value.text == ""){
+                                       mCheckError = true;
                                       }
-                                      if (yearController.value.text == ""){
-                                        mCheckError = true;
-                                      }
-
+                                       if (yearController.value.text == ""){
+                                           mCheckError = true;
+                                        }
                                       if (genderController.value.text == ""){
-                                        mCheckError = true;
+                                         mCheckError = true;
                                       }
                                       if (educationController.value.text == ""){
                                         mCheckError = true;
                                       }
 
+
                                       if(!mCheckError){
-                                        showAlertDialog2(context, "1");
+                                        //showAlertDialog(context, "1");
                                         postRequest (context,countryController.value.text, cityController.value.text, yearController.value.text,genderController.value.text,educationController.value.text);
                                       }
                                     }
@@ -538,8 +545,6 @@ class _SecondSignInPage extends State<SecondSignInPage> {
             )));
   }
 
-
-  /// Webb kısmıı
   MaterialApp WebPage (){
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -744,9 +749,11 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             )).toList(),
                             onChanged: (String? newValue) {
-                              if(newValue != null) {
+                              setState(() {
+                                if(newValue != null) {
                                   selectedValue3 = newValue!;
                                 }
+                              });
                             },
                             buttonStyleData: const ButtonStyleData(
                               height: 60,
@@ -816,7 +823,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? value) {
-                              selectedValue = value;
+                              setState(() {
+                                selectedValue = value;
+                              });
                             },
                             buttonStyleData: const ButtonStyleData(
                               height: 60,
@@ -883,7 +892,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? newValue) {
-                              selectedValue2 = newValue!;
+                              setState(() {
+                                selectedValue2 = newValue!;
+                              });
                             },
                             buttonStyleData: const ButtonStyleData(
                               height: 60,
@@ -944,7 +955,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             if (cpasswordController.value.text == ""){
                               mCheckError = true;
                             }*/
-                                      postRequest (context,countryController.value.text, cityController.value.text, yearController.value.text,genderController.value.text,educationController.value.text);
+
                                       if(!mCheckError){
                                         //showAlertDialog(context, "1");
                                         postRequest (context,countryController.value.text, cityController.value.text, yearController.value.text,genderController.value.text,educationController.value.text);
@@ -1000,12 +1011,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
     );
 
     final returnedData = jsonDecode(response.body);
-    showAlertDialog2(context, response.body);
+
     if(response.statusCode == 200){
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => HomePage()));
+          builder: (context) => HomePage()));
     }else{
       //hata kontrolü ve uyarısı
       showAlertDialog2(context, response.body);
@@ -1017,49 +1028,21 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
   showAlertDialog2(BuildContext context, String message) {
     // set up the button
-    Widget okButton = Container(
-        decoration: BoxDecoration(
-          color: const Color(0xffc45d54),
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x14000000),
-              offset: Offset(3, 3),
-              blurRadius: 3,
-            ),
-          ],
-        ),
-        child: TextButton(
-          child: const Text("Tamam",
-              style: TextStyle(
-              fontFamily: 'Work Sans',
-              color: Color(0xffffffff),
-              fontWeight: FontWeight.w600,
-            ),
-
-          ),
-          onPressed: () {
-           Navigator.push(
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => HomePage())
         );
       },
-    ));
+    );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Text(""),
-      content: Text(message,
-        style: const TextStyle(
-          fontFamily: 'Work Sans',
-          fontSize: 16,
-          color: Color(0xff000000),
-          fontWeight: FontWeight.w600,
-        ),
-        textAlign: TextAlign.center,
-      ),
+      content: Text(message),
       actions: [
         okButton,
       ],
@@ -1074,6 +1057,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
     );
   }
 }
+
 
 
 
