@@ -6,6 +6,7 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -260,13 +261,12 @@ class   _SignInPageState extends State<SignInPage> {
                                   textInputAction: TextInputAction.done,
                                   controller: passwordController,
                                   obscureText: _isObscure,
-                                  //if passenable == true, show **, else show password character
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter password';
                                     }
                                     if (value.length < 8) {
-                                      return 'Must be more than 8 charater';
+                                      return 'Must be more than 8 character';
                                     }
                                     return null;
                                   },
@@ -341,7 +341,7 @@ class   _SignInPageState extends State<SignInPage> {
                                     return 'Please confirm password';
                                   }
                                   if (value.length < 8) {
-                                    return 'Must be more than 8 charater';
+                                    return 'Must be more than 8 character';
                                   }
                                   return null;
                                 },
@@ -408,21 +408,30 @@ class   _SignInPageState extends State<SignInPage> {
                                       onPressed: () {
                                         if (_formKey.currentState!.validate()) {
                                           bool mCheckError = false;
+
                                           if (emailController.value.text ==
                                               "") {
                                             mCheckError = true;
                                           }
+
                                           if (usernameController.value.text ==
                                               "") {
                                             mCheckError = true;
                                           }
+
                                           if (passwordController.value.text ==
                                               "") {
                                             mCheckError = true;
                                           }
+
                                           if (cpasswordController.value.text ==
                                               "") {
                                             mCheckError = true;
+                                          }
+
+                                          if (passwordController.value.text != cpasswordController.value.text) {
+                                            mCheckError = true;
+                                            showAlertDialog1(context, "Şifreler aynı değildir!");
                                           }
 
                                           if (!mCheckError) {
@@ -1006,17 +1015,52 @@ class   _SignInPageState extends State<SignInPage> {
 
   showAlertDialog1(BuildContext context, String message) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context, rootNavigator: true).pop();
-      },
-    );
+    Widget okButton = Container(
+        decoration: BoxDecoration(
+          color: const Color(0xffc45d54),
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              offset: Offset(3, 3),
+              blurRadius: 3,
+            ),
+          ],
+        ),
+        child: TextButton(
+          child:  const Text("Tamam",
+            style: TextStyle(
+              fontFamily: 'Work Sans',
+              color: Color(0xffffffff),
+              fontWeight: FontWeight.w600,
+            ),
+
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Uyarı!"),
-      content: Text(message),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      title: const Text("Uyarı!",
+        style: TextStyle(
+        fontFamily: 'Work Sans',
+        fontSize: 16,
+        color: Color(0xff000000),
+        fontWeight: FontWeight.w600,
+      ),
+      ),
+      content: Text(message,
+        style: const TextStyle(
+          fontFamily: 'Work Sans',
+          fontSize: 16,
+          color: Color(0xff000000),
+          fontWeight: FontWeight.w600,
+        ),
+        textAlign: TextAlign.center,
+      ),
       actions: [
         okButton,
       ],

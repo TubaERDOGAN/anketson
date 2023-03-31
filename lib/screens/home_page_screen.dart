@@ -101,82 +101,79 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 ),
               ),
               Center(
-                    child:Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: FutureBuilder(
-                       future: getAnketler(),
-                        builder: (BuildContext ctx, AsyncSnapshot snapshot) {
-                       if (snapshot.data == null) {
+                  child:Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: FutureBuilder(
+                      future: getAnketler(),
+                      builder: (BuildContext ctx, AsyncSnapshot snapshot) {
+                        if (snapshot.data == null) {
                           return Container(
                             child: Center(
-                             child: CircularProgressIndicator(),
-                              ),
-                             );
-                          } else {
-                       return ListView.separated(
-                         itemCount: snapshot.data.length,
-                        itemBuilder: (ctx, index) =>Container(
-                          width: 337.0,
-                          decoration: BoxDecoration(
-                            color: const Color(0x66ffffff),
-                            borderRadius:
-                            BorderRadius.circular(21.0),
-                          ),
-                            child: Column(
-                              children: [ListTile(
-                                title: Text(
-                                    snapshot.data[index].AnketAdi,
-                                  style: const TextStyle(
-                                    fontFamily: 'Work Sans',
-                                    fontSize: 20,
-                                    color: Color(0xff000000),
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                subtitle: ReadMoreText(snapshot.data[index].OnizlemeAciklamasi,
-                                    style: const TextStyle(
-                                    fontFamily: 'Work Sans',
-                                    fontSize: 14,
-                                    color: Color(0xff000000),
-                                  ),
-                                  trimMode: TrimMode.Line,
-                                  trimLines: 3,
-                                  colorClickableText: Colors.black,
-                                  trimCollapsedText:
-                                  'Daha fazla göster',
-                                  trimExpandedText: ' Daha az göster',
-                                ),
-                              ),
-                               GestureDetector(
-                                 child: Container(
-                                   height:170,
-                                   child:Image.network(snapshot.data[index].ImageUrl,fit: BoxFit.fill)
-                                 ),
-                                 onTap: () {
-                                   Navigator.push(
-                                       context,
-                                       MaterialPageRoute(
-                                           builder: (context) =>
-                                               AnketSayfasi(),
-                                           settings: RouteSettings(
-                                         arguments: snapshot.data[index].UnicID,
-                                       )));
-                                   //buraya anket unic gidecek.snapshot.data[index].UnicID şeklinde
-                                 },
-                               )
-                              ],
+                              child: CircularProgressIndicator(),
                             ),
-                        ),
-                         separatorBuilder: (BuildContext context, int index) => const SizedBox(
-                           height: 10,
-                         ),
-                   );
-                  }
-                },
-                ),)
-        )]
+                          );
+                        } else {
+                          return ListView.separated(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (ctx, index) =>Container(
+                              width: 337.0,
+                              decoration: BoxDecoration(
+                                color: const Color(0x66ffffff),
+                                borderRadius:
+                                BorderRadius.circular(21.0),
+                              ),
+                              child: Column(
+                                children: [ListTile(
+                                  title: Text(
+                                    snapshot.data[index].AnketAdi,
+                                    style: const TextStyle(
+                                      fontFamily: 'Work Sans',
+                                      fontSize: 20,
+                                      color: Color(0xff000000),
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  subtitle: ReadMoreText(snapshot.data[index].OnizlemeAciklamasi,
+                                    style: const TextStyle(
+                                      fontFamily: 'Work Sans',
+                                      fontSize: 14,
+                                      color: Color(0xff000000),
+                                    ),
+                                    trimMode: TrimMode.Line,
+                                    trimLines: 3,
+                                    colorClickableText: Colors.black,
+                                    trimCollapsedText:
+                                    'Daha fazla göster',
+                                    trimExpandedText: ' Daha az göster',
+                                  ),
+                                ),
+                                  GestureDetector(
+                                    child: Container(
+                                        height:170,
+                                        child:Image.network(snapshot.data[index].ImageUrl,fit: BoxFit.fill)
+                                    ),
+                                    onTap: () {
+                                      print(snapshot.data[index].UnicID);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AnketSayfasi(anketID: snapshot.data[index].UnicID)));
+                                      //buraya anket unic gidecek.snapshot.data[index].UnicID şeklinde
+                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                            separatorBuilder: (BuildContext context, int index) => const SizedBox(
+                              height: 10,
+                            ),
+                          );
+                        }
+                      },
+                    ),)
+              )]
         ));
   }
 }
-
 

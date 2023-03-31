@@ -61,7 +61,7 @@ dependencies:
   sortedmap: ^0.5.1
   shared_preferences: ^2.0.5
   survey_kit: ^0.1.1
-
+  image_picker: ^0.8.5+3
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -635,19 +635,45 @@ class _LoginPageState extends State<LoginPage> {
   }
   showAlertDialog(BuildContext context, String message, bool status) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        if (status) {
-          Navigator.of(context).pop();
-        }
+    Widget okButton = Container(
+        decoration: BoxDecoration(
+          color: const Color(0xffc45d54),
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              offset: Offset(3, 3),
+              blurRadius: 3,
+            ),
+          ],
+        ),
+        child: TextButton(
+          child:  const Text("Tamam",
+              style: TextStyle(
+              fontFamily: 'Work Sans',
+              color: Color(0xffffffff),
+              fontWeight: FontWeight.w600,
+            ),
+
+          ),
+            onPressed: () {
+              Navigator.of(context).pop();
       },
-    );
+    ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Text(""),
-      content: Text(message),
+      content: Text(message,
+        style: const TextStyle(
+          fontFamily: 'Work Sans',
+          fontSize: 16,
+          color: Color(0xff000000),
+          fontWeight: FontWeight.w600,
+        ),
+        textAlign: TextAlign.center,
+      ),
       actions: [
         okButton,
       ],

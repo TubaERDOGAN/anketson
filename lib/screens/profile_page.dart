@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:ankets/page/setting_profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'dart:ui' as ui;
@@ -11,6 +14,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   String _savedText = '';
+
+  ImagePicker picker = ImagePicker();
+  XFile? image;
 
   @override
   void initState() {
@@ -212,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: MediaQuery.of(context).size.height * 0.33,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.45 ),
+              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.45 ,0,MediaQuery.of(context).size.width * 0.45,0),
               child: Text(
                 _savedText,
                 style: const TextStyle(
@@ -241,18 +247,23 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2,
+            top: MediaQuery.of(context).size.height * 0.18,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.4 ),
-              child: const Text(
-                'Fotoğraf Ekle',
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 14,
-                  color: Color(0xff000000),
-                ),
-                textAlign: TextAlign.center,
-              ),
+              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.38 ),
+              child: image == null?TextButton( onPressed: () async { image = await picker.pickImage(source: ImageSource.gallery);
+              setState(() {
+                //update UI
+              }); },
+                  child: Text(
+                    'Fotoğraf Ekle',
+                    style: TextStyle(
+                      fontFamily: 'Work Sans',
+                      fontSize: 14,
+                      color: Color(0xff000000),
+                    ),
+                    textAlign: TextAlign.center,
+                  )):
+              Image.file(File(image!.path)) ,
             ),),
 
           /// profil düzenleme kısmı
@@ -276,30 +287,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               )),
-
-          Align(
-            alignment: Alignment(0.36, -0.541),
-            child: GestureDetector(
-              onTap: () {
-                /// buraya tıklayınca galeriye gidecek :)
-                //Navigator.push(
-                //context,
-                //MaterialPageRoute(
-                //builder: (context) =>
-                //??()));
-              },
-              child: Container(
-                width: 24.0,
-                height: 24.0,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1.0, color: const Color(0x00000000)),
-                ),
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-              ),),
-          ),
 
         ],
       ),
@@ -534,33 +521,31 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               )),
 
-      Positioned(
-        top: MediaQuery.of(context).size.height * 0.28,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.60 ),
-            child: GestureDetector(
-              onTap: () {
-                /// buraya tıklayınca galeriye gidecek :)
-                //Navigator.push(
-                //context,
-                //MaterialPageRoute(
-                //builder: (context) =>
-                //??()));
-              },
-              child: Container(
-                width: 24.0,
-                height: 24.0,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1.0, color: const Color(0x00000000)),
-                ),
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-              ),),
-          ),
+          Positioned(
+            top: MediaQuery.of(context).size.height * 0.28,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.60 ),
+              child: GestureDetector(
+                onTap: () async {
+                  image = await picker.pickImage(source: ImageSource.gallery);
+                  setState(() {
+                    //update UI
+                  });
+                },
+                child: Container(
+                  width: 24.0,
+                  height: 24.0,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1.0, color: const Color(0x00000000)),
+                  ),
+                  child: const Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                ),),
+            ),
 
-      ),],
+          ),],
       ),
     ));
   }
