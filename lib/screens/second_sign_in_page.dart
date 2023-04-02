@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:ui' as ui;
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'home_page.dart';
-import 'login_page.dart';
-import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui' as ui;
+
+import 'package:adobe_xd/pinned.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home_page.dart';
 
 class SecondSignInPage extends StatefulWidget {
 
@@ -24,6 +25,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   TextEditingController educationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
   final List<String> genderItems = [
     'Male',
     'Female',
@@ -40,22 +42,16 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
   void getYears(int year) {
     int currentYear = DateTime.now().year;
-
+    items1.clear();
     while (year < currentYear) {
       items1.add(year.toString());
       year++;
     }
   }
 
-  String? selectedValue;
-  String? selectedValue2;
-  String? selectedValue3;
-
-  @override
-  void dispose() {
-    yearController.dispose();
-    super.dispose();
-  }
+  String? selectedValueGender;
+  String? selectedValueYear;
+  String? selectedValueEducation;
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +269,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               }
                               return null;
                             },
-                            value: selectedValue3,
+                            value: selectedValueYear,
                             isExpanded: true,
                             hint: const Text(
                               'Birth of Year',
@@ -296,11 +292,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             )).toList(),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                if(newValue != null) {
-                                  selectedValue3 = newValue.toString();
+                              if(newValue != null) {
+                                  selectedValueYear = newValue.toString();
                                 }
-                              });
                             },
 
                             buttonStyleData: const ButtonStyleData(
@@ -353,7 +347,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               }
                               return null;
                             },
-                            value: selectedValue,
+                            value: selectedValueGender,
                             isExpanded: true,
                             hint: const Text(
                               'Gender',
@@ -377,9 +371,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? value) {
-                              setState(() {
-                                selectedValue = value;
-                              });
+                              selectedValueGender = value;
                             },
                             buttonStyleData: const ButtonStyleData(
                               padding: EdgeInsets.only(left: 20, right: 10),
@@ -428,7 +420,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               }
                               return null;
                             },
-                            value: selectedValue2,
+                            value: selectedValueEducation,
                             isExpanded: true,
                             hint: const Text(
                               'Education',
@@ -452,9 +444,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                selectedValue2 = newValue!;
-                              });
+                              selectedValueEducation = newValue!;
                             },
                             buttonStyleData: const ButtonStyleData(
                               padding: EdgeInsets.only(left: 20, right: 10),
@@ -498,33 +488,33 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               alignment: const Alignment(0.005, 0.169),
                               child: TextButton(
                                   onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      // If the form is valid, display a snackbar. In the real world,
-                                      // you'd often call a server or save the information in a database.
-                                      bool mCheckError = false;
-                                       if (countryController.value.text == ""){
+                                    //if (_formKey.currentState!.validate()) {
+                                    // If the form is valid, display a snackbar. In the real world,
+                                    // you'd often call a server or save the information in a database.
+                                    bool mCheckError = false;
+
+                                    if (countryController.value.text == ""){
                                       mCheckError = true;
-                                      }
-                                       if (cityController.value.text == ""){
-                                       mCheckError = true;
-                                      }
-                                       if (yearController.value.text == ""){
-                                           mCheckError = true;
-                                        }
-                                      if (genderController.value.text == ""){
-                                         mCheckError = true;
-                                      }
-                                      if (educationController.value.text == ""){
-                                        mCheckError = true;
-                                      }
-
-
-                                      if(!mCheckError){
-                                        //showAlertDialog(context, "1");
-                                        postRequest (context,countryController.value.text, cityController.value.text, yearController.value.text,genderController.value.text,educationController.value.text);
-                                      }
                                     }
-                                  },
+                                    if (cityController.value.text == ""){
+                                      mCheckError = true;
+                                    }
+                                    if (selectedValueYear.toString() == ""){
+                                      mCheckError = true;
+                                    }
+                                    if (selectedValueGender.toString() == ""){
+                                      mCheckError = true;
+                                    }
+                                    if (selectedValueEducation.toString() == ""){
+                                      mCheckError = true;
+                                    }
+
+                                    if(!mCheckError){
+                                      postRequest (context,countryController.value.text, cityController.value.text,selectedValueYear.toString(),selectedValueGender.toString(),selectedValueEducation.toString());
+                                    }else{
+                                      showAlertDialog2(context, "Tüm alanları doldurun!");
+                                    }
+                                    },
                                   child: const Text(
                                     'Next',
                                     style: TextStyle(
@@ -726,7 +716,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         child:DropdownButtonHideUnderline(
                           child:
                           DropdownButton2(
-                            value: items1[0],
+                            value: selectedValueYear,
                             isExpanded: true,
                             hint: const Text(
                               'Birth of Year',
@@ -749,11 +739,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             )).toList(),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                if(newValue != null) {
-                                  selectedValue3 = newValue!;
+                              if(newValue != null) {
+                                  selectedValueYear = newValue!;
                                 }
-                              });
                             },
                             buttonStyleData: const ButtonStyleData(
                               height: 60,
@@ -799,7 +787,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         child:DropdownButtonHideUnderline(
                           child:
                           DropdownButton2(
-                            value: selectedValue,
+                            value: selectedValueGender,
                             isExpanded: true,
                             hint: const Text(
                               'Gender',
@@ -823,9 +811,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? value) {
-                              setState(() {
-                                selectedValue = value;
-                              });
+                              selectedValueGender = value;
                             },
                             buttonStyleData: const ButtonStyleData(
                               height: 60,
@@ -868,7 +854,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         child:  DropdownButtonHideUnderline(
                           child:
                           DropdownButton2(
-                            value: selectedValue2,
+                            value: selectedValueEducation,
                             isExpanded: true,
                             hint: const Text(
                               'Education',
@@ -892,9 +878,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ))
                                 .toList(),
                             onChanged: (String? newValue) {
-                              setState(() {
-                                selectedValue2 = newValue!;
-                              });
+                              selectedValueEducation = newValue!;
                             },
                             buttonStyleData: const ButtonStyleData(
                               height: 60,
@@ -939,30 +923,32 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               alignment: const Alignment(0.005, 0.169),
                               child: TextButton(
                                   onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
+                                    //if (_formKey.currentState!.validate()) {
                                       // If the form is valid, display a snackbar. In the real world,
                                       // you'd often call a server or save the information in a database.
                                       bool mCheckError = false;
-                                      /*if (emailController.value.text == ""){
-                              mCheckError = true;
-                            }
-                            if (usernameController.value.text == ""){
-                              mCheckError = true;
-                            }
-                            if (passwordController.value.text == ""){
-                              mCheckError = true;
-                            }
-                            if (cpasswordController.value.text == ""){
-                              mCheckError = true;
-                            }*/
+
+                                      if (countryController.value.text == ""){
+                                        mCheckError = true;
+                                      }
+                                      if (cityController.value.text == ""){
+                                        mCheckError = true;
+                                      }
+                                      if (selectedValueYear.toString() == ""){
+                                        mCheckError = true;
+                                      }
+                                      if (selectedValueGender.toString() == ""){
+                                        mCheckError = true;
+                                      }
+                                      if (selectedValueEducation.toString() == ""){
+                                        mCheckError = true;
+                                      }
 
                                       if(!mCheckError){
-                                        //showAlertDialog(context, "1");
-                                        postRequest (context,countryController.value.text, cityController.value.text, yearController.value.text,genderController.value.text,educationController.value.text);
+                                        postRequest (context,countryController.value.text, cityController.value.text,selectedValueYear.toString(),selectedValueGender.toString(),selectedValueEducation.toString());
+                                      }else{
+                                        showAlertDialog2(context, "Tüm alanları doldurun!");
                                       }
-                                    }else{
-                                      showAlertDialog2(context, "2");
-                                    }
                                   },
                                   child: const Text(
                                     'Next',
@@ -983,15 +969,15 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
             )));
   }
+
   Future<http.Response> postRequest (BuildContext context, String country, String city, String year,String gender,String education,) async {
+
     String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/userinformationdata/';
     Uri urlU = Uri.parse(url);
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    String unicId = sharedPreferences.getString("UnicID") ?? "";
-    sharedPreferences.setString("country", country);
-    sharedPreferences.setString("city", city);
 
+    String unicId = sharedPreferences.getString("unicID") ?? "";
 
     Map data = {
       'UnicID': unicId,
@@ -1004,6 +990,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
     //encode Map to JSON
     var body = json.encode(data);
+    print(body);
 
     final response = await http.post(urlU,
         headers: {"Content-Type": "application/json"},
@@ -1018,13 +1005,11 @@ class _SecondSignInPage extends State<SecondSignInPage> {
           MaterialPageRoute(
           builder: (context) => HomePage()));
     }else{
-      //hata kontrolü ve uyarısı
-      showAlertDialog2(context, response.body);
+      showAlertDialog2(context, "Hata: " + response.body);
     }
 
     return response;
   }
-
 
   showAlertDialog2(BuildContext context, String message) {
     // set up the button

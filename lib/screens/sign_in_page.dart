@@ -921,9 +921,12 @@ class   _SignInPageState extends State<SignInPage> {
                                   textAlign: TextAlign.center,
                                 ),
                               )
-                          )),
-
-                    ]))));
+                          )
+                      ),
+                ])
+            )
+        )
+    );
   }
 
   Future<http.Response> postRequest(BuildContext context, String username,
@@ -947,11 +950,12 @@ class   _SignInPageState extends State<SignInPage> {
     final returnedData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      //showAlertDialog1(context, response.body);
       SharedPreferences sharedPreferences = await SharedPreferences
           .getInstance();
-      sharedPreferences.setString("UnicID", returnedData["UnicID"]);
-      sharedPreferences.setString("email", email);
+
+      sharedPreferences.setString("username", username);
+      sharedPreferences.setString("unicID", returnedData["UnicID"]);
+
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -973,44 +977,6 @@ class   _SignInPageState extends State<SignInPage> {
     }
 
     return response;
-  }
-
-  //username kontrolü - username veritabanında yoksa true değer dönüyor!
-  Future<bool> postRequestCheckUsername(BuildContext context,
-      String username) async {
-    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/userdata/';
-    Uri urlU = Uri.parse(url);
-    Map data = {
-      'Username': username
-    };
-
-    //encode Map to JSON
-    var body = json.encode(data);
-
-    final response = await http.post(urlU,
-        headers: {"Content-Type": "application/json"},
-        body: body
-    );
-
-    final returnedData = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      if (returnedData["Check"] == true) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      //hata kontrolü ve uyarısı
-      showAlertDialog1(context, response.body);
-    }
-
-    return false;
-  }
-
-  Future<void> readySharedPreferences() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {});
   }
 
   showAlertDialog1(BuildContext context, String message) {
@@ -1075,36 +1041,6 @@ class   _SignInPageState extends State<SignInPage> {
     );
   }
 
-  Future<http.Response> postCheckMail(BuildContext context, String mail) async {
-    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/checkmail/';
-    Uri urlU = Uri.parse(url);
-    Map data = {
-      'Mail': mail,
-    };
-    //encode Map to JSON
-    var body = json.encode(data);
-
-    print(body);
-
-    final response = await http.post(urlU,
-        headers: {"Content-Type": "application/json"},
-        body: body
-    );
-
-    final returnedData = jsonDecode(response.body);
-
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      bool mCheck = bool.hasEnvironment(returnedData['Check']);
-      if (!mCheck) {
-        showAlertDialog1(context, "Mail daha önce kullanılmıştır!");
-      }
-      return response;
-    }
-
-    return response;
-  }
 }
 
 String _svg_xp7tu =

@@ -6,6 +6,7 @@ import 'package:ankets/screens/forgot_password.dart';
 import 'package:ankets/screens/home_page.dart';
 import 'package:ankets/screens/sign_in_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,7 +43,9 @@ class _LoginPageState extends State<LoginPage> {
         .orientation; //getting the orientation
 
     if (girisyapildimi) {
+
       return HomePage();
+
     } else {
       return LayoutBuilder(
           builder: (context, constraints) {
@@ -608,15 +611,12 @@ class _LoginPageState extends State<LoginPage> {
 
     if (response.statusCode == 200) {
       String mUnicID = returnedData['UnicID'];
-      print(mUnicID);
+
       if(mUnicID != "") {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setBool("girisyapildi", true);
         pref.setString("username", username);
-        pref.setString("password", password);
         pref.setString("unicID", mUnicID);
-
-        print(pref.getString("unicID") ?? "-");
 
         Navigator.push(
             context,
@@ -626,8 +626,7 @@ class _LoginPageState extends State<LoginPage> {
       }else{
         showAlertDialog(context, "Beklenmeyen hata oluştu!", false);
       }
-      //burayı alma
-      //devam et
+
     } else {
       showAlertDialog(context, returnedData['Message'], false);
     }

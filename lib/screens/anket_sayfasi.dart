@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:adobe_xd/pinned.dart';
+import 'package:ankets/screens/home_page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -14,11 +15,48 @@ import 'package:survey_kit/survey_kit.dart';
 class AnketSayfasi extends StatelessWidget {
 
   final String anketID;
+  String unicID = "";
 
   AnketSayfasi({Key? key, required this.anketID}) : super(key: key);
 
+  Future<void> sendData(BuildContext context, List<Map<String, String>> answers) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    unicID = sharedPreferences.getString("unicID") ?? "";
+
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/getanketanswers/';
+    Uri urlU = Uri.parse(url);
+
+    Map data = {
+      'UserUnicID': unicID,
+      'AnketUnicID': anketID,
+      'Answers': answers,
+    };
+    //encode Map to JSON
+    var body = json.encode(data);
+
+    print(body);
+
+    final response = await http.post(urlU,
+        headers: {"Content-Type": "application/json"},
+        body: body
+    );
+
+    final returnedData = jsonDecode(response.body);
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage()),(r) => false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
+
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -61,7 +99,20 @@ class AnketSayfasi extends StatelessWidget {
                           final task = snapshot.data!;
                           return SurveyKit(
                             onResult: (SurveyResult result) {
-                              print(result.results[0].results.first.valueIdentifier);
+
+                              List<Map<String, String>> answerss = [];
+                              Map<String,Map<String,String>> answersData = Map();
+                              Map<String,String> cevap = Map();
+
+                              answersData["SoruID"] = result.results[0].results[0].id!.id.toString();
+                              answersData["CevapID"] = result.results[0].results[0].id!.id.toString();
+
+                              answersData[answersData["SoruID"],] = result.results[0].results[0].valueIdentifier.toString();
+                              answerss.add(answersData);
+                              answersData[result.results[1].results[0].id!.id.toString()] = result.results[1].results[0].valueIdentifier.toString();
+                              answerss.add(answersData);
+
+                              sendData(context, answerss);
                             },
                             task: task,
                             showProgress: true,

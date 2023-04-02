@@ -16,6 +16,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   Future<List<Anket>> getAnketler() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
     String unicId = sharedPreferences.getString("unicID") ?? "";
     String username = sharedPreferences.getString("username") ?? "";
     String password = sharedPreferences.getString("password") ?? "";
@@ -24,7 +25,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username,
-      'Password': password,
       'UnicID': unicId,
     };
 
@@ -41,7 +41,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     final returnedData = jsonDecode(response.body);
 
     List<Anket>anketler = [];
-    //print(returnedData);
+
     if (response.statusCode == 200) {
       print(returnedData["Anketler"]);
       for (var row in returnedData["Anketler"]) {
