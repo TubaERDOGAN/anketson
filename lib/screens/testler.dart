@@ -1,30 +1,31 @@
 import 'dart:convert';
 import 'package:ankets/screens/anket_sayfasi.dart';
+import 'package:ankets/screens/test_sayfasi.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/anket.dart';
-import '../model/anketModel.dart';
+import '../model/test.dart';
+import '../model/testModel.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
-class Anketler extends StatefulWidget {
+class Testler extends StatefulWidget {
 
   @override
-  _AnketlerState createState() => _AnketlerState();
+  _TestlerState createState() => _TestlerState();
 
 }
 
-class _AnketlerState extends State<Anketler> {
+class _TestlerState extends State<Testler> {
 
   int _focusedIndex = 0;
 
-  Future<List<AnketModel>> getKategorilerVeAnketler() async {
+  Future<List<TestModel>> getKategorilerVeTestler() async {
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
     String username = sharedPreferences.getString("username") ?? "";
 
-    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/kategorilerveanketler/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/kategorilervetestler/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username,
@@ -42,47 +43,47 @@ class _AnketlerState extends State<Anketler> {
     );
 
     final returnedData = jsonDecode(response.body);
-    //print(returnedData);
+    print(returnedData);
 
-    List<AnketModel> kategorilerveanketler = [];
+    List<TestModel> kategorilervetestler = [];
 
     if (response.statusCode == 200) {
 
-      for (var row in returnedData["KategorilerVeAnketler"]) {
+      for (var row in returnedData["KategorilerVeTestler"]) {
 
-        List<Anket> anketler = [];
-        for (var rowAnket in row["Anketler"]) {
-          Anket anket = Anket(
-              rowAnket["Tarih"],
-              rowAnket["AnketAdi"],
-              rowAnket["ImageUrl"],
-              rowAnket["UnicID"],
-              rowAnket["OnizlemeAciklamasi"]
+        List<Test> testler = [];
+        for (var rowTest in row["Testler"]) {
+          Test test = Test(
+              rowTest["Tarih"],
+              rowTest["TestAdi"],
+              rowTest["ImageUrl"],
+              rowTest["UnicID"],
+              rowTest["OnizlemeAciklamasi"]
           );
-          anketler.add(anket);
+          testler.add(test);
         }
 
-        AnketModel anketModel = AnketModel(
+        TestModel testModel = TestModel(
           row["Kod"],
           row["Tanim"],
           row["ImageUrl"],
           row["Aciklama"],
           row["UnicID"],
-          anketler,
-          row["AnketAdedi"],
+          testler,
+          row["TestAdedi"],
         );
 
-        kategorilerveanketler.add(anketModel);
+        kategorilervetestler.add(testModel);
 
       }
 
-      return kategorilerveanketler;
+      return kategorilervetestler;
 
     }else{
 
       print("hata");
 
-      return kategorilerveanketler;
+      return kategorilervetestler;
 
     }
   }
@@ -100,7 +101,7 @@ class _AnketlerState extends State<Anketler> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Anket Kategorileri',
+            'Test Kategorileri',
             style:  TextStyle(
               fontFamily: 'Work Sans',
               fontSize: 18,
@@ -135,7 +136,7 @@ class _AnketlerState extends State<Anketler> {
               ),
               Center(
                   child: FutureBuilder(
-                      future: getKategorilerVeAnketler(),
+                      future: getKategorilerVeTestler(),
                       builder: (BuildContext ctx, AsyncSnapshot snapshot) {
                         if (snapshot.data == null) {
                           return Container(
@@ -181,8 +182,8 @@ class _AnketlerState extends State<Anketler> {
                                               shrinkWrap: true,
                                               padding: const EdgeInsets.all(6),
                                               scrollDirection: Axis.horizontal,
-                                              itemCount: snapshot.data[index].Anketler.length,
-                                              itemBuilder: (ctx, indexAnket) => Padding(padding: const EdgeInsets.all(2),child: Container(
+                                              itemCount: snapshot.data[index].Testler.length,
+                                              itemBuilder: (ctx, indexTest) => Padding(padding: const EdgeInsets.all(2),child: Container(
                                                 color: Colors.white60,
                                                 width: 180.0,
                                                 height: 150.0,
@@ -192,17 +193,17 @@ class _AnketlerState extends State<Anketler> {
                                                           context,
                                                           MaterialPageRoute(
                                                               builder: (context) =>
-                                                                  AnketSayfasi(anketID: snapshot.data[index].Anketler[indexAnket].UnicID)));
+                                                                  TestSayfasi(TestID: snapshot.data[index].Testler[indexTest].UnicID)));
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
                                                         image: DecorationImage(
-                                                          image: NetworkImage(snapshot.data[index].Anketler[indexAnket].ImageUrl),
+                                                          image: NetworkImage(snapshot.data[index].Testler[indexTest].ImageUrl),
                                                           fit: BoxFit.contain,
                                                         ),
                                                       ),
                                                       child: Text(
-                                                        snapshot.data[index].Anketler[indexAnket].AnketAdi,
+                                                        snapshot.data[index].Testler[indexTest].TestAdi,
                                                         style: const TextStyle(
                                                           fontFamily: 'Work Sans',
                                                           fontSize: 16,

@@ -1,29 +1,57 @@
+import 'dart:convert';
 import 'package:ankets/page/setting_profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:adobe_xd/pinned.dart';
 import 'dart:ui' as ui;
+import 'package:http/http.dart' as http;
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String _savedText = '';
+  String unicID = '';
+  String AnketAdedi = '0';
+  String TestAdedi = '0';
+  String username = '';
 
   @override
   void initState() {
     super.initState();
-    _loadSavedText();
+    getUserData();
   }
 
-  Future<void> _loadSavedText() async {
+  Future<void> getUserData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    setState(() {
-      _savedText = sharedPreferences.getString("username") ?? "";
+    unicID = sharedPreferences.getString("unicID") ?? "";
+    username = sharedPreferences.getString("username") ?? "";
 
-    });
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/senduserscores/';
+    Uri urlU = Uri.parse(url);
+
+    Map data = {
+      'UnicID': unicID,
+    };
+    //encode Map to JSON
+    var body = json.encode(data);
+
+    //print(body);
+
+    final response = await http.post(urlU,
+        headers: {"Content-Type": "application/json"},
+        body: body
+    );
+
+    final returnedData = jsonDecode(response.body);
+
+    //print(response.body);
+
+    if (response.statusCode == 200) {
+      AnketAdedi = returnedData['AnketAdedi'].toString();
+      TestAdedi = returnedData['TestAdedi'].toString();
+    }
   }
 
   Widget build(BuildContext context) {
@@ -37,6 +65,8 @@ class _ProfilePageState extends State<ProfilePage> {
     final orientation = MediaQuery
         .of(context)
         .orientation; //getting the orientation
+
+    getUserData();
 
     return LayoutBuilder(
         builder: (context, constraints) {
@@ -176,7 +206,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: MediaQuery.of(context).size.width * 0.22,
                 height:MediaQuery.of(context).size.width * 0.14,
                 child: Text(
-                  '99',
+                  TestAdedi,
                   style: TextStyle(
                     fontFamily: 'Work Sans',
                     fontSize: 36,
@@ -197,7 +227,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: MediaQuery.of(context).size.width * 0.22,
                 height:MediaQuery.of(context).size.width * 0.14,
                 child: Text(
-                  '99',
+                  AnketAdedi,
                   style: TextStyle(
                     fontFamily: 'Work Sans',
                     fontSize: 36,
@@ -208,6 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),),
+
           /// buraya username gelecek
           Positioned(
             top: MediaQuery.of(context).size.height * 0.33,
@@ -217,7 +248,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 width: 196.0,
                 height: 24.0,
               child: Text(
-                _savedText,
+                username,
                 style: const TextStyle(
                   fontFamily: 'Work Sans',
                   fontSize: 20,
@@ -474,7 +505,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.45 ),
               child: Text(
-                _savedText,
+                username,
                 style: const TextStyle(
                   fontFamily: 'Work Sans',
                   fontSize: 20,

@@ -9,12 +9,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:survey_kit/survey_kit.dart';
 
-class AnketSayfasi extends StatelessWidget {
+class TestSayfasi extends StatelessWidget {
 
-  final String anketID;
+  final String TestID;
   String unicID = "";
 
-  AnketSayfasi({Key? key, required this.anketID}) : super(key: key);
+  TestSayfasi({Key? key, required this.TestID}) : super(key: key);
 
   Future<void> sendData(BuildContext context, List<Map> answers) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -25,7 +25,7 @@ class AnketSayfasi extends StatelessWidget {
 
     Map data = {
       'UserUnicID': unicID,
-      'AnketUnicID': anketID,
+      'TestUnicID': TestID,
       'Answers': answers,
     };
     //encode Map to JSON
@@ -57,7 +57,7 @@ class AnketSayfasi extends StatelessWidget {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-              builder: (context) => AnketSayfasi(anketID: anketID)),(r) => false);
+              builder: (context) => TestSayfasi(TestID:  TestID)),(r) => false);
     }
   }
 
@@ -174,12 +174,12 @@ class AnketSayfasi extends StatelessWidget {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
 
-    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/anketsorularisk/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/testsorularisk/';
     Uri urlU = Uri.parse(url);
 
     Map data = {
       'UserUnicID': unicId,
-      'UnicID': anketID,
+      'UnicID': TestID,
     };
 
     //encode Map to JSON
@@ -200,7 +200,7 @@ class AnketSayfasi extends StatelessWidget {
 
     final returnedData = jsonDecode(responsebody);
 
-    return Task.fromJson(returnedData["Anket"]);
+    return Task.fromJson(returnedData["Test"]);
   }
 
 }

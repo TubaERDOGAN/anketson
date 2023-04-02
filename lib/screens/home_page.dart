@@ -1,6 +1,7 @@
 import 'package:adobe_xd/pinned.dart';
 import 'package:ankets/screens/anketler.dart';
 import 'package:ankets/screens/login_page.dart';
+import 'package:ankets/screens/testler.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'search_screen.dart';
@@ -144,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ProfileScreen()));
+                          builder: (context) => Testler()));
                 },
               ),
               const SizedBox(height: 320),

@@ -28,7 +28,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       'UnicID': unicId,
     };
 
-    print(data);
+    //print(data);
 
     //encode Map to JSON
     var body = json.encode(data);
@@ -43,7 +43,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     List<Anket>anketler = [];
 
     if (response.statusCode == 200) {
-      print(returnedData["Anketler"]);
+      //print(returnedData["Anketler"]);
       for (var row in returnedData["Anketler"]) {
         Anket anket = Anket(
           row["Tarih"],
