@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../UI/country_state_city_picker.dart';
 import 'home_page.dart';
 
 class SecondSignInPage extends StatefulWidget {
@@ -49,6 +50,8 @@ class _SecondSignInPage extends State<SecondSignInPage> {
     }
   }
 
+  String? selectedValueCountry;
+  String? selectedValueCity;
   String? selectedValueGender;
   String? selectedValueYear;
   String? selectedValueEducation;
@@ -160,87 +163,31 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             ],
                           ),
-                          child:  Align(
-                            alignment: const Alignment(-0.494, -0.031),
-                            child: TextFormField(
-                              controller: countryController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter country';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                icon:  Padding(
-                                    padding:  EdgeInsets.only(left:5.0),
-                                    child: Icon(
-                                        Icons.map,
-                                        color: Color(0xff919a94))
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                border: InputBorder.none,
-                                labelText: 'Country',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Work Sans',
-                                  fontSize: 14,
-                                  color:  Color(0xff000000),
-                                ),
-                              ),
-                            ),
-                          )
-                      ),),
-                  ),
-                  /// 2. sıra city
-                  Positioned(
-                    top: MediaQuery.of(context).size.height * 0.37,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
-                      child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          decoration: BoxDecoration(
-                            color: const Color(0xc7ffffff),
-                            borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x14000000),
-                                offset: Offset(3, 3),
-                                blurRadius: 3,
-                              ),
-                            ],
+                          child:  Container(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              height: 600,
+                              child:
+                              Column(
+                                children: [
+                                  SelectState(
+                                    onCountryChanged: (value) {
+                                      setState(() {
+                                        selectedValueCountry = value;
+                                      });
+                                    },
+                                    onCityChanged:(value) {
+                                      setState(() {
+                                        selectedValueCity = value;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              )
                           ),
-                          child:  Align(
-                            alignment: const Alignment(-0.198, 0.132),
-                            child: TextFormField(
-                              controller: cityController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter city';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                icon:  Padding(
-                                    padding:  EdgeInsets.only(left:5.0),
-                                    child: Icon(
-                                        Icons.location_city,
-                                        color: Color(0xff919a94))
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                border: InputBorder.none,
-                                labelText: 'City',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Work Sans',
-                                  fontSize: 14,
-                                  color:  Color(0xff000000),
-                                ),
-                              ),
-
-                            ),
-                          )
                       ),),
                   ),
+
+
                   /// 3. sıra birth
                   Positioned(
                     top: MediaQuery.of(context).size.height * 0.49,

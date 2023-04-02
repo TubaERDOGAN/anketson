@@ -33,11 +33,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_admin_scaffold: ^1.1.2
-  country_list_pick: ^1.0.1+6
   fluttertoast: ^8.1.3
   flutter_verification_code: ^1.1.6
   dropdown_button2: ^2.0.0
   scroll_snap_list: ^0.9.1
+  country_phone_code_picker: any
 
 
 
@@ -45,7 +45,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  csc_picker: ^0.2.7
   easy_localization: ^3.0.0
 
   cached_network_image: ^3.2.3
@@ -63,6 +62,7 @@ dependencies:
   survey_kit: ^0.1.1
   image_picker: ^0.8.5+3
   connectivity_plus: ^2.3.0
+  animated_splash_screen: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +96,8 @@ flutter:
     - lib/assets/top/topImage.png
     - assets/example_json.json
     - assets/profil.png
+    - assets/megasoft.png
+    - assets/country.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

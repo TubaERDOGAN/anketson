@@ -1,12 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:ankets/page/setting_profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -16,6 +20,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String AnketAdedi = '0';
   String TestAdedi = '0';
   String username = '';
+  File? imageFile = null;
 
   @override
   void initState() {
@@ -197,6 +202,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),),
+
           /// test score burası veri tabanından gelecek
           Positioned(
             top: MediaQuery.of(context).size.height * 0.49,
@@ -258,6 +264,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 textAlign: TextAlign.center,
               ),
             ),),),
+
           /// fotograf eklenin boxı burası düzenlecek sanırım
           Positioned(
             top: MediaQuery.of(context).size.height * 0.09,
@@ -274,11 +281,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
             ),),
-          Positioned(
+
+          imageFile == null
+              ? Positioned(
             top: MediaQuery.of(context).size.height * 0.2,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.4 ),
-              child: const Text(
+              child: GestureDetector( child: Text(
                 'Fotoğraf Ekle',
                 style: TextStyle(
                   fontFamily: 'Work Sans',
@@ -287,7 +296,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 textAlign: TextAlign.center,
               ),
-            ),),
+                onTap: () {
+                  _getFromGallery();
+                },
+            ),)) : Positioned(
+            top: MediaQuery.of(context).size.height * 0.12,
+            child: Padding(
+            padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.36),
+            child: Container(
+            child: Image.file(
+              imageFile!,
+              fit: BoxFit.contain,
+              width: 120,
+              height: 120,
+            ),
+          ),)),
 
           /// profil düzenleme kısmı
           Positioned(
@@ -340,6 +363,24 @@ class _ProfilePageState extends State<ProfilePage> {
     ));
   }
 
+
+  /// Get from gallery
+  _getFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Uint8List? cimage = imageFile?.readAsBytesSync();
+        String img64 = base64Encode(cimage!);
+        print(img64);
+      });
+    }
+  }
 
   /// Web kısmı
 
