@@ -8,18 +8,11 @@ import '../model/anketModel.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 class Anketler extends StatefulWidget {
-
   @override
   _AnketlerState createState() => _AnketlerState();
-
 }
-
 class _AnketlerState extends State<Anketler> {
-
-  int _focusedIndex = 0;
-
   Future<List<AnketModel>> getKategorilerVeAnketler() async {
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
     String username = sharedPreferences.getString("username") ?? "";
@@ -30,26 +23,18 @@ class _AnketlerState extends State<Anketler> {
       'Username': username,
       'UnicID': unicId,
     };
-
     print(data);
-
     //encode Map to JSON
     var body = json.encode(data);
-
     final response = await http.post(urlU,
         headers: {"Content-Type": "application/json"},
         body: body
     );
-
     final returnedData = jsonDecode(response.body);
     //print(returnedData);
-
     List<AnketModel> kategorilerveanketler = [];
-
     if (response.statusCode == 200) {
-
       for (var row in returnedData["KategorilerVeAnketler"]) {
-
         List<Anket> anketler = [];
         for (var rowAnket in row["Anketler"]) {
           Anket anket = Anket(
@@ -61,7 +46,6 @@ class _AnketlerState extends State<Anketler> {
           );
           anketler.add(anket);
         }
-
         AnketModel anketModel = AnketModel(
           row["Kod"],
           row["Tanim"],
@@ -71,46 +55,34 @@ class _AnketlerState extends State<Anketler> {
           anketler,
           row["AnketAdedi"],
         );
-
         kategorilerveanketler.add(anketModel);
-
       }
-
       return kategorilerveanketler;
-
     }else{
-
       print("hata");
-
       return kategorilerveanketler;
-
     }
   }
-
-  void _onItemFocus(int index) {
-    _focusedIndex = index;
-    print(_focusedIndex);
-  }
-
   @override
   Widget build(BuildContext context) {
 
     //getKategorilerVeAnketler();
 
     return Scaffold(
-        appBar: AppBar(
+        appBar:PreferredSize(
+          preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.06),
+          child: AppBar(
+          centerTitle: true,
           title: const Text(
             'Anket Kategorileri',
             style:  TextStyle(
+              color: const Color(0xffffffff),
               fontFamily: 'Work Sans',
               fontSize: 18,
-              color: const Color(0xffffffff),
               fontWeight: FontWeight.w600,
-
             ),
-
           ),
-        ),
+        ),),
         extendBodyBehindAppBar: false,
         extendBody: true,
         resizeToAvoidBottomInset: false,
@@ -148,7 +120,7 @@ class _AnketlerState extends State<Anketler> {
                               padding: const EdgeInsets.all(12.0),
                               child: ListView.separated(
                                   separatorBuilder: (BuildContext context, int index) => SizedBox(
-                                    height: 10,
+                                    height: MediaQuery.of(context).size.height * 0.003,
                                   ),
                                   scrollDirection: Axis.vertical,
                                   itemCount: snapshot.data.length,
@@ -160,12 +132,12 @@ class _AnketlerState extends State<Anketler> {
                                       child: Column( children: <Widget>[
                                         Container(
                                           padding: const EdgeInsets.only(top: 8.0),
-                                          height: 30.0,
+                                          height: MediaQuery.of(context).size.height * 0.03,
                                           child: Text(
                                             snapshot.data[index].Tanim,
                                             style: const TextStyle(
                                               fontFamily: 'Work Sans',
-                                              fontSize: 15,
+                                              fontSize: 18,
                                               color: Color(0xff000000),
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -173,19 +145,16 @@ class _AnketlerState extends State<Anketler> {
                                           alignment: Alignment(-1, 1),
                                         ),
                                         Container(
-                                            height: 150.0,
-                                            child: ScrollSnapList(
-                                              onItemFocus: _onItemFocus,
-                                              itemSize: 140,
-                                              dynamicItemSize: true,
+                                            height: MediaQuery.of(context).size.height * 0.25,
+                                            child: ListView.builder(
                                               shrinkWrap: true,
-                                              padding: const EdgeInsets.all(6),
+                                              padding: const EdgeInsets.all(4),
                                               scrollDirection: Axis.horizontal,
                                               itemCount: snapshot.data[index].Anketler.length,
-                                              itemBuilder: (ctx, indexAnket) => Padding(padding: const EdgeInsets.all(2),child: Container(
-                                                color: Colors.white60,
-                                                width: 180.0,
-                                                height: 150.0,
+                                              itemBuilder: (ctx, indexAnket) => Padding(padding: const EdgeInsets.all(4),child: Container(
+
+                                                width: 120.0,
+                                                height: MediaQuery.of(context).size.height * 0.25,
                                                 child: GestureDetector(
                                                     onTap: () {
                                                       Navigator.push(
@@ -194,22 +163,34 @@ class _AnketlerState extends State<Anketler> {
                                                               builder: (context) =>
                                                                   AnketSayfasi(anketID: snapshot.data[index].Anketler[indexAnket].UnicID)));
                                                     },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(snapshot.data[index].Anketler[indexAnket].ImageUrl),
-                                                          fit: BoxFit.contain,
+                                                    child: Column(
+                                                      children: [
+                                                        Container(
+                                                          width: MediaQuery.of(context).size.height * 0.15,
+                                                          height: MediaQuery.of(context).size.height * 0.2,
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.white60,
+                                                            borderRadius:
+                                                            BorderRadius.circular(21.0),
+                                                            image: DecorationImage(
+                                                              image: NetworkImage(snapshot.data[index].Anketler[indexAnket].ImageUrl),
+                                                              fit: BoxFit.contain,
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                      child: Text(
-                                                        snapshot.data[index].Anketler[indexAnket].AnketAdi,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Work Sans',
-                                                          fontSize: 16,
-                                                          color: Color(0xff000000),
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
+                                                       SizedBox(
+                                                           width: MediaQuery.of(context).size.height * 0.15,
+                                                           child:Text(
+                                                          snapshot.data[index].Anketler[indexAnket].AnketAdi,
+                                                          style: const TextStyle(
+                                                            fontFamily: 'Work Sans',
+                                                            fontSize: 16,
+                                                            color: Color(0xff000000),
+                                                            fontWeight: FontWeight.w500,
+                                                          ),
+                                                          textAlign: TextAlign.left,
+                                                       ))
+                                                      ],
                                                     )
                                                 ),
                                               ),

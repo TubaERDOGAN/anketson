@@ -63,6 +63,7 @@ dependencies:
   survey_kit: ^0.1.1
   image_picker: ^0.8.5+3
   connectivity_plus: ^2.3.0
+  animated_splash_screen: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +97,8 @@ flutter:
     - lib/assets/top/topImage.png
     - assets/example_json.json
     - assets/profil.png
+    - assets/megasoft.png
+    - assets/country.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -58,21 +58,33 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
           duration: Duration(milliseconds: 1000), curve: Curves.ease);
     });
 
-    oldpasswordController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(60.0,
-              duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
     countryController.addListener(() {
       offset = scrollController.offset;
       scrollController.animateTo(scrollController.position.minScrollExtent,
           duration: Duration(milliseconds: 1000), curve: Curves.ease);
     });
 
-    countryController.addListener(() {
+    cityController.addListener(() {
       offset = scrollController.offset;
       scrollController.animateTo(scrollController.position.minScrollExtent,
+          duration: Duration(milliseconds: 1000), curve: Curves.ease);
+    });
+
+    oldpasswordController.addListener(() {
+      offset = scrollController.offset;
+      scrollController.animateTo(60.0,
+          duration: Duration(milliseconds: 1000), curve: Curves.ease);
+    });
+
+    cnewpasswordController.addListener(() {
+      offset = scrollController.offset;
+      scrollController.animateTo(60.0,
+          duration: Duration(milliseconds: 1000), curve: Curves.ease);
+    });
+
+    newpasswordController.addListener(() {
+      offset = scrollController.offset;
+      scrollController.animateTo(60.0,
           duration: Duration(milliseconds: 1000), curve: Curves.ease);
     });
 
@@ -182,13 +194,15 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         title: Text(
           'Profil Düzenleme',
           style: TextStyle(
             fontFamily: 'Work Sans',
             fontSize: 18,
-            color: Color(0xff000000),
+            color: const Color(0xffffffff),
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),

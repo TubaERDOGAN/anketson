@@ -28,19 +28,13 @@ class   _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController cpasswordController = TextEditingController();
-
+  Pattern pattern =  r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$';
+  RegExp regex = new RegExp('pattern');
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom;
-    final size = MediaQuery
-        .of(context)
-        .size; //getting the size property
-    final orientation = MediaQuery
-        .of(context)
-        .orientation; //getting the orientation
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final size = MediaQuery.of(context).size; //getting the size property
+    final orientation = MediaQuery.of(context).orientation; //getting the orientation
 
     return LayoutBuilder(
         builder: (context, constraints) {
@@ -87,14 +81,15 @@ class   _SignInPageState extends State<SignInPage> {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      Pinned.fromPins(
-                        Pin(start: 0.0, end: 0.0),
-                        Pin(size: 600.0, end: 0.0),
+                      Positioned(
+                        top: MediaQuery.of(context).size.height * 0.15,
                         child: ClipRect(
                           child: BackdropFilter(
                             filter: ui.ImageFilter.blur(
                                 sigmaX: 4.0, sigmaY: 4.0),
                             child: Container(
+                              height: MediaQuery.of(context).size.height * 0.9,
+                              width:MediaQuery.of(context).size.width * 1,
                               decoration: BoxDecoration(
                                 color: const Color(0x8affffff),
                                 borderRadius: const BorderRadius.only(
@@ -112,21 +107,13 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///Usermane Pin
                       Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.14,
+                          top: MediaQuery.of(context).size.height * 0.23,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
+                                  horizontal: MediaQuery.of(context).size.width * 0.1),
                               child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.8,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context).size.height * 0.06,
                                 decoration: BoxDecoration(
                                   color: const Color(0xc7ffffff),
                                   borderRadius: BorderRadius.circular(10.0),
@@ -139,8 +126,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   ],
                                 ),
                                 child: TextFormField(
-                                  autovalidateMode: AutovalidateMode
-                                      .onUserInteraction,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
                                   controller: usernameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -150,13 +136,12 @@ class   _SignInPageState extends State<SignInPage> {
                                   },
                                   decoration: const InputDecoration(
                                     icon: Padding(
-                                        padding: EdgeInsets.only(left: 5.0),
+                                        padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
                                         child: Icon(
                                             Icons.people,
                                             color: Color(0xffc45d54))
                                     ),
-                                    floatingLabelBehavior: FloatingLabelBehavior
-                                        .never,
+                                    floatingLabelBehavior: FloatingLabelBehavior.never,
                                     border: InputBorder.none,
                                     labelText: 'Username',
                                     labelStyle: TextStyle(
@@ -170,21 +155,13 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///Email
                       Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.26,
+                          top: MediaQuery.of(context).size.height * 0.32,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
+                                  horizontal: MediaQuery.of(context).size.width * 0.1),
                               child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.8,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context).size.height * 0.06,
                                 decoration: BoxDecoration(
                                   color: const Color(0xc7ffffff),
                                   borderRadius: BorderRadius.circular(10.0),
@@ -197,18 +174,21 @@ class   _SignInPageState extends State<SignInPage> {
                                   ],
                                 ),
                                 child: TextFormField(
-                                  autovalidateMode: AutovalidateMode
-                                      .onUserInteraction,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
                                   controller: emailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter your email';
                                     }
+                                   /* if (!regex.hasMatch(value)) {
+                                      //regex içinde olan değerler olmadığında içeri girip ifadeyi return olarak döndürür.
+                                      return "Geçersiz e-mail";
+                                    }*/
                                     return null;
                                   },
                                   decoration: const InputDecoration(
                                     icon: Padding(
-                                        padding: EdgeInsets.only(left: 5.0),
+                                        padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
                                         child: Icon(
                                             Icons.email,
                                             color: Color(0xffc45d54))
@@ -228,21 +208,13 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///Password
                       Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.38,
+                          top: MediaQuery.of(context).size.height * 0.41,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
+                                  horizontal: MediaQuery.of(context).size.width * 0.1),
                               child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.8,
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                height: MediaQuery.of(context).size.height * 0.06,
                                 decoration: BoxDecoration(
                                   color: const Color(0xc7ffffff),
                                   borderRadius: BorderRadius.circular(10.0),
@@ -255,8 +227,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   ],
                                 ),
                                 child: TextFormField(
-                                  autovalidateMode: AutovalidateMode
-                                      .onUserInteraction,
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
                                   keyboardType: TextInputType.visiblePassword,
                                   textInputAction: TextInputAction.done,
                                   controller: passwordController,
@@ -272,12 +243,12 @@ class   _SignInPageState extends State<SignInPage> {
                                   },
                                   decoration: InputDecoration(
                                     icon: const Padding(
-                                        padding: EdgeInsets.only(left: 5.0),
+                                        padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
                                         child: Icon(
                                             Icons.lock,
                                             color: Color(0xffc45d54))
                                     ),
-                                    suffixIcon: IconButton(
+                                    suffixIcon: IconButton(padding:EdgeInsets.fromLTRB(0.0,10.0,0.0,0.0) ,
                                         icon: Icon(
                                             color: Color(0xffc45d54),
                                             _isObscure
@@ -303,20 +274,13 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///   Confirm Password
                       Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.5,
+                          top: MediaQuery.of(context).size.height * 0.5,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.1),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: MediaQuery.of(context).size.width * 0.1),
                             child: Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.8,
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              height: MediaQuery.of(context).size.height * 0.06,
                               decoration: BoxDecoration(
                                 color: const Color(0xc7ffffff),
                                 borderRadius: BorderRadius.circular(10.0),
@@ -329,8 +293,7 @@ class   _SignInPageState extends State<SignInPage> {
                                 ],
                               ),
                               child: TextFormField(
-                                autovalidateMode: AutovalidateMode
-                                    .onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 keyboardType: TextInputType.visiblePassword,
                                 textInputAction: TextInputAction.done,
                                 controller: cpasswordController,
@@ -347,12 +310,12 @@ class   _SignInPageState extends State<SignInPage> {
                                 },
                                 decoration: InputDecoration(
                                   icon: const Padding(
-                                      padding: EdgeInsets.only(left: 5.0),
+                                      padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
                                       child: Icon(
                                           Icons.lock,
                                           color: Color(0xffc45d54))
                                   ),
-                                  suffixIcon: IconButton(
+                                  suffixIcon: IconButton(padding:EdgeInsets.fromLTRB(0.0,10.0,0.0,0.0) ,
                                       icon: Icon(
                                           color: Color(0xffc45d54),
                                           _isObscure ? Icons.visibility : Icons
@@ -378,21 +341,13 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///login buton pini
                       Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.65,
+                          top: MediaQuery.of(context).size.height * 0.66,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
+                                  horizontal: MediaQuery.of(context).size.width * 0.1),
                               child: Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.8,
+                                  width: MediaQuery.of(context).size.width * 0.8,
+                                  height: MediaQuery.of(context).size.height * 0.06,
                                   decoration: BoxDecoration(
                                     color: const Color(0xffc45d54),
                                     borderRadius: BorderRadius.circular(10.0),
@@ -460,22 +415,16 @@ class   _SignInPageState extends State<SignInPage> {
 
                       /// Logine geri dönüş
                       Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.75,
-                          child: Padding(
-                              padding: EdgeInsets.only(left: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.33),
+                          top: MediaQuery.of(context).size.height * 0.75,
+                          child:SizedBox(
+                              width: MediaQuery.of(context).size.width * 1,
+                              height:MediaQuery.of(context).size.height * 0.06,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoginPage()));
+                                          builder: (context) => LoginPage()),(r) => false);
                                 },
                                 child: const Text(
                                   'Already have an account?  Log in!',
@@ -956,10 +905,10 @@ class   _SignInPageState extends State<SignInPage> {
       sharedPreferences.setString("username", username);
       sharedPreferences.setString("unicID", returnedData["UnicID"]);
 
-      Navigator.push(
+      Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-              builder: (context) => SecondSignInPage()));
+              builder: (context) => SecondSignInPage()),(r) => false);
 
       //bu kadar;)
 

@@ -148,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                           builder: (context) => Testler()));
                 },
               ),
-              const SizedBox(height: 320),
+               SizedBox(height: MediaQuery.of(context).size.height * 0.55),
               const Divider(
                 thickness: 1,
               ),
@@ -280,46 +280,24 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           )),
-      appBar: AppBar(),
-      body: pages[selectedIndex],
-      bottomNavigationBar: Pinned.fromPins(
-        Pin(start: 0.0, end: 0.0),
-        Pin(size: 73.0, end: 0.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xffc45d54),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(23.0),
-              topRight: Radius.circular(23.0),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.06),
+        child: AppBar(
+          centerTitle: true,
+          title: const Text(
+            'Günlük Anketler',
+            style:  TextStyle(
+              fontFamily: 'Work Sans',
+              fontSize: 18,
+              color: const Color(0xffffffff),
+              fontWeight: FontWeight.w600,
             ),
           ),
-          child: NavigationBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            destinations: const [
-              NavigationDestination(
-                icon: Icon(Icons.home, color: Colors.white, size: 40),
-                label: "",
-              ),
-              NavigationDestination(
-                  icon: Icon(Icons.search, color: Colors.white, size: 40),
-                  label: ""),
-              NavigationDestination(
-                icon: Icon(Icons.notifications, color: Colors.white, size: 40), label: '',
-              ),
-            ],
-            selectedIndex: selectedIndex,
-            onDestinationSelected: (value) {
-              setState(() {
-                selectedIndex = value;
-              });
-            },
-          ),),),
+        ),),
+      body: pages[selectedIndex],
     ));
 
   }
 
-
 /// Web icin
-
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:ankets/screens/login_page.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           isoffline = true;
           break;
         default:
-        false;
+          false;
       }
     });
 
@@ -60,8 +61,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     CheckInternet();
-
-    print(isoffline);
 
     if(isoffline){
       return MaterialApp( home: Scaffold( body: Center(child: Text("Check your internet connection!"),),),);
@@ -88,11 +87,14 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: LoginPage(),
+        home: AnimatedSplashScreen(splash: Image.asset('assets/megasoft.png'),duration: 3000,
+            splashTransition: SplashTransition.scaleTransition,
+            backgroundColor: Color(0xffc45d54),
+            nextScreen: LoginPage()),
       );
     }
-    }
   }
+}
 
 class NetworkConnectivity {
   NetworkConnectivity._();
@@ -121,5 +123,4 @@ class NetworkConnectivity {
   }
   void disposeStream() => _controller.close();
 }
-
 

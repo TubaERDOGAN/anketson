@@ -31,21 +31,12 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     readySharedPreferences();
 
-    final bottom = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom;
-    final size = MediaQuery
-        .of(context)
-        .size; //getting the size property
-    final orientation = MediaQuery
-        .of(context)
-        .orientation; //getting the orientation
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final size = MediaQuery.of(context).size; //getting the size property
+    final orientation = MediaQuery.of(context).orientation; //getting the orientation
 
     if (girisyapildimi) {
-
       return HomePage();
-
     } else {
       return LayoutBuilder(
           builder: (context, constraints) {
@@ -62,7 +53,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Scaffold MobilePage (){
-    return Scaffold( body: Form(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+        body: Form(
         key: _formKey,
         child:Stack(
             children: <Widget>[
@@ -89,13 +82,14 @@ class _LoginPageState extends State<LoginPage> {
                   fit: BoxFit.fill,
                 ),
               ),
-              Pinned.fromPins(
-                Pin(start: 0.0, end: 0.0),
-                Pin(size: 480.0, end: 0.0),
+              Positioned(
+                top: MediaQuery.of(context).size.height * 0.3,
                 child: ClipRect(
                   child: BackdropFilter(
                     filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
                     child: Container(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      width:MediaQuery.of(context).size.width * 1,
                       decoration: BoxDecoration(
                         color: const Color(0x8affffff),
                         borderRadius: const BorderRadius.only(
@@ -116,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height:MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -138,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           decoration: const InputDecoration(
                             icon: Padding(
-                                padding:  EdgeInsets.only(left:5.0),
+                                padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
                                 child: Icon(
                                     Icons.people,
                                     color: Color(0xffc45d54))
@@ -157,11 +152,12 @@ class _LoginPageState extends State<LoginPage> {
 
               ///Password
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.5,
+                  top: MediaQuery.of(context).size.height * 0.47,
                   child:Padding(
                     padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.8,
+                      height:MediaQuery.of(context).size.height * 0.06,
                       decoration: BoxDecoration(
                         color: const Color(0xc7ffffff),
                         borderRadius: BorderRadius.circular(10.0),
@@ -190,12 +186,12 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         decoration:  InputDecoration(
                           icon: const Padding(
-                              padding:  EdgeInsets.only(left:5.0),
+                              padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
                               child: Icon(
                                   Icons.lock,
                                   color: Color(0xffc45d54))
                           ),
-                          suffixIcon: IconButton(
+                          suffixIcon: IconButton(padding:EdgeInsets.fromLTRB(0.0,10.0,0.0,0.0) ,
                               icon: Icon(
                                   color:Color(0xffc45d54),
                                   _isObscure ? Icons.visibility : Icons.visibility_off),
@@ -217,38 +213,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   )),
 
-              /// Forgot
-              Positioned(
-                  top: MediaQuery.of(context).size.height * 0.62,
-                  child: Padding(
-                      padding: EdgeInsets.symmetric( horizontal: MediaQuery.of(context).size.width * 0.60),
-                      child:  GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ForgotPassword()));
-                        },
-                        child: const Text(
-                          'Forgot your password?',
-                          style: TextStyle(
-                            fontFamily: 'Work Sans',
-                            fontSize: 12,
-                            color: Color(0xffc45d54),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      )
-                  )),
-
               ///login buton pini
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.65,
+                  top: MediaQuery.of(context).size.height * 0.63,
                   child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
+                          height:MediaQuery.of(context).size.height * 0.06,
                           decoration: BoxDecoration(
                             color: const Color(0xffc45d54),
                             borderRadius: BorderRadius.circular(10.0),
@@ -262,7 +234,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           child: TextButton(
                               onPressed: () {
-                                if (_formKey.currentState!.validate()) {
                                   // If the form is valid, display a snackbar. In the real world,
                                   // you'd often call a server or save the information in a database.
                                   bool mCheckError = false;
@@ -278,8 +249,6 @@ class _LoginPageState extends State<LoginPage> {
                                   if(!mCheckError){
                                     postRequest (context,nameController.value.text,  passwordController.value.text);
                                   }
-
-                                }
                               },
                               child: const Text(
                                 'Log In',
@@ -296,9 +265,10 @@ class _LoginPageState extends State<LoginPage> {
 
               /// Sign Up
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.75,
-                  child: Padding(
-                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.33),
+                  top: MediaQuery.of(context).size.height * 0.71,
+                  child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 1,
+                      height:MediaQuery.of(context).size.height * 0.06,
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -566,11 +536,10 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.40),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      SignInPage()));
+                                  builder: (context) => SignInPage()),(r) => false);
                         },
                         child: const Text(
                           'Don\'t have an account? Sing Up!',
@@ -618,11 +587,10 @@ class _LoginPageState extends State<LoginPage> {
         pref.setString("username", username);
         pref.setString("unicID", mUnicID);
 
-        Navigator.push(
+        Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    HomePage()));
+                builder: (context) => HomePage()),(r) => false);
       }else{
         showAlertDialog(context, "Beklenmeyen hata oluştu!", false);
       }
@@ -663,7 +631,7 @@ class _LoginPageState extends State<LoginPage> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      title: Text(""),
+      title: Text("Kullanıcı bilgileri hatalı"),
       content: Text(message,
         style: const TextStyle(
           fontFamily: 'Work Sans',

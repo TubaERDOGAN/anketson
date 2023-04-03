@@ -9,16 +9,10 @@ import '../model/testModel.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 class Testler extends StatefulWidget {
-
   @override
   _TestlerState createState() => _TestlerState();
-
 }
-
 class _TestlerState extends State<Testler> {
-
-  int _focusedIndex = 0;
-
   Future<List<TestModel>> getKategorilerVeTestler() async {
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -62,7 +56,6 @@ class _TestlerState extends State<Testler> {
           );
           testler.add(test);
         }
-
         TestModel testModel = TestModel(
           row["Kod"],
           row["Tanim"],
@@ -74,30 +67,16 @@ class _TestlerState extends State<Testler> {
         );
 
         kategorilervetestler.add(testModel);
-
       }
-
       return kategorilervetestler;
-
     }else{
-
       print("hata");
-
       return kategorilervetestler;
-
     }
   }
-
-  void _onItemFocus(int index) {
-    _focusedIndex = index;
-    print(_focusedIndex);
-  }
-
   @override
   Widget build(BuildContext context) {
-
     //getKategorilerVeAnketler();
-
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -107,9 +86,7 @@ class _TestlerState extends State<Testler> {
               fontSize: 18,
               color: const Color(0xffffffff),
               fontWeight: FontWeight.w600,
-
             ),
-
           ),
         ),
         extendBodyBehindAppBar: false,
@@ -149,7 +126,7 @@ class _TestlerState extends State<Testler> {
                               padding: const EdgeInsets.all(12.0),
                               child: ListView.separated(
                                   separatorBuilder: (BuildContext context, int index) => SizedBox(
-                                    height: 10,
+                                    height: MediaQuery.of(context).size.height * 0.003,
                                   ),
                                   scrollDirection: Axis.vertical,
                                   itemCount: snapshot.data.length,
@@ -161,7 +138,7 @@ class _TestlerState extends State<Testler> {
                                       child: Column( children: <Widget>[
                                         Container(
                                           padding: const EdgeInsets.only(top: 8.0),
-                                          height: 30.0,
+                                          height: MediaQuery.of(context).size.height * 0.03,
                                           child: Text(
                                             snapshot.data[index].Tanim,
                                             style: const TextStyle(
@@ -174,45 +151,56 @@ class _TestlerState extends State<Testler> {
                                           alignment: Alignment(-1, 1),
                                         ),
                                         Container(
-                                            height: 150.0,
-                                            child: ScrollSnapList(
-                                              onItemFocus: _onItemFocus,
-                                              itemSize: 140,
-                                              dynamicItemSize: true,
+                                            height: MediaQuery.of(context).size.height * 0.25,
+                                            child: ListView.builder(
                                               shrinkWrap: true,
                                               padding: const EdgeInsets.all(6),
                                               scrollDirection: Axis.horizontal,
                                               itemCount: snapshot.data[index].Testler.length,
                                               itemBuilder: (ctx, indexTest) => Padding(padding: const EdgeInsets.all(2),child: Container(
-                                                color: Colors.white60,
-                                                width: 180.0,
-                                                height: 150.0,
+                                                width: 120.0,
+                                                height: MediaQuery.of(context).size.height * 0.25,
                                                 child: GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  TestSayfasi(TestID: snapshot.data[index].Testler[indexTest].UnicID)));
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(snapshot.data[index].Testler[indexTest].ImageUrl),
-                                                          fit: BoxFit.contain,
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                TestSayfasi(TestID: snapshot.data[index].Testler[indexTest].UnicID)));
+                                                  },
+                                                    child: Column(
+                                                        children: [
+                                                      Container(
+                                                        width: MediaQuery.of(context).size.height * 0.15,
+                                                        height: MediaQuery.of(context).size.height * 0.2,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                          BorderRadius.circular(21.0),
+                                                          color: Colors.white60,
+                                                          image: DecorationImage(
+                                                            image: NetworkImage(snapshot.data[index].Testler[indexTest].ImageUrl),
+                                                            fit: BoxFit.contain,
+                                                          ),
                                                         ),
+
                                                       ),
-                                                      child: Text(
-                                                        snapshot.data[index].Testler[indexTest].TestAdi,
-                                                        style: const TextStyle(
-                                                          fontFamily: 'Work Sans',
-                                                          fontSize: 16,
-                                                          color: Color(0xff000000),
-                                                          fontWeight: FontWeight.w500,
-                                                        ),
-                                                      ),
+                                                    SizedBox(
+                                                        width: MediaQuery.of(context).size.height * 0.15,
+                                                        child:Text(
+                                                          snapshot.data[index].Testler[indexTest].TestAdi,
+                                                          style: const TextStyle(
+                                                            fontFamily: 'Work Sans',
+                                                            fontSize: 16,
+                                                            color: Color(0xff000000),
+                                                            fontWeight: FontWeight.w500,
+                                                          ),
+                                                          textAlign: TextAlign.left,
+                                                        )
+
+                                                    ),
+                                                        ],
                                                     )
-                                                ),
+                                                )
                                               ),
                                               ),
                                             )

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 
 import 'package:adobe_xd/pinned.dart';
+import 'package:ankets/screens/login_page.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -52,6 +53,10 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   String? selectedValueGender;
   String? selectedValueYear;
   String? selectedValueEducation;
+
+  String countryValue = "";
+  String cityValue = "";
+  String address = "";
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +134,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                   ),
                   Positioned(
                       top: MediaQuery.of(context).size.height * 0.2,
-                      child:Padding(
-                        padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.3 ),
+                      child:SizedBox(
+                        width: MediaQuery.of(context).size.width * 1,
+                        height:MediaQuery.of(context).size.height * 0.06,
                         child: const Text(
                           'Complete Profile',
                           style: TextStyle(
@@ -148,6 +154,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
                           width: MediaQuery.of(context).size.width * 0.8,
                           decoration: BoxDecoration(
                             color: const Color(0xc7ffffff),
@@ -193,11 +200,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                   ),
                   /// 2. sıra city
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.37,
+                    top: MediaQuery.of(context).size.height * 0.34,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.06,
                           decoration: BoxDecoration(
                             color: const Color(0xc7ffffff),
                             borderRadius: BorderRadius.circular(10.0),
@@ -243,11 +251,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                   ),
                   /// 3. sıra birth
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.49,
+                    top: MediaQuery.of(context).size.height * 0.43,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -321,11 +330,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
                   /// gender 4. sıra
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.61,
+                    top: MediaQuery.of(context).size.height * 0.52,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -394,11 +404,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                   ),
                   /// en alt 5. sıra education
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.73,
+                    top: MediaQuery.of(context).size.height * 0.61,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -468,7 +479,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                   ),
                   /// Next butonu
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.85,
+                    top: MediaQuery.of(context).size.height * 0.77,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
@@ -923,9 +934,6 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               alignment: const Alignment(0.005, 0.169),
                               child: TextButton(
                                   onPressed: () {
-                                    //if (_formKey.currentState!.validate()) {
-                                      // If the form is valid, display a snackbar. In the real world,
-                                      // you'd often call a server or save the information in a database.
                                       bool mCheckError = false;
 
                                       if (countryController.value.text == ""){
@@ -1000,10 +1008,10 @@ class _SecondSignInPage extends State<SecondSignInPage> {
     final returnedData = jsonDecode(response.body);
 
     if(response.statusCode == 200){
-      Navigator.push(
+      Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-          builder: (context) => HomePage()));
+              builder: (context) => LoginPage()),(r) => false);
     }else{
       showAlertDialog2(context, "Hata: " + response.body);
     }
@@ -1013,21 +1021,44 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
   showAlertDialog2(BuildContext context, String message) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
+    Widget okButton =Container(
+        decoration: BoxDecoration(
+          color: const Color(0xffc45d54),
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              offset: Offset(3, 3),
+              blurRadius: 3,
+            ),
+          ],
+        ),
+        child:TextButton(
+           child:  const Text("Tamam",
+        style: TextStyle(
+          fontFamily: 'Work Sans',
+          color: Color(0xffffffff),
+          fontWeight: FontWeight.w600,
+        ),
+
+      ),
       onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => HomePage())
-        );
+        Navigator.of(context).pop();
       },
-    );
+    ));
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Text(""),
-      content: Text(message),
+      content: Text(message,
+        style: const TextStyle(
+          fontFamily: 'Work Sans',
+          fontSize: 16,
+          color: Color(0xff000000),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       actions: [
         okButton,
       ],
