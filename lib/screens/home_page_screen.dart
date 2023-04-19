@@ -86,20 +86,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                 ),
               ),
-              Pinned.fromPins(
-                Pin(size: 196.0, middle: 0.5025),
-                Pin(size: 24.0, start: 21.0),
-                child: Text(
-                  'Daily Surveys',
-                  style: TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 20,
-                    color: const Color(0xff000000),
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
               Center(
                   child:Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -120,7 +106,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               decoration: BoxDecoration(
                                 color: const Color(0x66ffffff),
                                 borderRadius:
-                                BorderRadius.circular(21.0),
+                                BorderRadius.circular(5.0),
                               ),
                               child: Column(
                                 children: [ListTile(

@@ -137,25 +137,82 @@ class TestSayfasi extends StatelessWidget {
                             },
 
                             themeData: ThemeData.dark().copyWith(
-                              primaryColor:Color(0xFF330099),
-
+                              primaryColor:Colors.white,
                               backgroundColor:Colors.transparent,
-                              scaffoldBackgroundColor: const Color(0xffc4000),
-                              appBarTheme: AppBarTheme(
-                                backgroundColor:Colors.transparent,
+                              scaffoldBackgroundColor: Colors.transparent,
+                              appBarTheme: const AppBarTheme(
+                                backgroundColor:Color(0xffc45d54),
                               ),
                               textSelectionTheme: TextSelectionThemeData(
                                 cursorColor: const Color(0xffc45d54),
                                 selectionColor: const Color(0xffc45d54),
                                 selectionHandleColor:const Color(0xffc45d54),
                               ),
-                              outlinedButtonTheme: OutlinedButtonThemeData(style: ButtonStyle(
-                                  foregroundColor: MaterialStateColor.resolveWith((states) => const Color(0xFF339999)),
-                                  backgroundColor: MaterialStateColor.resolveWith((states) => const Color(0xffc45d54)))),
+                              textTheme: const TextTheme(
+                                displayMedium: TextStyle(
+                                  fontSize: 50.0,/// soru kategorisi
+                                  color: Colors.black,
+                                ),
+                                headlineSmall: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 18, /// scevap
+                                  color: Colors.black,
+                                ),
+                                bodyMedium: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,/// soru kısmı
+                                  color: Colors.black,
+                                ),
+                              ),
+
+                              outlinedButtonTheme: OutlinedButtonThemeData(
+                                style: ButtonStyle(
+                                  minimumSize: MaterialStateProperty.all(
+                                    Size(150.0, 60.0),
+                                  ),
+                                  side: MaterialStateProperty.resolveWith(
+                                        (Set<MaterialState> state) {
+                                      if (state.contains(MaterialState.disabled)) {
+                                        return  BorderSide(
+                                          color: Colors.grey,
+                                        );
+                                      }
+                                      return BorderSide(
+                                        color: Colors.white,
+                                      );
+                                    },
+                                  ),
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                  textStyle: MaterialStateProperty.resolveWith(
+                                        (Set<MaterialState> state) {
+                                      if (state.contains(MaterialState.disabled)) {
+                                        return Theme.of(context)
+                                            .textTheme
+                                            .labelLarge
+                                            ?.copyWith(
+                                          color: Colors.grey,
+                                        );
+                                      }
+                                      return Theme.of(context)
+                                          .textTheme
+                                          .labelLarge
+                                          ?.copyWith(
+                                        color: Colors.cyan,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
 
                             ),
                             surveyProgressbarConfiguration: SurveyProgressConfiguration(
-                              backgroundColor: Colors.black,
+                              valueProgressbarColor: Colors.white,
+                              progressbarColor: Colors.transparent,
                             ),
                           );
                         }

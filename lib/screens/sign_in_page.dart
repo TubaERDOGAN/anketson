@@ -180,10 +180,11 @@ class   _SignInPageState extends State<SignInPage> {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter your email';
                                     }
-                                   /* if (!regex.hasMatch(value)) {
+                                    if (!RegExp(
+                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
                                       //regex içinde olan değerler olmadığında içeri girip ifadeyi return olarak döndürür.
                                       return "Geçersiz e-mail";
-                                    }*/
+                                    }
                                     return null;
                                   },
                                   decoration: const InputDecoration(
@@ -360,7 +361,7 @@ class   _SignInPageState extends State<SignInPage> {
                                     ],
                                   ),
                                   child: TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         if (_formKey.currentState!.validate()) {
                                           bool mCheckError = false;
 
@@ -391,10 +392,16 @@ class   _SignInPageState extends State<SignInPage> {
 
                                           if (!mCheckError) {
                                             //showAlertDialog(context, "1");
-                                            postRequest(context,
-                                                usernameController.value.text,
-                                                emailController.value.text,
-                                                passwordController.value.text);
+                                            SharedPreferences sharedPreferences = await SharedPreferences
+                                                .getInstance();
+                                            if(sharedPreferences.getString("username") == "" ||sharedPreferences.getString("email") == ""){
+                                              postRequest(context,
+                                                  usernameController.value.text,
+                                                  emailController.value.text,
+                                                  passwordController.value.text);
+                                            }else{
+                                              Navigator.of(context).pushNamed('/secondsignin');
+                                            }
                                           }
                                         } else {
                                           showAlertDialog1(context, "2");
@@ -442,8 +449,8 @@ class   _SignInPageState extends State<SignInPage> {
                     ]))));
   }
 
-  /// WEB DESIGN
-  /// WEB DESIGN
+
+
   /// WEB DESIGN
   MaterialApp WebPage() {
     return MaterialApp(
@@ -467,416 +474,9 @@ class   _SignInPageState extends State<SignInPage> {
                             stops: [0.0, 0.623, 1.0],
                           ),
                         ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(start: -243.2, end: -143.0),
-                        Pin(size: 716.5, start: -327.5),
-                        child: SvgPicture.string(
-                          _svg_xp7tu,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(start: 0.0, end: 0.0),
-                        Pin(size: 600.0, end: 0.0),
-                        child: ClipRect(
-                          child: BackdropFilter(
-                            filter: ui.ImageFilter.blur(
-                                sigmaX: 4.0, sigmaY: 4.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: const Color(0x8affffff),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(36.0),
-                                  topRight: Radius.circular(36.0),
-                                ),
-                                border:
-                                Border.all(width: 1.0, color: const Color(
-                                    0x4fffffff)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      ),]))));}
 
-                      ///Usermane Pin
-                      Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.2,
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
-                              child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.8,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xc7ffffff),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x14000000),
-                                      offset: Offset(3, 3),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: TextFormField(
-                                  autovalidateMode: AutovalidateMode
-                                      .onUserInteraction,
-                                  controller: usernameController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter user name';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                    icon: Padding(
-                                        padding: EdgeInsets.only(left: 5.0),
-                                        child: Icon(
-                                            Icons.people,
-                                            color: Color(0xffc45d54))
-                                    ),
-                                    floatingLabelBehavior: FloatingLabelBehavior
-                                        .never,
-                                    border: InputBorder.none,
-                                    labelText: 'Username',
-                                    labelStyle: TextStyle(
-                                      fontFamily: 'Work Sans',
-                                      fontSize: 14,
-                                      color: Color(0xff000000),
-                                    ),
-                                  ),
-                                ),
-                              ))),
 
-                      ///Email
-                      Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.32,
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
-                              child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.8,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xc7ffffff),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x14000000),
-                                      offset: Offset(3, 3),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: TextFormField(
-                                  autovalidateMode: AutovalidateMode
-                                      .onUserInteraction,
-                                  controller: emailController,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your email';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                    icon: Padding(
-                                        padding: EdgeInsets.only(left: 5.0),
-                                        child: Icon(
-                                            Icons.email,
-                                            color: Color(0xffc45d54))
-                                    ),
-                                    floatingLabelBehavior: FloatingLabelBehavior
-                                        .never,
-                                    border: InputBorder.none,
-                                    labelText: 'Email',
-                                    labelStyle: TextStyle(
-                                      fontFamily: 'Work Sans',
-                                      fontSize: 14,
-                                      color: Color(0xff000000),
-                                    ),
-                                  ),
-                                ),
-                              ))),
-
-                      ///Password
-                      Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.44,
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
-                              child: Container(
-                                width: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width * 0.8,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xc7ffffff),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x14000000),
-                                      offset: Offset(3, 3),
-                                      blurRadius: 3,
-                                    ),
-                                  ],
-                                ),
-                                child: TextFormField(
-                                  autovalidateMode: AutovalidateMode
-                                      .onUserInteraction,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  textInputAction: TextInputAction.done,
-                                  controller: passwordController,
-                                  obscureText: _isObscure,
-                                  //if passenable == true, show **, else show password character
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter password';
-                                    }
-                                    if (value.length < 8) {
-                                      return 'Must be more than 8 charater';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                    icon: const Padding(
-                                        padding: EdgeInsets.only(left: 5.0),
-                                        child: Icon(
-                                            Icons.lock,
-                                            color: Color(0xffc45d54))
-                                    ),
-                                    suffixIcon: IconButton(
-                                        icon: Icon(
-                                            color: Color(0xffc45d54),
-                                            _isObscure
-                                                ? Icons.visibility
-                                                : Icons.visibility_off),
-                                        onPressed: () {
-                                          setState(() {
-                                            _isObscure = !_isObscure;
-                                          });
-                                        }),
-                                    floatingLabelBehavior: FloatingLabelBehavior
-                                        .never,
-                                    border: InputBorder.none,
-                                    labelText: 'Password',
-                                    labelStyle: const TextStyle(
-                                      fontFamily: 'Work Sans',
-                                      fontSize: 14,
-                                      color: Color(0xff000000),
-                                    ),
-                                  ),
-                                ),
-                              ))),
-
-                      ///   Confirm Password
-                      Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.56,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.1),
-                            child: Container(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.8,
-                              decoration: BoxDecoration(
-                                color: const Color(0xc7ffffff),
-                                borderRadius: BorderRadius.circular(10.0),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color(0x14000000),
-                                    offset: Offset(3, 3),
-                                    blurRadius: 3,
-                                  ),
-                                ],
-                              ),
-                              child: TextFormField(
-                                autovalidateMode: AutovalidateMode
-                                    .onUserInteraction,
-                                keyboardType: TextInputType.visiblePassword,
-                                textInputAction: TextInputAction.done,
-                                controller: cpasswordController,
-                                obscureText: _isObscure,
-                                //if passenable == true, show **, else show password character
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please confirm password';
-                                  }
-                                  if (value.length < 8) {
-                                    return 'Must be more than 8 charater';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  icon: const Padding(
-                                      padding: EdgeInsets.only(left: 5.0),
-                                      child: Icon(
-                                          Icons.lock,
-                                          color: Color(0xffc45d54))
-                                  ),
-                                  suffixIcon: IconButton(
-                                      icon: Icon(
-                                          color: Color(0xffc45d54),
-                                          _isObscure ? Icons.visibility : Icons
-                                              .visibility_off),
-                                      onPressed: () {
-                                        setState(() {
-                                          _isObscure = !_isObscure;
-                                        });
-                                      }),
-                                  floatingLabelBehavior: FloatingLabelBehavior
-                                      .never,
-                                  border: InputBorder.none,
-                                  labelText: 'Confirm Password',
-                                  labelStyle: const TextStyle(
-                                    fontFamily: 'Work Sans',
-                                    fontSize: 14,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )),
-
-                      ///login buton pini
-                      Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.68,
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.1),
-                              child: Container(
-                                  width: MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width * 0.8,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffc45d54),
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x14000000),
-                                        offset: Offset(3, 3),
-                                        blurRadius: 3,
-                                      ),
-                                    ],
-                                  ),
-                                  child: TextButton(
-                                      onPressed: () async {
-                                        if (_formKey.currentState!.validate()) {
-                                          bool mCheckError = false;
-                                          if (emailController.value.text ==
-                                              "") {
-                                            mCheckError = true;
-                                          }
-                                          if (usernameController.value.text ==
-                                              "") {
-                                            mCheckError = true;
-                                          }
-                                          if (passwordController.value.text ==
-                                              "") {
-                                            mCheckError = true;
-                                          }
-                                          if (cpasswordController.value.text ==
-                                              "") {
-                                            mCheckError = true;
-                                          }
-
-                                          if (!mCheckError) {
-                                            postRequest(context,
-                                                usernameController.value.text,
-                                                emailController.value.text,
-                                                passwordController.value
-                                                    .text);
-                                          }
-                                        } else {
-                                          showAlertDialog1(context, "2");
-                                        }
-                                      },
-                                      child: const Text(
-                                        'Sign Up',
-                                        style: TextStyle(
-                                          fontFamily: 'Work Sans',
-                                          fontSize: 20,
-                                          color: Color(0xff000000),
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      )
-                                  )
-                              ))),
-
-                      /// Logine geri dönüş
-                      Positioned(
-                          top: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.79,
-                          child: Padding(
-                              padding: EdgeInsets.only(left: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.40),
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LoginPage()));
-                                },
-                                child: const Text(
-                                  'Already have an account?  Log in!',
-                                  style: TextStyle(
-                                    fontFamily: 'Work Sans',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xff000000),
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )
-                          )
-                      ),
-                ])
-            )
-        )
-    );
-  }
 
   Future<http.Response> postRequest(BuildContext context, String username,
       String email, String password) async {
@@ -901,14 +501,12 @@ class   _SignInPageState extends State<SignInPage> {
     if (response.statusCode == 200) {
       SharedPreferences sharedPreferences = await SharedPreferences
           .getInstance();
-
+      sharedPreferences.setString("email", email);
       sharedPreferences.setString("username", username);
       sharedPreferences.setString("unicID", returnedData["UnicID"]);
-
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SecondSignInPage()),(r) => false);
+      print(email);
+      print(username);
+      Navigator.of(context).pushNamed('/secondsignin');
 
       //bu kadar;)
 

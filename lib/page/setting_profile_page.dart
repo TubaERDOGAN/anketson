@@ -28,68 +28,9 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
   String City = '';
   String oldPassword = '';
 
-  late ScrollController scrollController;
-  FocusNode focusNode = FocusNode();
-  double offset = 0.0;
-  double gaydirmarakami = 0.0;
-
-  _onLayoutDone(_){
-    FocusScope.of(context).requestFocus(focusNode);
-  }
-
   @override
   void initState() {
-
     getUserData();
-
-    scrollController = ScrollController();
-    focusNode = FocusNode();
-
-    focusNode.addListener(() {
-      if (focusNode.hasFocus) {
-        scrollController.animateTo(gaydirmarakami,
-            duration: Duration(milliseconds: 1000), curve: Curves.ease);
-      }
-    });
-
-    emailController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(scrollController.position.minScrollExtent,
-          duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
-    countryController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(scrollController.position.minScrollExtent,
-          duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
-    cityController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(scrollController.position.minScrollExtent,
-          duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
-    oldpasswordController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(60.0,
-          duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
-    cnewpasswordController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(60.0,
-          duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
-    newpasswordController.addListener(() {
-      offset = scrollController.offset;
-      scrollController.animateTo(60.0,
-          duration: Duration(milliseconds: 1000), curve: Curves.ease);
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback(_onLayoutDone);
-    super.initState();
   }
 
   Future<void> getUserData() async {
@@ -112,7 +53,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
         body: body
     );
 
-    final returnedData = jsonDecode(response.body);
+    final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
 
     print(response.body);
 
@@ -153,30 +94,20 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
         body: body
     );
 
-    final returnedData = jsonDecode(response.body);
+    final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
 
     print(response.body);
 
     if (response.statusCode == 200) {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomePage()),(r) => false);
+      Navigator.of(context).pop();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom;
-    final size = MediaQuery
-        .of(context)
-        .size; //getting the size property
-    final orientation = MediaQuery
-        .of(context)
-        .orientation; //getting the orientation
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final size = MediaQuery.of(context).size; //getting the size property
+    final orientation = MediaQuery.of(context).orientation; //getting the orientation
 
     return LayoutBuilder(
         builder: (context, constraints) {
@@ -191,17 +122,24 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
   }
 
   Scaffold MobilePage() {
+    final double coverH=MediaQuery.of(context).size.height * 0.110;
+    final double profileH=MediaQuery.of(context).size.height * 0.070;
+    final top=coverH-profileH;
+    final double fleft=MediaQuery.of(context).size.width * 0.5;
+    final left=fleft-profileH;
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
         centerTitle: true,
+        elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: const Text(
           'Profil Düzenleme',
           style: TextStyle(
             fontFamily: 'Work Sans',
             fontSize: 18,
-            color: const Color(0xffffffff),
+            color: Color(0xffffffff),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -241,94 +179,36 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                 fit: BoxFit.fill,
               ),
             ),
+            Positioned(
+              top: top,
+              left: left,
+              child: GestureDetector(
+                  onTap:() {
+                    _show(context);
+                  },
+                  child: CircleAvatar(
+                    radius:profileH,
+                    backgroundColor:Colors.black,
+                    child: CircleAvatar(
 
-            SingleChildScrollView(
-              controller: scrollController,
-              primary: false,
-              child: SizedBox(
-                height: MediaQuery
-                    .of(context)
-                    .size
-                    .height * 1.3,
-                width: MediaQuery
-                    .of(context)
-                    .size
-                    .width * 1,
-                child: Stack(
-                  children: [
-
-                    /// Email Box
-                    Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.01,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
-                        child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
-                            decoration: BoxDecoration(
-                              color: const Color(0xc7ffffff),
-                              borderRadius: BorderRadius.circular(10.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x14000000),
-                                  offset: Offset(3, 3),
-                                  blurRadius: 3,
-                                ),
-                              ],
-                            ),
-                            child: Align(
-                              alignment: const Alignment(-0.494, -0.196),
-                              child: TextFormField(
-                                autovalidateMode: AutovalidateMode.disabled,
-                                controller: emailController,
-                                decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior
-                                      .never,
-                                  border: InputBorder.none,
-                                  icon: const Padding(
-                                      padding: EdgeInsets.only(left: 5.0),
-                                      child: Icon(
-                                          Icons.email,
-                                          color: Color(0xff919a94))
-                                  ),
-
-                                  /// email
-                                  labelText: Email,
-                                  labelStyle: TextStyle(
-                                    fontFamily: 'Work Sans',
-                                    fontSize: 14,
-                                    color: Color(0xff000000),
-                                  ),
-                                ),
-                              ),
-                            )
-                        ),
-                      ),),
-
+                      child: Center(child:Icon(
+                        Icons.camera_alt_outlined,
+                        size: 50,
+                        color: Color(0xffc45d54) ,
+                      ) ),
+                      backgroundColor: Color(0xffcbcac6),
+                      radius:MediaQuery.of(context).size.height * 0.068,
+                    ),
+                  )),
+            ),
                     /// Country Box
                     Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.13,
+                      top: MediaQuery.of(context).size.height * 0.23,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.0985),
                         child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                          height:MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               color: const Color(0xc7ffffff),
                               borderRadius: BorderRadius.circular(10.0),
@@ -342,11 +222,9 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                             ),
                             child: TextFormField(
                                 controller: countryController,
-                                autovalidateMode: AutovalidateMode
-                                    .onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior
-                                      .never,
+                                  floatingLabelBehavior: FloatingLabelBehavior.never,
                                   border: InputBorder.none,
                                   icon: const Padding(
                                       padding: EdgeInsets.only(left: 5.0),
@@ -354,7 +232,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                                           Icons.map,
                                           color: Color(0xff919a94))
                                   ),
-                                  label: Text(Country),
+                                  label: Text('Country'),
                                   labelStyle: TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
@@ -368,20 +246,12 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
 
                     /// City Box
                     Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.25,
+                      top: MediaQuery.of(context).size.height * 0.29,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
                         child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                          height:MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               color: const Color(0xc7ffffff),
                               borderRadius: BorderRadius.circular(10.0),
@@ -395,11 +265,9 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                             ),
                             child: TextFormField(
                                 controller: cityController,
-                                autovalidateMode: AutovalidateMode
-                                    .onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior
-                                      .never,
+                                  floatingLabelBehavior: FloatingLabelBehavior.never,
                                   border: InputBorder.none,
                                   icon: const Padding(
                                       padding: EdgeInsets.only(left: 5.0),
@@ -421,20 +289,12 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
 
                     /// Old Password
                     Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.37,
+                      top: MediaQuery.of(context).size.height * 0.35,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
                         child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height:MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               color: const Color(0xc7ffffff),
                               borderRadius: BorderRadius.circular(10.0),
@@ -475,8 +335,8 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                                           Icons.lock,
                                           color: Color(0xff919a94))
                                   ),
-                                  labelText: 'Old Password',
-                                  labelStyle: TextStyle(
+                                  hintText: 'Old Password',
+                                  hintStyle: TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
                                     color: const Color(0xff000000),
@@ -489,20 +349,12 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
 
                     /// New Password
                     Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.49,
+                      top: MediaQuery.of(context).size.height * 0.41,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
                         child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height:MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               color: const Color(0xc7ffffff),
                               borderRadius: BorderRadius.circular(10.0),
@@ -543,8 +395,8 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                                           Icons.lock,
                                           color: Color(0xff919a94))
                                   ),
-                                  labelText: 'New Password',
-                                  labelStyle: TextStyle(
+                                  hintText: 'New Password',
+                                  hintStyle: TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
                                     color: const Color(0xff000000),
@@ -557,20 +409,12 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
 
                     /// Confirm Next Password
                     Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.61,
+                      top: MediaQuery.of(context).size.height * 0.47,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
                         child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height:MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               color: const Color(0xc7ffffff),
                               borderRadius: BorderRadius.circular(10.0),
@@ -611,8 +455,8 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                                           Icons.lock,
                                           color: Color(0xff919a94))
                                   ),
-                                  labelText: 'Confirm New Password',
-                                  labelStyle: TextStyle(
+                                  hintText: 'Confirm New Password',
+                                  hintStyle: TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
                                     color: const Color(0xff000000),
@@ -625,20 +469,12 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
 
                     /// Save Button
                     Positioned(
-                      top: MediaQuery
-                          .of(context)
-                          .size
-                          .height * 0.75,
+                      top: MediaQuery.of(context).size.height * 0.75,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.1),
+                        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
                         child: Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            height:MediaQuery.of(context).size.height * 0.05,
                             decoration: BoxDecoration(
                               color: const Color(0xffc45d54),
                               borderRadius: BorderRadius.circular(10.0),
@@ -723,13 +559,84 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                             )
                         ),
                       ),),
-                  ],),),),
-          ],
-        ),
-      ),
-    );
-  }
+                  ],),),);
 
+  }
+  void _show(BuildContext ctx) {
+    showModalBottomSheet(
+        elevation: 10,
+        backgroundColor: Color(0x66ffffff),
+        context: ctx,
+        builder: (ctx) => Container(
+          width: 300,
+          height: 250,
+          decoration: const BoxDecoration(
+            color: Color(0x66ffffff),
+          ),
+
+          child:Padding(
+
+              padding: EdgeInsets.fromLTRB(50, 50, 50, 50),
+              child:Column(children: [
+                 TextButton(
+                     style: ButtonStyle(
+                       shape: MaterialStateProperty.all(
+                         RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(10.0),
+                         ),
+                       ),
+                       backgroundColor: MaterialStateProperty.all(const Color(0xffc45d54)),
+                       fixedSize: MaterialStateProperty.all(
+                         Size(200.0, 60.0),
+                       ),
+                     ),
+                     onPressed: null,
+                   child:Row(children:const[
+                         Icon(
+                         Icons.camera_alt_rounded,
+                         size: 25,
+                        color: Color(0xff000000) ,
+                           ),
+                          SizedBox(width: 10),
+                          Text('Fotoğraf Çek',
+                          style: TextStyle(
+                          fontFamily: 'Work Sans',
+                           fontSize: 18,
+                           color: Color(0xff000000),
+                   ),),
+                 ],),),
+                 SizedBox(height: 20,),
+              TextButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(const Color(0xff929a94)),
+                  fixedSize: MaterialStateProperty.all(
+                    Size(200.0, 60.0),
+                  ),
+                ),
+                  onPressed: null, child:Row(children: const [
+                        Icon(
+                        Icons.photo,
+                         size: 25,
+                          color: Color(0xff000000) ,
+                           ),
+                       SizedBox(width: 10),
+                    Text('Galeriden Seç',
+                    style: TextStyle(
+                     fontFamily: 'Work Sans',
+                     fontSize: 18,
+                     color: Color(0xff000000),
+                ),
+              )]),
+
+              ),
+          ])),
+        ));
+  }
 
 }
 

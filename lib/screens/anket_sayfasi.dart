@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:adobe_xd/pinned.dart';
-import 'package:ankets/screens/home_page.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -10,6 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:survey_kit/survey_kit.dart';
+import 'home_page.dart';
+
 
 class AnketSayfasi extends StatelessWidget {
 
@@ -123,23 +124,17 @@ class AnketSayfasi extends StatelessWidget {
                                   List<Map> answersData = [];
                                   for (var row in result.results) {
                                     Map cevap = Map();
-
                                     cevap["SoruID"] =
                                         row.results[0].id!.id.toString();
                                     cevap["CevapID"] =
                                         row.results[0].valueIdentifier.toString();
-
                                     answersData.add(cevap);
                                   }
                                   sendData(context, answersData);
                                 }
                               }else{
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()),(r) => false);
+                                Navigator.pop(context);
                               }
-
                             },
                             task: task,
                             showProgress: true,
@@ -176,8 +171,6 @@ class AnketSayfasi extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               ),
-
-
                               outlinedButtonTheme: OutlinedButtonThemeData(
                                 style: ButtonStyle(
                                   minimumSize: MaterialStateProperty.all(
@@ -220,10 +213,7 @@ class AnketSayfasi extends StatelessWidget {
                                   ),
                                 ),
                               ),
-
-
                             ),
-
                              /// appbar progress ayarları
                             surveyProgressbarConfiguration: SurveyProgressConfiguration(
                               valueProgressbarColor: Colors.white,

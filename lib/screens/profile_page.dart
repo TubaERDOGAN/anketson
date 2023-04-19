@@ -1,16 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:ankets/page/setting_profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:ui' as ui;
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
-
+   ProfilePage({Key? key}) : super(key: key);
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -20,12 +18,15 @@ class _ProfilePageState extends State<ProfilePage> {
   String AnketAdedi = '0';
   String TestAdedi = '0';
   String username = '';
+  String email = "";
   File? imageFile = null;
+
 
   @override
   void initState() {
-    super.initState();
+    _GetInfo();
     getUserData();
+    super.initState();
   }
 
   Future<void> getUserData() async {
@@ -59,20 +60,25 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> _GetInfo() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      username = prefs.getString("username") ?? "";
+      email = prefs.getString("email") ?? "";
+      //print(username);
+      //print(email);
+    });
+  }
+
   Widget build(BuildContext context) {
-    final bottom = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom;
-    final size = MediaQuery
-        .of(context)
-        .size; //getting the size property
-    final orientation = MediaQuery
-        .of(context)
-        .orientation; //getting the orientation
-
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+    final size = MediaQuery.of(context).size; //getting the size property
+    final orientation = MediaQuery.of(context).orientation; //getting the orientation
+    final double coverH=MediaQuery.of(context).size.height * 0.2;
+    final double profileH=MediaQuery.of(context).size.height * 0.1;
+    final top=coverH-profileH;
+  _GetInfo();
     getUserData();
-
     return LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
@@ -84,12 +90,37 @@ class _ProfilePageState extends State<ProfilePage> {
             return WebPage();
           }
         });
-
   }
-
   SafeArea MobilePage (){
+    final double coverH=MediaQuery.of(context).size.height * 0.2;
+    final double profileH=MediaQuery.of(context).size.height * 0.075;
+    final top=coverH-profileH;
     return SafeArea(child:Scaffold(
       backgroundColor: const Color(0xff919b95),
+      appBar:AppBar(
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed('/settingprofile');
+            },
+          )
+        ],
+        title: const Text(
+          'Profil Sayfası',
+          style:  TextStyle(
+            color: const Color(0xffffffff),
+            fontFamily: 'Work Sans',
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+
+      ),
       body: Stack(
         children: <Widget>[
           Transform.rotate(
@@ -110,254 +141,100 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.4,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  width:MediaQuery.of(context).size.width * 1,
-                  decoration: BoxDecoration(
-                    color: const Color(0x8affffff),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(36.0),
-                      topRight: Radius.circular(36.0),
-                    ),
-                    border:
-                    Border.all(width: 1.0, color: const Color(0x4fffffff)),
-                  ),
+              top: MediaQuery.of(context).size.height * 0.0,
+              child: Container(
+                color: Colors.indigo,
+                width:MediaQuery.of(context).size.width * 1,
+                child: Image.network('https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=333&q=80',
+                  height:coverH,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
-              ),
-            ),
+              )
           ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.44,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.2 ),
-              child: const Text(
-                'Test score',
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 18,
-                  color: Color(0xff000000),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.44,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.58 ),
-              child: const Text(
-                'Survey score',
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 18,
-                  color: Color(0xff000000),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),),
 
-          /// text scorun boxı
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.48,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.2 ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
-                height:MediaQuery.of(context).size.width * 0.16,
-                decoration: BoxDecoration(
-                  color: const Color(0xffc45d54),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x14000000),
-                      offset: Offset(3, 3),
-                      blurRadius: 3,
-                    ),
-                  ],
-                ),
-              ),
-            ),),
-
-          ///  Survey scorun Boxı
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.48,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.58 ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
-                height:MediaQuery.of(context).size.width * 0.16,
-                decoration: BoxDecoration(
-                  color: const Color(0xff919b95),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x14000000),
-                      offset: Offset(3, 3),
-                      blurRadius: 3,
-                    ),
-                  ],
-                ),
-              ),
-            ),),
-
-          /// test score burası veri tabanından gelecek
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.49,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.21 ),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.22,
-                height:MediaQuery.of(context).size.width * 0.14,
-                child: Text(
-                  TestAdedi,
-                  style: TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 36,
-                    color: const Color(0xff000000),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),),
-
-          /// survey score burası veri tabanından gelecek
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.49,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.59 ),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.22,
-                height:MediaQuery.of(context).size.width * 0.14,
-                child: Text(
-                  AnketAdedi,
-                  style: TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 36,
-                    color: const Color(0xff000000),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),),
-
-          /// buraya username gelecek
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.33,
-            child: Align(
-              alignment: Alignment(0.005, -0.389),
-              child: SizedBox(
-                width: 196.0,
-                height: 24.0,
-                child: Text(
-                  username,
-                  style: const TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 20,
-                    color: Color(0xff000000),
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),),),
-
-          /// fotograf eklenin boxı burası düzenlecek sanırım
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.09,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.3 ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.39,
-                height:MediaQuery.of(context).size.width * 0.39,
-                decoration: BoxDecoration(
-                  color: const Color(0xffcbcac6),
-                  borderRadius:
-                  BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                  border: Border.all(width: 1.0, color: const Color(0x33ffffff)),
-                ),
-              ),
-            ),),
-
-          imageFile == null
-              ? Positioned(
-              top: MediaQuery.of(context).size.height * 0.2,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.4 ),
-                child: GestureDetector( child: Text(
-                  'Fotoğraf Ekle',
-                  style: TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 14,
-                    color: Color(0xff000000),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                  onTap: () {
-                    _getFromGallery();
+              top: top,
+              left: MediaQuery.of(context).size.height * 0.015,
+              child: GestureDetector(
+                  onTap:() {
+                    Navigator.of(context).pushNamed('/settingprofile');
                   },
-                ),)) : Positioned(
-              top: MediaQuery.of(context).size.height * 0.12,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.36),
-                child: Container(
-                  child: Image.file(
-                    imageFile!,
-                    fit: BoxFit.contain,
-                    width: 120,
-                    height: 120,
-                  ),
-                ),)),
-
-          /// profil düzenleme kısmı
-          Positioned(
-              top: MediaQuery.of(context).size.height * 0.04,
-              child: Padding(
-                padding:EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.85),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                SettingProfilePage()));
-                  },
-                  child: Container(
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child: CircleAvatar(
+                    radius:profileH,
+                    backgroundColor:Colors.black,
+                    child: CircleAvatar(
+                     child: Center(child: Text(username)),
+                       backgroundColor: const Color(0xffffffff),
+                      radius:MediaQuery.of(context).size.height * 0.070,
                 ),
               )),
-
-          Align(
-            alignment: Alignment(0.36, -0.541),
-            child: GestureDetector(
-              onTap: () {
-                /// buraya tıklayınca galeriye gidecek :)
-                //Navigator.push(
-                //context,
-                //MaterialPageRoute(
-                //builder: (context) =>
-                //??()));
-              },
-              child: Container(
-                width: 24.0,
-                height: 24.0,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1.0, color: const Color(0x00000000)),
-                ),
-                child: const Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-              ),),
           ),
+          Positioned(
+           top:MediaQuery.of(context).size.height * 0.30,
+              left: MediaQuery.of(context).size.height * 0.020,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 1,
+                child: Row(
+                  children: [
+                    Text(username,
+                    style: TextStyle(
+                      fontFamily: 'Work Sans',
+                      fontSize: 24,
+                      color: const Color(0xffffffff),
+                      fontWeight: FontWeight.w600,
+                    ),),
+                    SizedBox(width: 10),
+                    Icon(
+                      Icons.lock,
+                    )
+                  ],
+                )
+          )),
+          Positioned(
+              top:MediaQuery.of(context).size.height * 0.35,
+              left: MediaQuery.of(context).size.height * 0.030,
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 1,
+                  child: Row(
+                    children: [
+                      Text(email,
+                        style: TextStyle(
+                          fontFamily: 'Work Sans',
+                          fontSize: 16,
+                          color: const Color(0xffffffff),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  )
+              )),
 
+          Positioned(
+              top:MediaQuery.of(context).size.height * 0.40,
+              left: MediaQuery.of(context).size.height * 0.020,
+              child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 1,
+                  child: Row(
+                    children: [
+                      Container(child:Row(children: [
+                        Text('Çözülen test:'),
+
+                        Text(TestAdedi),
+
+                      ]),),
+                      SizedBox(
+                        width: 25,
+                      ),
+                      Container(child:Row(children: [
+                        Text('Cevaplanan anket:'),
+
+                        Text(AnketAdedi),
+
+                      ]),),
+                    ],
+                  )
+              )),
         ],
       ),
     ));
@@ -381,9 +258,7 @@ class _ProfilePageState extends State<ProfilePage> {
       });
     }
   }
-
   /// Web kısmı
-
   SafeArea WebPage (){
     return SafeArea(child:Scaffold(
       backgroundColor: const Color(0xff919b95),
@@ -406,238 +281,16 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.4,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
-                  width:MediaQuery.of(context).size.width * 1,
-                  decoration: BoxDecoration(
-                    color: const Color(0x8affffff),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(36.0),
-                      topRight: Radius.circular(36.0),
-                    ),
-                    border:
-                    Border.all(width: 1.0, color: const Color(0x4fffffff)),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.44,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.2 ),
-              child: const Text(
-                'Test score',
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 18,
-                  color: Color(0xff000000),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.44,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.58 ),
-              child: const Text(
-                'Survey score',
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 18,
-                  color: Color(0xff000000),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),),
 
-          /// text scorun boxı
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.48,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.2 ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.16,
-                height:MediaQuery.of(context).size.width * 0.08,
-                decoration: BoxDecoration(
-                  color: const Color(0xffc45d54),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x14000000),
-                      offset: Offset(3, 3),
-                      blurRadius: 3,
-                    ),
-                  ],
-                ),
-              ),
-            ),),
-
-          ///  Survey scorun Boxı
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.48,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.58 ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.16,
-                height:MediaQuery.of(context).size.width * 0.08,
-                decoration: BoxDecoration(
-                  color: const Color(0xff919b95),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x14000000),
-                      offset: Offset(3, 3),
-                      blurRadius: 3,
-                    ),
-                  ],
-                ),
-              ),
-            ),),
-          /// test score burası veri tabanından gelecek
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.49,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.21 ),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.22,
-                height:MediaQuery.of(context).size.width * 0.14,
-                child: Text(
-                  '99',
-                  style: TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 36,
-                    color: const Color(0xff000000),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),),
-
-          /// survey score burası veri tabanından gelecek
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.49,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.59 ),
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.22,
-                height:MediaQuery.of(context).size.width * 0.14,
-                child: Text(
-                  '99',
-                  style: TextStyle(
-                    fontFamily: 'Work Sans',
-                    fontSize: 36,
-                    color: const Color(0xff000000),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),),
-          /// buraya username gelecek
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.33,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.45 ),
-              child: Text(
-                username,
-                style: const TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 20,
-                  color: Color(0xff000000),
-                  fontWeight: FontWeight.w600,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),),
-          /// fotograf eklenin boxı burası düzenlecek sanırım
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.09,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.43 ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.1,
-                height:MediaQuery.of(context).size.width * 0.1,
-                decoration: BoxDecoration(
-                  color: const Color(0xffcbcac6),
-                  borderRadius:
-                  BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                  border: Border.all(width: 1.0, color: const Color(0x33ffffff)),
-                ),
-              ),
-            ),),
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.2,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.45 ),
-              child: const Text(
-                'Fotoğraf Ekle',
-                style: TextStyle(
-                  fontFamily: 'Work Sans',
-                  fontSize: 14,
-                  color: Color(0xff000000),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),),
-
-          /// profil düzenleme kısmı
-          Positioned(
-              top: MediaQuery.of(context).size.height * 0.04,
-              child: Padding(
-                padding:EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.85),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                SettingProfilePage()));
-                  },
-                  child: Container(
-                    child: Icon(
-                      Icons.edit,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              )),
-
-          Positioned(
-            top: MediaQuery.of(context).size.height * 0.28,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.60 ),
-              child: GestureDetector(
-                onTap: () {
-                  /// buraya tıklayınca galeriye gidecek :)
-                  //Navigator.push(
-                  //context,
-                  //MaterialPageRoute(
-                  //builder: (context) =>
-                  //??()));
-                },
-                child: Container(
-                  width: 24.0,
-                  height: 24.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.0, color: const Color(0x00000000)),
-                  ),
-                  child: const Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                  ),
-                ),),
-            ),
-
-          ),],
+        ],
       ),
     ));
   }
 
 }
+
+const String _svg_dlvr74 =
+    '<svg viewBox="100.8 -193.6 453.6 417.1" ><path transform="matrix(-0.965926, 0.258819, -0.258819, -0.965926, 554.44, 124.87)" d="M 1.024306038743816e-05 107.1789855957031 C 8.656608770252205e-06 166.3717956542969 58.38780975341797 214.3572387695312 130.4132537841797 214.3572387695312 C 159.5944366455078 214.3572235107422 186.5350646972656 206.4817352294922 208.2630157470703 193.1742553710938 C 205.3615112304688 203.4378814697266 203.7906188964844 214.4121704101562 203.7906188964844 225.8140716552734 C 203.7906188964844 283.170166015625 243.5292816162109 329.6661071777344 292.5486755371094 329.6661071777344 C 341.568603515625 329.6661071777344 381.3066711425781 283.1701354980469 381.3066711425781 225.8140716552734 C 381.3066711425781 168.4579772949219 341.568603515625 121.9620132446289 292.5486755371094 121.9620132446289 C 280.2190246582031 121.962028503418 268.4762268066406 124.9037704467773 257.8055725097656 130.2199096679688 C 259.7833251953125 122.799186706543 260.8265075683594 115.0874710083008 260.8265075683594 107.1789855957031 C 260.8265075683594 47.98550033569336 202.4386901855469 6.103515625e-05 130.4132537841797 6.103515625e-05 C 58.38781356811523 6.103515625e-05 1.182953019451816e-05 47.98550033569336 1.024306038743816e-05 107.1789855957031 Z" fill="#c45d54" stroke="none" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';
+
+const String _svg_ahsnb9 =
+    '<svg viewBox="-243.2 -327.5 779.2 716.5" ><path transform="matrix(-0.965926, 0.258819, -0.258819, -0.965926, 536.04, 219.47)" d="M 1.024306038743816e-05 184.1095581054688 C 7.517889116570586e-06 285.7896118164062 100.297233581543 368.2178955078125 224.0208892822266 368.2178955078125 C 274.1476745605469 368.2178649902344 320.4256591796875 354.6895446777344 357.7494201660156 331.8302612304688 C 352.7652893066406 349.4608764648438 350.0668640136719 368.312255859375 350.0668640136719 387.898193359375 C 350.0668640136719 486.4231567382812 418.3290100097656 566.2928466796875 502.5333862304688 566.2928466796875 C 586.7387084960938 566.2928466796875 654.9998779296875 486.4231262207031 654.9998779296875 387.898193359375 C 654.9998779296875 289.3731994628906 586.7387084960938 209.5035095214844 502.5333862304688 209.5035095214844 C 481.3537902832031 209.5035400390625 461.1823120117188 214.5567932128906 442.8525085449219 223.688720703125 C 446.2498474121094 210.9415893554688 448.0417785644531 197.694580078125 448.0417785644531 184.1095581054688 C 448.0417785644531 82.4283447265625 347.7445373535156 6.103515625e-05 224.0209045410156 6.103515625e-05 C 100.2972412109375 6.103515625e-05 1.296826212637825e-05 82.4283447265625 1.024306038743816e-05 184.1095581054688 Z" fill="#929a94" stroke="none" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';
