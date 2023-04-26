@@ -1,24 +1,24 @@
 import 'dart:convert';
 import 'package:adobe_xd/pinned.dart';
-import 'package:ankets/screens/anket_sayfasi.dart';
+import 'package:ankets/model/test.dart';
+import 'package:ankets/screens/test_sayfasi.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:ankets/model/anket.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AnketKategori extends StatelessWidget {
+class TestKategorileri extends StatelessWidget {
   final String kategoriTanim;
 
-  AnketKategori({Key? key, required this.kategoriTanim}) : super(key: key);
-  Future<List<Anket>> getAnketler() async {
+  TestKategorileri({Key? key, required this.kategoriTanim}) : super(key: key);
+  Future<List<Test>> getTestler() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
     String username = sharedPreferences.getString("username") ?? "";
 
-    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/kategorilerveanketler/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/kategorilervetestler/';
     Uri urlU = Uri.parse(url);
     Map data = {
       'Username': username,
@@ -33,28 +33,28 @@ class AnketKategori extends StatelessWidget {
     );
     final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
     //print(returnedData);
-    List<Anket> anketler = [];
+    List<Test> testler = [];
     if (response.statusCode == 200) {
       if(kategoriTanim != "") {
-        for (var row in returnedData["KategorilerVeAnketler"]) {
+        for (var row in returnedData["KategorilerVeTestler"]) {
           if(kategoriTanim == row["Tanim"]) {
-            for (var rowAnket in row["Anketler"]) {
-              Anket anket = Anket(
-                  rowAnket["Tarih"],
-                  rowAnket["AnketAdi"],
-                  rowAnket["ImageUrl"],
-                  rowAnket["UnicID"],
-                  rowAnket["OnizlemeAciklamasi"]
+            for (var rowTest in row["Testler"]) {
+              Test test = Test(
+                  rowTest["Tarih"],
+                  rowTest["TestAdi"],
+                  rowTest["ImageUrl"],
+                  rowTest["UnicID"],
+                  rowTest["OnizlemeAciklamasi"]
               );
-              anketler.add(anket);
+              testler.add(test);
             }
           }
         }
       }
-      return anketler;
+      return testler;
     }else{
       print("hata");
-      return anketler;
+      return testler;
     }
   }
   @override
@@ -137,7 +137,7 @@ class AnketKategori extends StatelessWidget {
                 ),
                 Center(
                     child: FutureBuilder(
-                        future: getAnketler(),
+                        future: getTestler(),
                         builder: (BuildContext ctx, AsyncSnapshot snapshot) {
                           if (snapshot.data == null) {
                             return Container(
@@ -147,69 +147,68 @@ class AnketKategori extends StatelessWidget {
                             );
                           } else {
                             return Padding(padding:EdgeInsets.fromLTRB(12, 0, 12, 10),
-                            child: AnimationLimiter(
-                            child:ListView.separated(
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (ctx, index) =>AnimationConfiguration.staggeredList(
-                                position: index,
-                                duration: const Duration(milliseconds: 375),
-                                child: SlideAnimation(
-                                  verticalOffset: 50.0,
-                                  child: FadeInAnimation(
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width * 0.85,
-                                      decoration: BoxDecoration(
-                                        color: const Color(0x66ffffff),
-                                        borderRadius:
-                                        BorderRadius.circular(5.0),
-                                      ),
-                                      child: Column(
-                                        children: [ListTile(
-                                          title: Text(
-                                            snapshot.data[index].AnketAdi,
-                                            style: const TextStyle(
-                                              fontFamily: 'Work Sans',
-                                              fontSize: 20,
-                                              color: Color(0xff000000),
-                                              fontWeight: FontWeight.w600,
+                                child: AnimationLimiter(
+                                    child:ListView.separated(
+                                      itemCount: snapshot.data.length,
+                                      itemBuilder: (ctx, index) =>AnimationConfiguration.staggeredList(
+                                        position: index,
+                                        duration: const Duration(milliseconds: 375),
+                                        child: SlideAnimation(
+                                          verticalOffset: 50.0,
+                                          child: FadeInAnimation(
+                                            child: Container(
+                                              width: MediaQuery.of(context).size.width * 85,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0x66ffffff),
+                                                borderRadius:
+                                                BorderRadius.circular(5.0),
+                                              ),
+                                              child: Column(
+                                                children: [ListTile(
+                                                  title: Text(
+                                                    snapshot.data[index].TestAdi,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Work Sans',
+                                                      fontSize: 20,
+                                                      color: Color(0xff000000),
+                                                      fontWeight: FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  subtitle: ReadMoreText(snapshot.data[index].OnizlemeAciklamasi,
+                                                    style: const TextStyle(
+                                                      fontFamily: 'Work Sans',
+                                                      fontSize: 14,
+                                                      color: Color(0xff000000),
+                                                    ),
+                                                    trimMode: TrimMode.Line,
+                                                    trimLines: 3,
+                                                    colorClickableText: Colors.black,
+                                                    trimCollapsedText:
+                                                    'Daha fazla göster',
+                                                    trimExpandedText: ' Daha az göster',
+                                                  ),
+                                                ),
+                                                  GestureDetector(
+                                                    child: Container(
+                                                        height:MediaQuery.of(context).size.height * 0.2,
+                                                        width: MediaQuery.of(context).size.width * 85,
+                                                        child:Image.network(snapshot.data[index].ImageUrl,fit: BoxFit.fill)
+                                                    ),
+                                                    onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  TestSayfasi(TestID: snapshot.data[index].UnicID)));
+                                                    },
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          subtitle: ReadMoreText(snapshot.data[index].OnizlemeAciklamasi,
-                                            style: const TextStyle(
-                                              fontFamily: 'Work Sans',
-                                              fontSize: 14,
-                                              color: Color(0xff000000),
-                                            ),
-                                            trimMode: TrimMode.Line,
-                                            trimLines: 3,
-                                            colorClickableText: Colors.black,
-                                            trimCollapsedText:
-                                            'Daha fazla göster',
-                                            trimExpandedText: ' Daha az göster',
                                           ),
                                         ),
-                                          GestureDetector(
-                                            child: Container(
-                                                height:MediaQuery.of(context).size.height * 0.2,
-                                                width: MediaQuery.of(context).size.width * 0.85,
-                                                child:Image.network(snapshot.data[index].ImageUrl,fit: BoxFit.fill)
-                                            ),
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          AnketSayfasi(anketID: snapshot.data[index].UnicID)));
-                                              //buraya anket unic gidecek.snapshot.data[index].UnicID şeklinde
-                                            },
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ), separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10,); },
-                            )));
+                                      ), separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10,); },
+                                    )));
                           }
                         }
                     )

@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         body: body
     );
 
-    final returnedData = jsonDecode(response.body);
+    final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
 
     //print(response.body);
 
@@ -75,13 +75,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
-    final size = MediaQuery.of(context).size; //getting the size property
-    final orientation = MediaQuery.of(context).orientation; //getting the// orientation
-
     _GetInfo();
     getUserData();
-
     return LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
@@ -105,22 +100,22 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  height:MediaQuery.of(context).size.height * 0.26,///responsive yapılacak
+                  height:MediaQuery.of(context).size.height * 0.27,///responsive yapılacak
                   decoration: const BoxDecoration(
                     color: Color(0x66ffffff),
                     borderRadius: BorderRadius.only(bottomRight:  Radius.circular(21),bottomLeft:Radius.circular(21) ),
                   ),
                   child: Column( children: [
                     UserAccountsDrawerHeader(
-                      margin: EdgeInsets.fromLTRB(20.0,0.0,0.0,0.0),
+                      margin: const EdgeInsets.fromLTRB(20.0,0.0,0.0,0.0),
                       arrowColor: Colors.transparent,
                       decoration: const BoxDecoration(
                         color: Colors.transparent,
                       ),
                       currentAccountPicture:  GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
-                          Navigator.of(context).pushNamed('/settingprofile');
+                          //Navigator.pop(context);
+                          //Navigator.of(context).pushNamed('/settingprofile');
                         },
                         child:CircleAvatar(
                           backgroundColor: Colors.black,
@@ -139,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                         ),*/
                           ),
                         ),),
-                      currentAccountPictureSize: Size.fromRadius(35),
+                      currentAccountPictureSize: const Size.fromRadius(35),
                       accountName: Text(
                         username,
                         style: const TextStyle(
@@ -158,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
 
-                    Padding(padding:EdgeInsets.fromLTRB(40.0,0.0,0.0,0.0),
+                    Padding(padding:const EdgeInsets.fromLTRB(40.0,0.0,0.0,0.0),
                       child : Row(
                         children: [
                           const Text(
@@ -182,8 +177,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),),
-                    SizedBox(height: 5),
-                    Padding(padding:EdgeInsets.fromLTRB(40.0,0.0,0.0,0.0),
+                    const SizedBox(height: 5),
+                    Padding(padding:const EdgeInsets.fromLTRB(40.0,0.0,0.0,0.0),
                       child :Row(children: [
                         Container(
                           width: MediaQuery.of(context).size.width * 0.18,
@@ -239,31 +234,6 @@ class _HomePageState extends State<HomePage> {
                       ),),
                   ],),),
                 SizedBox(height:MediaQuery.of(context).size.height * 0.01,),
-                ListTile(
-                  leading: IconButton(
-                    onPressed: null,
-                    icon: Image.asset(
-                      'lib/assets/icons/menu_icons/profil.png',
-                      width: 24.0,
-                      height: 24.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  title: const Text(
-                    'Profil',
-                    style: TextStyle(
-                      fontFamily: 'Work Sans',
-                      fontSize: 20,
-                      color: Color(0xff000000),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/settingprofile');
-                  },
-                ),
-
                 /// Anketler
                 ListTile(
                   leading: IconButton(
@@ -301,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  title: Text('Testler',
+                  title: const Text('Testler',
                     style: TextStyle(
                       fontFamily: 'Work Sans',
                       fontSize: 20,
@@ -321,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                   title: const Text(style: TextStyle(
                     fontFamily: 'Work Sans',
                     fontSize: 18,
-                    color: const Color(0xff000000),
+                    color: Color(0xff000000),
                     fontWeight: FontWeight.w600,),'Çıkış Yap'),
                   onTap: () {
                     showDialog(
@@ -334,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(
                               fontFamily: 'Work Sans',
                               fontSize: 16,
-                              color: const Color(0xff000000),
+                              color:Color(0xff000000),
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.center,
@@ -344,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Align(
-                                  alignment: Alignment(-0.549, 0.238),
+                                  alignment: const Alignment(-0.549, 0.238),
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color: const Color(0xffc45d54),
@@ -380,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                                     ),),),
                                 SizedBox(width: 15,),
                                 Align(
-                                  alignment: Alignment(0.549, 0.238),
+                                  alignment: const Alignment(0.549, 0.238),
                                   child:Container(
                                     decoration: BoxDecoration(
                                       color: const Color(0xff929a94),
@@ -406,7 +376,7 @@ class _HomePageState extends State<HomePage> {
                                       child: const Text('Evet',
                                         style: TextStyle(
                                           fontFamily: 'Work Sans',
-                                          color: const Color(0xffffffff),
+                                          color: Color(0xffffffff),
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
@@ -433,7 +403,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                SizedBox(height:MediaQuery.of(context).size.height * 0.01),
+                SizedBox(height:MediaQuery.of(context).size.height * 0.005),
                 const Text(
                   'info@megasoft.com.tr',
                   style:TextStyle(
@@ -452,13 +422,15 @@ class _HomePageState extends State<HomePage> {
               floating: true,
               snap:true,
               forceElevated: innerBoxIsScrolled,
+              elevation: 0,
+              //backgroundColor: Colors.transparent,
               centerTitle: true,
               title: const Text(
                 'Günlük Anketler',
                 style:  TextStyle(
                   fontFamily: 'Work Sans',
                   fontSize: 18,
-                  color: const Color(0xffffffff),
+                  color: Color(0xffffffff),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -471,14 +443,10 @@ class _HomePageState extends State<HomePage> {
                           radius:25,
                           backgroundColor:Colors.black,
                           child: CircleAvatar(
-                            child: Center(child: Text(result,
-                            )),
                             backgroundColor: const Color(0xffffffff),
                             radius:15,
-                            /*backgroundImage: NetworkImage(
-                            "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=333&q=80"
-                        ),*/
-
+                            child: Center(child: Text(result,
+                            )),
                           ),),
                         onPressed: () {
                           Scaffold.of(context).openDrawer();

@@ -3,26 +3,19 @@ import 'dart:io';
 import 'package:ankets/screens/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:survey_kit/survey_kit.dart';
 
 class TestSayfasi extends StatelessWidget {
 
   final String TestID;
   String unicID = "";
-
   TestSayfasi({Key? key, required this.TestID}) : super(key: key);
-
   Future<void> sendData(BuildContext context, List<Map> answers) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     unicID = sharedPreferences.getString("unicID") ?? "";
-
-    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/getanketanswers/';
+    String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/gettestanswers/';
     Uri urlU = Uri.parse(url);
-
     Map data = {
       'UserUnicID': unicID,
       'TestUnicID': TestID,
@@ -30,18 +23,11 @@ class TestSayfasi extends StatelessWidget {
     };
     //encode Map to JSON
     var body = json.encode(data);
-
-    //print(body);
-
     final response = await http.post(urlU,
         headers: {"Content-Type": "application/json"},
         body: body
     );
-
-    final returnedData = jsonDecode(response.body);
-
-    //print(response.body);
-
+    final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {
       Navigator.pushAndRemoveUntil(
           context,
@@ -51,8 +37,7 @@ class TestSayfasi extends StatelessWidget {
       SnackBar snack = SnackBar(
         content: Text(
             "Hata Oluştu! Cevaplar kaydedilmedi!"),);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(snack);
+      ScaffoldMessenger.of(context).showSnackBar(snack);
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -63,7 +48,6 @@ class TestSayfasi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SafeArea( child: Scaffold(
@@ -88,10 +72,7 @@ class TestSayfasi extends StatelessWidget {
                   ),
                 ),
               ),
-
-
               Center(
-
                 child:Padding(
                   padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0 ),
                   child:Align(
@@ -111,23 +92,18 @@ class TestSayfasi extends StatelessWidget {
                                 List<Map> answersData = [];
                                 for (var row in result.results) {
                                   Map cevap = Map();
-
                                   cevap["SoruID"] =
                                       row.results[0].id!.id.toString();
                                   cevap["CevapID"] =
                                       row.results[0].valueIdentifier.toString();
-
                                   answersData.add(cevap);
                                 }
                                 sendData(context, answersData);
+                                Navigator.of(context, rootNavigator: true).pop(context);
                               }
                               }else{
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage()),(r) => false);
+                                Navigator.of(context, rootNavigator: true).pop(context);
                               }
-
                             },
                             task: task,
                             showProgress: true,
@@ -135,7 +111,6 @@ class TestSayfasi extends StatelessWidget {
                               'cancel': 'Vazgeç',
                               'next': 'Sonraki',
                             },
-
                             themeData: ThemeData.dark().copyWith(
                               primaryColor:Colors.white,
                               backgroundColor:Colors.transparent,
@@ -143,10 +118,10 @@ class TestSayfasi extends StatelessWidget {
                               appBarTheme: const AppBarTheme(
                                 backgroundColor:Color(0xffc45d54),
                               ),
-                              textSelectionTheme: TextSelectionThemeData(
-                                cursorColor: const Color(0xffc45d54),
-                                selectionColor: const Color(0xffc45d54),
-                                selectionHandleColor:const Color(0xffc45d54),
+                              textSelectionTheme: const TextSelectionThemeData(
+                                cursorColor: Color(0xffc45d54),
+                                selectionColor: Color(0xffc45d54),
+                                selectionHandleColor:Color(0xffc45d54),
                               ),
                               textTheme: const TextTheme(
                                 displayMedium: TextStyle(
@@ -225,28 +200,16 @@ class TestSayfasi extends StatelessWidget {
   }
 
   Future<Task> getJsonTask() async {
-    //final taskJson = await rootBundle.loadString('assets/example_json.json');
-    //final taskMap = json.decode(taskJson);
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
-
     String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/testsorularisk/';
     Uri urlU = Uri.parse(url);
-
     Map data = {
       'UserUnicID': unicId,
       'UnicID': TestID,
     };
-
     //encode Map to JSON
     var body = json.encode(data);
-
-    /*final response = await http.post(urlU,
-        headers: {"Content-Type": "application/json"},
-        body: body
-    );*/
-
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');

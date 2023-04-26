@@ -1,11 +1,11 @@
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:ankets/screens/home_page.dart';
 
 class SettingProfilePage extends StatefulWidget {
   @override
@@ -13,6 +13,90 @@ class SettingProfilePage extends StatefulWidget {
 }
 
 class _SettingProfilePageState extends State<SettingProfilePage> {
+  final List<String> cityItems = [
+    'Adana',
+    'Adıyaman',
+    'Afyonkarahisar',
+    'Ağrı',
+    'Amasya',
+    'Ankara',
+    'Antalya',
+    'Artvin',
+    'Aydın',
+    'Balıkesir',
+    'Bilecik',
+    'Bingöl',
+    'Bitlis',
+    'Bolu',
+    'Burdur',
+    'Bursa',
+    'Çanakkale',
+    'Çankırı',
+    'Çorum',
+    'Denizli',
+    'Diyarbakır',
+    'Edirne',
+    'Elazığ',
+    'Erzincan',
+    'Erzurum',
+    'Eskişehir',
+    'Gaziantep',
+    'Giresun',
+    'Gümüşhane',
+    'Hakkari',
+    'Hatay',
+    'Isparta',
+    'Mersin',
+    'İstanbul',
+    'İzmir',
+    'Kars',
+    'Kastamonu',
+    'Kayseri',
+    'Kırklareli',
+    'Kırşehir',
+    'Kocaeli',
+    'Konya',
+    'Kütahya',
+    ' Malatya',
+    'Manisa',
+    'Kahramanmaraş',
+    'Mardin',
+    'Muğla',
+    'Muş',
+    'Nevşehir',
+    'Niğde',
+    'Ordu',
+    'Rize',
+    'Sakarya',
+    'Samsun',
+    'Siirt',
+    'Sinop',
+    'Sivas',
+    'Tekirdağ',
+    'Tokat',
+    'Trabzon',
+    'Tunceli',
+    'Şanlıurfa',
+    'Uşak',
+    'Van',
+    'Yozgat',
+    'Zonguldak',
+    'Aksaray',
+    'Bayburt',
+    'Karaman',
+    'Kırıkkale',
+    'Batman',
+    'Şırnak',
+    'Bartın',
+    'Ardahan',
+    'Iğdır',
+    'Yalova',
+    'Karabük',
+    'Kilis',
+    'Osmaniye',
+    'Düzce',
+  ];
+
   final _formKey = GlobalKey<FormState>();
   bool _isObscure = true; //boolean value to track password view enable disable.
   TextEditingController emailController = TextEditingController();
@@ -27,6 +111,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
   String Country = '';
   String City = '';
   String oldPassword = '';
+  String? selectedValueCity;
 
   @override
   void initState() {
@@ -102,7 +187,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
       Navigator.of(context).pop();
     }
   }
-
+   String selectedImagePath ='';
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.of(context).viewInsets.bottom;
@@ -195,7 +280,7 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                         Icons.camera_alt_outlined,
                         size: 50,
                         color: Color(0xffc45d54) ,
-                      ) ),
+                      )),
                       backgroundColor: Color(0xffcbcac6),
                       radius:MediaQuery.of(context).size.height * 0.068,
                     ),
@@ -220,26 +305,33 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                                 ),
                               ],
                             ),
-                            child: TextFormField(
-                                controller: countryController,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                                  border: InputBorder.none,
-                                  icon: const Padding(
-                                      padding: EdgeInsets.only(left: 5.0),
-                                      child: Icon(
-                                          Icons.map,
-                                          color: Color(0xff919a94))
-                                  ),
-                                  label: Text('Country'),
-                                  labelStyle: TextStyle(
+                            child:Row(children: const [
+                              Padding(
+                                  padding:  EdgeInsets.only(left:5.0),
+                                  /*child: Icon(
+                                      Icons.map,
+                                      color: Color(0xff919a94))*/
+                              ),
+                              SizedBox(width: 10),
+                              Align(
+                                alignment: Alignment(-0.650, -0.031),
+                                child: Text(
+                                  //controller: countryController,
+                                  // autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  /*validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter country';
+                                }
+                                return null;
+                              },*/
+                                  'Türkiye',
+                                  style: TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
                                     color: Color(0xff000000),
                                   ),
                                 ),
-                              ),
+                              )],),
                             )
                         ),
                       ),
@@ -263,26 +355,73 @@ class _SettingProfilePageState extends State<SettingProfilePage> {
                                 ),
                               ],
                             ),
-                            child: TextFormField(
-                                controller: cityController,
-                                autovalidateMode: AutovalidateMode.onUserInteraction,
-                                decoration: InputDecoration(
-                                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                                  border: InputBorder.none,
-                                  icon: const Padding(
-                                      padding: EdgeInsets.only(left: 5.0),
-                                      child: Icon(
-                                          Icons.location_city,
-                                          color: Color(0xff919a94))
-                                  ),
-                                  label: Text("City"),
-                                  labelStyle: TextStyle(
+                          child:DropdownButtonHideUnderline(
+                            child:DropdownButtonFormField2<String>(
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                /*prefixIcon: Icon(
+                                  Icons.school_sharp,
+                                  //size: 30,
+                                  color: Color(0xff919a94) ,
+                                ),*/
+                              ),
+                              hint:  const Text(
+                                'City',
+                                style: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 14,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter city';
+                                }
+                                return null;
+                              },
+                              value: selectedValueCity,
+                              isExpanded: false,
+                              items: cityItems
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
                                     color: Color(0xff000000),
                                   ),
                                 ),
+                              ))
+                                  .toList(),
+                              onChanged: (String? newValue) {
+                                selectedValueCity = newValue!;
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                padding: EdgeInsets.only(left: 0, right: 10),
+                                elevation: 0,
                               ),
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color:Color(0xff919a94),
+                                ),
+                                iconSize: 30,
+                              ),
+                              dropdownStyleData: DropdownStyleData(
+                                maxHeight: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation:0,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+
+                            ),
+                          ),
                             )
                         ),
                       ),

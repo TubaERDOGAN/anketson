@@ -22,7 +22,7 @@ class SignInPage extends StatefulWidget {
 class   _SignInPageState extends State<SignInPage> {
 
   bool girisyapildimi = false;
-  bool _isObscure = false; //boolean value to track password view enable disable.
+  bool _isObscure = true; //boolean value to track password view enable disable.
   final _formKey = GlobalKey<FormState>();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -82,7 +82,7 @@ class   _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                       Positioned(
-                        top: MediaQuery.of(context).size.height * 0.15,
+                        top: MediaQuery.of(context).size.height * 0.21,
                         child: ClipRect(
                           child: BackdropFilter(
                             filter: ui.ImageFilter.blur(
@@ -104,10 +104,24 @@ class   _SignInPageState extends State<SignInPage> {
                           ),
                         ),
                       ),
-
+                      Positioned(
+                          top: MediaQuery.of(context).size.height * 0.24,
+                          child:SizedBox(
+                            width: MediaQuery.of(context).size.width * 1,
+                            child: const Text(
+                              'Kayıt Ol',
+                              style: TextStyle(
+                                fontFamily: 'Work Sans',
+                                fontSize: 20,
+                                color: Color(0xff000000),
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )),
                       ///Usermane Pin
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.23,
+                          top: MediaQuery.of(context).size.height * 0.29,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: MediaQuery.of(context).size.width * 0.1),
@@ -130,21 +144,21 @@ class   _SignInPageState extends State<SignInPage> {
                                   controller: usernameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter user name';
+                                      return 'lütfen kullanıcı adını giriniz';
                                     }
                                     return null;
                                   },
                                   decoration: const InputDecoration(
                                     icon: Padding(
-                                        padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
+                                        padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
                                         child: Icon(
                                             Icons.people,
                                             color: Color(0xffc45d54))
                                     ),
                                     floatingLabelBehavior: FloatingLabelBehavior.never,
                                     border: InputBorder.none,
-                                    labelText: 'Username',
-                                    labelStyle: TextStyle(
+                                    hintText: 'Kullanıcı adı',
+                                    hintStyle: TextStyle(
                                       fontFamily: 'Work Sans',
                                       fontSize: 14,
                                       color: Color(0xff000000),
@@ -155,7 +169,7 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///Email
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.32,
+                          top: MediaQuery.of(context).size.height * 0.36,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: MediaQuery.of(context).size.width * 0.1),
@@ -178,7 +192,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   controller: emailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your email';
+                                      return 'lütfen email giriniz';
                                     }
                                     if (!RegExp(
                                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
@@ -189,7 +203,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   },
                                   decoration: const InputDecoration(
                                     icon: Padding(
-                                        padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
+                                        padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
                                         child: Icon(
                                             Icons.email,
                                             color: Color(0xffc45d54))
@@ -197,8 +211,8 @@ class   _SignInPageState extends State<SignInPage> {
                                     floatingLabelBehavior: FloatingLabelBehavior
                                         .never,
                                     border: InputBorder.none,
-                                    labelText: 'Email',
-                                    labelStyle: TextStyle(
+                                    hintText: 'Email',
+                                    hintStyle: TextStyle(
                                       fontFamily: 'Work Sans',
                                       fontSize: 14,
                                       color: Color(0xff000000),
@@ -209,7 +223,7 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///Password
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.41,
+                          top: MediaQuery.of(context).size.height * 0.43,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: MediaQuery.of(context).size.width * 0.1),
@@ -235,7 +249,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   obscureText: _isObscure,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter password';
+                                      return 'Lütfen şifreyi giriniz';
                                     }
                                     if (value.length < 8) {
                                       return 'Must be more than 8 character';
@@ -244,7 +258,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   },
                                   decoration: InputDecoration(
                                     icon: const Padding(
-                                        padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
+                                        padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
                                         child: Icon(
                                             Icons.lock,
                                             color: Color(0xffc45d54))
@@ -263,7 +277,7 @@ class   _SignInPageState extends State<SignInPage> {
                                     floatingLabelBehavior: FloatingLabelBehavior
                                         .never,
                                     border: InputBorder.none,
-                                    labelText: 'Password',
+                                    labelText: 'Şifre',
                                     labelStyle: const TextStyle(
                                       fontFamily: 'Work Sans',
                                       fontSize: 14,
@@ -302,16 +316,16 @@ class   _SignInPageState extends State<SignInPage> {
                                 //if passenable == true, show **, else show password character
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please confirm password';
+                                    return 'lütfen şifrenizi onaylayınz';
                                   }
                                   if (value.length < 8) {
-                                    return 'Must be more than 8 character';
+                                    return 'şifre 8 karakteden fazla olmalı';
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
                                   icon: const Padding(
-                                      padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
+                                      padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
                                       child: Icon(
                                           Icons.lock,
                                           color: Color(0xffc45d54))
@@ -329,7 +343,7 @@ class   _SignInPageState extends State<SignInPage> {
                                   floatingLabelBehavior: FloatingLabelBehavior
                                       .never,
                                   border: InputBorder.none,
-                                  labelText: 'Confirm Password',
+                                  labelText: 'Şifre Tekrarı',
                                   labelStyle: const TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 14,
@@ -342,7 +356,7 @@ class   _SignInPageState extends State<SignInPage> {
 
                       ///login buton pini
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.66,
+                          top: MediaQuery.of(context).size.height * 0.63,
                           child: Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: MediaQuery.of(context).size.width * 0.1),
@@ -404,11 +418,11 @@ class   _SignInPageState extends State<SignInPage> {
                                             }
                                           }
                                         } else {
-                                          showAlertDialog1(context, "2");
+                                          showAlertDialog1(context, "Lütfen tüm alanları doldurunuz");
                                         }
                                       },
                                       child: const Text(
-                                        'Sign Up',
+                                        'Kayıt Ol',
                                         style: TextStyle(
                                           fontFamily: 'Work Sans',
                                           fontSize: 20,
@@ -422,7 +436,7 @@ class   _SignInPageState extends State<SignInPage> {
 
                       /// Logine geri dönüş
                       Positioned(
-                          top: MediaQuery.of(context).size.height * 0.75,
+                          top: MediaQuery.of(context).size.height * 0.71,
                           child:SizedBox(
                               width: MediaQuery.of(context).size.width * 1,
                               height:MediaQuery.of(context).size.height * 0.06,
@@ -434,7 +448,7 @@ class   _SignInPageState extends State<SignInPage> {
                                           builder: (context) => LoginPage()),(r) => false);
                                 },
                                 child: const Text(
-                                  'Already have an account?  Log in!',
+                                  'Zaten bir hesabın var mı? Giriş Yap!',
                                   style: TextStyle(
                                     fontFamily: 'Work Sans',
                                     fontSize: 12,

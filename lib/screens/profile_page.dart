@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: body
     );
 
-    final returnedData = jsonDecode(response.body);
+    final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
 
     //print(response.body);
 

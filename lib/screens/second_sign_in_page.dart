@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui' as ui;
-
 import 'package:adobe_xd/pinned.dart';
 import 'package:ankets/screens/login_page.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home_page.dart';
 
 class SecondSignInPage extends StatefulWidget {
 
@@ -26,49 +26,109 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   TextEditingController educationController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  final List<String> cityItems = [
+    'Adana',
+    'Adıyaman',
+    'Afyonkarahisar',
+    'Ağrı',
+    'Amasya',
+    'Ankara',
+    'Antalya',
+    'Artvin',
+    'Aydın',
+    'Balıkesir',
+    'Bilecik',
+    'Bingöl',
+    'Bitlis',
+    'Bolu',
+    'Burdur',
+    'Bursa',
+    'Çanakkale',
+    'Çankırı',
+    'Çorum',
+    'Denizli',
+    'Diyarbakır',
+    'Edirne',
+    'Elazığ',
+    'Erzincan',
+    'Erzurum',
+    'Eskişehir',
+    'Gaziantep',
+    'Giresun',
+    'Gümüşhane',
+    'Hakkari',
+    'Hatay',
+    'Isparta',
+    'Mersin',
+    'İstanbul',
+    'İzmir',
+    'Kars',
+    'Kastamonu',
+    'Kayseri',
+    'Kırklareli',
+    'Kırşehir',
+    'Kocaeli',
+    'Konya',
+    'Kütahya',
+   ' Malatya',
+    'Manisa',
+    'Kahramanmaraş',
+    'Mardin',
+    'Muğla',
+    'Muş',
+    'Nevşehir',
+    'Niğde',
+    'Ordu',
+    'Rize',
+    'Sakarya',
+    'Samsun',
+    'Siirt',
+    'Sinop',
+    'Sivas',
+    'Tekirdağ',
+    'Tokat',
+    'Trabzon',
+    'Tunceli',
+    'Şanlıurfa',
+    'Uşak',
+   'Van',
+    'Yozgat',
+    'Zonguldak',
+    'Aksaray',
+    'Bayburt',
+    'Karaman',
+    'Kırıkkale',
+    'Batman',
+    'Şırnak',
+    'Bartın',
+    'Ardahan',
+    'Iğdır',
+    'Yalova',
+    'Karabük',
+    'Kilis',
+    'Osmaniye',
+    'Düzce',
+  ];
 
   final List<String> genderItems = [
-    'Male',
-    'Female',
-    'Others',
+    'Kadın',
+    'Erkek',
+    'Diğer',
   ];
 
   final List<String> educationItems = [
-    'Primary school',
-    'High school',
-    'University',
+    'İlkokul',
+    'Ortakokul',
+    'Lise',
+    'Üniversite',
   ];
-
-  final List<String> items1 = [];
-
-  void getYears(int year) {
-    int currentYear = DateTime.now().year;
-    items1.clear();
-    while (year < currentYear) {
-      items1.add(year.toString());
-      year++;
-    }
-  }
-
+  String? selectedValueCity;
   String? selectedValueGender;
-  String? selectedValueYear;
   String? selectedValueEducation;
+  String? selectedValueYear;
 
   @override
   Widget build(BuildContext context) {
-    getYears(1960);
-    print(items1);
-    final bottom = MediaQuery
-        .of(context)
-        .viewInsets
-        .bottom;
-    final size = MediaQuery
-        .of(context)
-        .size; //getting the size property
-    final orientation = MediaQuery
-        .of(context)
-        .orientation; //getting the orientation
-
     return LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
@@ -107,13 +167,24 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                       ),
                     ),
                   ),
+
+                  /// ARKA PLANDAKI YEŞİL ŞEY
+                  Pinned.fromPins(
+                    Pin(start: -243.2, end: -143.0),
+                    Pin(size: 716.5, start: -327.5),
+                    child: SvgPicture.string(
+                      _svg_ahsnb9,
+                      allowDrawingOutsideViewBox: true,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.15,
+                    top: MediaQuery.of(context).size.height * 0.37,
                     child: ClipRect(
                       child: BackdropFilter(
                         filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.9,
+                          height: MediaQuery.of(context).size.height * 0.63,
                           width:MediaQuery.of(context).size.width * 1,
                           decoration: BoxDecoration(
                             color: const Color(0x8affffff),
@@ -129,11 +200,11 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                     ),
                   ),
                   Positioned(
-                      top: MediaQuery.of(context).size.height * 0.2,
-                      child:Padding(
-                        padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.3 ),
+                      top: MediaQuery.of(context).size.height * 0.40,
+                      child:SizedBox(
+                        width: MediaQuery.of(context).size.width * 1,
                         child: const Text(
-                          'Complete Profile',
+                          'Profili Tamamla',
                           style: TextStyle(
                             fontFamily: 'Work Sans',
                             fontSize: 20,
@@ -145,11 +216,12 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                       )),
                   /// 1, sıra country
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.25,
+                    top: MediaQuery.of(context).size.height * 0.45,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.06,
                           decoration: BoxDecoration(
                             color: const Color(0xc7ffffff),
                             borderRadius: BorderRadius.circular(10.0),
@@ -161,44 +233,43 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             ],
                           ),
-                          child:  Align(
-                            alignment: const Alignment(-0.494, -0.031),
-                            child: TextFormField(
-                              controller: countryController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              validator: (value) {
+                          child: Row(children: const [
+                             Padding(
+                                padding:  EdgeInsets.only(left:5.0),
+                               /* child: Icon(
+                                    Icons.map,
+                                    color: Color(0xff919a94))*/
+                            ),
+                               SizedBox(width: 10),
+                          Align(
+                            alignment: Alignment(-0.650, -0.031),
+                            child: Text(
+                              //controller: countryController,
+                             // autovalidateMode: AutovalidateMode.onUserInteraction,
+                              /*validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter country';
                                 }
                                 return null;
-                              },
-                              decoration: const InputDecoration(
-                                icon:  Padding(
-                                    padding:  EdgeInsets.only(left:5.0),
-                                    child: Icon(
-                                        Icons.map,
-                                        color: Color(0xff919a94))
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                border: InputBorder.none,
-                                labelText: 'Country',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Work Sans',
-                                  fontSize: 14,
-                                  color:  Color(0xff000000),
-                                ),
+                              },*/
+                              'Türkiye',
+                              style: TextStyle(
+                                fontFamily: 'Work Sans',
+                                fontSize: 14,
+                                color: Color(0xff000000),
                               ),
                             ),
-                          )
+                          )],)
                       ),),
                   ),
                   /// 2. sıra city
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.37,
+                    top: MediaQuery.of(context).size.height * 0.52,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.06,
                           decoration: BoxDecoration(
                             color: const Color(0xc7ffffff),
                             borderRadius: BorderRadius.circular(10.0),
@@ -210,10 +281,24 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                             ],
                           ),
-                          child:  Align(
-                            alignment: const Alignment(-0.198, 0.132),
-                            child: TextFormField(
-                              controller: cityController,
+                          child:DropdownButtonHideUnderline(
+                            child:DropdownButtonFormField2<String>(
+                              decoration: const InputDecoration(
+                                border: InputBorder.none,
+                               /* prefixIcon: Icon(
+                                  Icons.school_sharp,
+                                  //size: 30,
+                                  color: Color(0xff919a94) ,
+                                ),*/
+                              ),
+                              hint: const Text(
+                                'Şehir',
+                                style: TextStyle(
+                                  fontFamily: 'Work Sans',
+                                  fontSize: 14,
+                                  color: Color(0xff000000),
+                                ),
+                              ),
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -221,34 +306,95 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                                 }
                                 return null;
                               },
-                              decoration: const InputDecoration(
-                                icon:  Padding(
-                                    padding:  EdgeInsets.only(left:5.0),
-                                    child: Icon(
-                                        Icons.location_city,
-                                        color: Color(0xff919a94))
+                              value: selectedValueCity,
+                              isExpanded: false,
+                              items: cityItems
+                                  .map((item) => DropdownMenuItem<String>(
+                                value: item,
+                                child: Text(
+                                  item,
+                                  style: const TextStyle(
+                                    fontFamily: 'Work Sans',
+                                    fontSize: 14,
+                                    color: Color(0xff000000),
+                                  ),
                                 ),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                border: InputBorder.none,
-                                labelText: 'City',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Work Sans',
-                                  fontSize: 14,
-                                  color:  Color(0xff000000),
-                                ),
+                              ))
+                                  .toList(),
+                              onChanged: (String? newValue) {
+                                selectedValueCity = newValue!;
+                              },
+                              buttonStyleData: const ButtonStyleData(
+                                padding: EdgeInsets.only(left: 0, right: 10),
+                                elevation: 0,
                               ),
-
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(
+                                  Icons.arrow_drop_down,
+                                  color:Color(0xff919a94),
+                                ),
+                                iconSize: 30,
+                              ),
+                              dropdownStyleData: DropdownStyleData(
+                                maxHeight: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation:0,
+                              ),
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                              ),
+                              dropdownSearchData: DropdownSearchData(
+                                searchController: cityController,
+                                searchInnerWidgetHeight: 50,
+                                searchInnerWidget: Container(
+                                  height: 50,
+                                  padding: const EdgeInsets.only(
+                                    top: 8,
+                                    bottom: 4,
+                                    right: 8,
+                                    left: 8,
+                                  ),
+                                  child: TextFormField(
+                                    expands: true,
+                                    maxLines: null,
+                                    controller: cityController,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 8,
+                                      ),
+                                      hintText: 'Şehir yazınız...',
+                                      hintStyle: const TextStyle(fontSize: 12),
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                searchMatchFn: (item, searchValue) {
+                                  return (item.value.toString().contains(searchValue));
+                                },
+                              ),
+                              onMenuStateChange: (isOpen) {
+                                if (!isOpen) {
+                                  cityController.clear();
+                                }
+                              },
                             ),
-                          )
+                          ),
                       ),),
                   ),
                   /// 3. sıra birth
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.49,
+                    top: MediaQuery.of(context).size.height * 0.59,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -260,73 +406,53 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                             ),
                           ],
                         ),
-                        child:DropdownButtonHideUnderline(
-                          child:
-                          DropdownButtonFormField2(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please enter birth year';
-                              }
-                              return null;
-                            },
-                            value: selectedValueYear,
-                            isExpanded: true,
-                            hint: const Text(
-                              'Birth of Year',
-                              style: TextStyle(
-                                fontFamily: 'Work Sans',
-                                fontSize: 14,
-                                color: Color(0xff000000),
-                              ),
-                            ),
-                            items: items1
-                                .map((item) => DropdownMenuItem<String>(
-                              value: item.toString(),
-                              child: Text(
-                                item.toString(),
-                                style: const TextStyle(
-                                  fontFamily: 'Work Sans',
-                                  fontSize: 14,
-                                  color: Color(0xff000000),
-                                ),
-                              ),
-                            )).toList(),
-                            onChanged: (String? newValue) {
-                              if(newValue != null) {
-                                  selectedValueYear = newValue.toString();
-                                }
-                            },
-
-                            buttonStyleData: const ButtonStyleData(
-                              padding: EdgeInsets.only(left: 20, right: 10),
-                            ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color:Color(0xff919a94),
-                              ),
-                              iconSize: 30,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
+                        child:Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 0.0, 0.0, 0.0),
+                          child:TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          textInputAction: TextInputAction.done,
+                          controller: yearController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'lütfen doğum yılınızı giriniz';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            /*icon: Padding(
+                                padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
+                                child: Icon(
+                                    Icons.calendar_month_sharp,
+                                    color: Color(0xff919a94))
+                            ),*/
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            border: InputBorder.none,
+                           hintText: 'Doğum Yılı',
+                            hintStyle: TextStyle(
+                              fontFamily: 'Work Sans',
+                              fontSize: 14,
+                              color: Color(0xff000000),
                             ),
                           ),
-
-                        ),
+                            onChanged: (String? value) {
+                              selectedValueYear = value;
+                            },
+                        ),)
                       ),),
                   ),
 
                   /// gender 4. sıra
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.61,
+                    top: MediaQuery.of(context).size.height * 0.66,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -341,23 +467,31 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         child:DropdownButtonHideUnderline(
                           child:
                           DropdownButtonFormField2(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter gender';
-                              }
-                              return null;
-                            },
-                            value: selectedValueGender,
-                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              /*prefixIcon: Icon(
+                                Icons.people_outline_rounded,
+                                //size: 30,
+                                color: Color(0xff919a94) ,
+                              ),*/
+                            ),
                             hint: const Text(
-                              'Gender',
+                              'Cinsiyet',
                               style: TextStyle(
                                 fontFamily: 'Work Sans',
                                 fontSize: 14,
                                 color: Color(0xff000000),
                               ),
                             ),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'lütfen cinsiyetinizi giriniz';
+                              }
+                              return null;
+                            },
+                            value: selectedValueGender,
+                            isExpanded: true,
                             items: genderItems
                                 .map((item) => DropdownMenuItem<String>(
                               value: item,
@@ -375,7 +509,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               selectedValueGender = value;
                             },
                             buttonStyleData: const ButtonStyleData(
-                              padding: EdgeInsets.only(left: 20, right: 10),
+                              padding: EdgeInsets.only(left: 0, right: 10),
                             ),
                             iconStyleData: const IconStyleData(
                               icon: Icon(
@@ -400,6 +534,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
+                        height: MediaQuery.of(context).size.height * 0.06,
                         decoration: BoxDecoration(
                           color: const Color(0xc7ffffff),
                           borderRadius: BorderRadius.circular(10.0),
@@ -414,23 +549,33 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                         child:  DropdownButtonHideUnderline(
                           child:
                           DropdownButtonFormField2(
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter education';
-                              }
-                              return null;
-                            },
-                            value: selectedValueEducation,
-                            isExpanded: true,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              /*prefixIcon: Icon(
+                                Icons.school_sharp,
+                                //size: 30,
+                                color: Color(0xff919a94) ,
+                              ),*/
+                            ),
                             hint: const Text(
-                              'Education',
+                              'Eğitim durumu',
                               style: TextStyle(
                                 fontFamily: 'Work Sans',
                                 fontSize: 14,
                                 color: Color(0xff000000),
                               ),
                             ),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'lütfen eğitim durumunuzu giriniz';
+                              }
+                              return null;
+                            },
+                            value: selectedValueEducation,
+                            isExpanded: true,
+
+
                             items: educationItems
                                 .map((item) => DropdownMenuItem<String>(
                               value: item,
@@ -448,7 +593,8 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               selectedValueEducation = newValue!;
                             },
                             buttonStyleData: const ButtonStyleData(
-                              padding: EdgeInsets.only(left: 20, right: 10),
+                              padding: EdgeInsets.only(left: 0, right: 10),
+                              elevation: 0,
                             ),
                             iconStyleData: const IconStyleData(
                               icon: Icon(
@@ -457,11 +603,11 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                               ),
                               iconSize: 30,
                             ),
-
                             dropdownStyleData: DropdownStyleData(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(10),
                               ),
+                              elevation:0,
                             ),
                           ),
                         ),
@@ -474,6 +620,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
                           width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.height * 0.06,
                           decoration: BoxDecoration(
                             color: const Color(0xff919b95),
                             borderRadius: BorderRadius.circular(10.0),
@@ -493,14 +640,10 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                                     // If the form is valid, display a snackbar. In the real world,
                                     // you'd often call a server or save the information in a database.
                                     bool mCheckError = false;
-
-                                    if (countryController.value.text == ""){
+                                    if (selectedValueCity.toString() == ""){
                                       mCheckError = true;
                                     }
-                                    if (cityController.value.text == ""){
-                                      mCheckError = true;
-                                    }
-                                    if (selectedValueYear.toString() == ""){
+                                    if (yearController.value.text.toString() == ""){
                                       mCheckError = true;
                                     }
                                     if (selectedValueGender.toString() == ""){
@@ -509,15 +652,14 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                                     if (selectedValueEducation.toString() == ""){
                                       mCheckError = true;
                                     }
-
                                     if(!mCheckError){
-                                      postRequest (context,countryController.value.text, cityController.value.text,selectedValueYear.toString(),selectedValueGender.toString(),selectedValueEducation.toString());
+                                      postRequest (context, selectedValueCity.toString(),yearController.value.text.toString(),selectedValueGender.toString(),selectedValueEducation.toString());
                                     }else{
                                       showAlertDialog2(context, "Tüm alanları doldurun!");
                                     }
                                     },
                                   child: const Text(
-                                    'Next',
+                                    'Devam',
                                     style: TextStyle(
                                       fontFamily: 'Work Sans',
                                       fontSize: 16,
@@ -584,7 +726,7 @@ class _SecondSignInPage extends State<SecondSignInPage> {
                   ),],),)));
   }
 
-  Future<http.Response> postRequest (BuildContext context, String country, String city, String year,String gender,String education,) async {
+  Future<http.Response> postRequest (BuildContext context, String city, String year,String gender,String education,) async {
 
     String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/userinformationdata/';
     Uri urlU = Uri.parse(url);
@@ -595,52 +737,75 @@ class _SecondSignInPage extends State<SecondSignInPage> {
 
     Map data = {
       'UnicID': unicId,
-      'Country': country,
       'City': city,
       'BirthYear': year,
       'Gender': gender,
       'EducationLevel': education,
     };
-
-    //encode Map to JSON
     var body = json.encode(data);
-    print(body);
-
     final response = await http.post(urlU,
         headers: {"Content-Type": "application/json"},
         body: body
     );
-
     final returnedData = jsonDecode(response.body);
-
     if(response.statusCode == 200){
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-          builder: (context) => LoginPage()), (Route route) => false);
+          builder: (context) => const LoginPage()), (Route route) => false);
     }else{
       showAlertDialog2(context, "Hata: " + response.body);
     }
-
     return response;
   }
-
   showAlertDialog2(BuildContext context, String message) {
     // set up the button
-    Widget okButton = TextButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
-
+    Widget okButton = Container(
+        decoration: BoxDecoration(
+          color: const Color(0xffc45d54),
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x14000000),
+              offset: Offset(3, 3),
+              blurRadius: 3,
+            ),
+          ],
+        ),
+        child: TextButton(
+          child:  const Text("Tamam",
+            style: TextStyle(
+              fontFamily: 'Work Sans',
+              color: Color(0xffffffff),
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ));
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text(""),
-      content: Text(message),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      title: const Text("Uyarı!",
+        style: TextStyle(
+          fontFamily: 'Work Sans',
+          fontSize: 16,
+          color: Color(0xff000000),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      content: Text(message,
+        style: const TextStyle(
+          fontFamily: 'Work Sans',
+          fontSize: 16,
+          color: Color(0xff000000),
+          fontWeight: FontWeight.w600,
+        ),
+        textAlign: TextAlign.center,
+      ),
       actions: [
         okButton,
       ],
     );
-
     // show the dialog
     showDialog(
       context: context,
@@ -651,7 +816,5 @@ class _SecondSignInPage extends State<SecondSignInPage> {
   }
 }
 
-
-
-
-
+const String _svg_ahsnb9 =
+    '<svg viewBox="-243.2 -327.5 779.2 716.5" ><path transform="matrix(-0.965926, 0.258819, -0.258819, -0.965926, 536.04, 219.47)" d="M 1.024306038743816e-05 184.1095581054688 C 7.517889116570586e-06 285.7896118164062 100.297233581543 368.2178955078125 224.0208892822266 368.2178955078125 C 274.1476745605469 368.2178649902344 320.4256591796875 354.6895446777344 357.7494201660156 331.8302612304688 C 352.7652893066406 349.4608764648438 350.0668640136719 368.312255859375 350.0668640136719 387.898193359375 C 350.0668640136719 486.4231567382812 418.3290100097656 566.2928466796875 502.5333862304688 566.2928466796875 C 586.7387084960938 566.2928466796875 654.9998779296875 486.4231262207031 654.9998779296875 387.898193359375 C 654.9998779296875 289.3731994628906 586.7387084960938 209.5035095214844 502.5333862304688 209.5035095214844 C 481.3537902832031 209.5035400390625 461.1823120117188 214.5567932128906 442.8525085449219 223.688720703125 C 446.2498474121094 210.9415893554688 448.0417785644531 197.694580078125 448.0417785644531 184.1095581054688 C 448.0417785644531 82.4283447265625 347.7445373535156 6.103515625e-05 224.0209045410156 6.103515625e-05 C 100.2972412109375 6.103515625e-05 1.296826212637825e-05 82.4283447265625 1.024306038743816e-05 184.1095581054688 Z" fill="#929a94" stroke="none" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';

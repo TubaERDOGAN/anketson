@@ -5,7 +5,6 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:ankets/screens/home_page.dart';
 import 'package:ankets/screens/sign_in_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
           });
     }
   }
-
   Scaffold MobilePage (){
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -83,12 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Positioned(
-                top: MediaQuery.of(context).size.height * 0.3,
+                top: MediaQuery.of(context).size.height * 0.35,
                 child: ClipRect(
                   child: BackdropFilter(
                     filter: ui.ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.65,
                       width:MediaQuery.of(context).size.width * 1,
                       decoration: BoxDecoration(
                         color: const Color(0x8affffff),
@@ -105,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ///Usermane Pin
               Positioned(
-                  top: MediaQuery.of(context).size.height * 0.38,
+                  top: MediaQuery.of(context).size.height * 0.40,
                   child:Padding(
                       padding: EdgeInsets.symmetric(horizontal:MediaQuery.of(context).size.width * 0.1 ),
                       child: Container(
@@ -127,21 +125,21 @@ class _LoginPageState extends State<LoginPage> {
                           controller: nameController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter user name';
+                              return 'lütfen kullanıcı adını giriniz';
                             }
                             return null;
                           },
                           decoration: const InputDecoration(
                             icon: Padding(
-                                padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
+                                padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
                                 child: Icon(
                                     Icons.people,
                                     color: Color(0xffc45d54))
                             ),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             border: InputBorder.none,
-                            labelText: 'Username',
-                            labelStyle: TextStyle(
+                            hintText: 'Kullanıcı adı',
+                            hintStyle: TextStyle(
                               fontFamily: 'Work Sans',
                               fontSize: 14,
                               color: Color(0xff000000),
@@ -177,16 +175,16 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: _isObscure, //if passenable == true, show **, else show password character
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter password';
+                            return 'lütfen şifreyi giriniz';
                           }
                           if (value.length < 8) {
-                            return 'Must be more than 8 charater';
+                            return 'şifre 8 karakteden fazla olmalı';
                           }
                           return null;
                         },
                         decoration:  InputDecoration(
                           icon: const Padding(
-                              padding:  EdgeInsets.fromLTRB(5.0,10.0,0.0,0.0),
+                              padding:  EdgeInsets.fromLTRB(5.0,0.0,0.0,0.0),
                               child: Icon(
                                   Icons.lock,
                                   color: Color(0xffc45d54))
@@ -202,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                               }),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                           border: InputBorder.none,
-                          labelText: 'Password',
+                          labelText: 'Şifre',
                           labelStyle: const TextStyle(
                             fontFamily: 'Work Sans',
                             fontSize: 14,
@@ -251,7 +249,7 @@ class _LoginPageState extends State<LoginPage> {
                                   }
                               },
                               child: const Text(
-                                'Log In',
+                                'Giriş Yap',
                                 style: TextStyle(
                                   fontFamily: 'Work Sans',
                                   fontSize: 20,///
@@ -277,7 +275,7 @@ class _LoginPageState extends State<LoginPage> {
                                   builder:(context) => SignInPage()));
                         },
                         child: const Text(
-                          'Don\'t have an account? Sing Up!',
+                          'Henüz hesabın yok mu? Kayıt Ol!',
                           style: TextStyle(
                             fontFamily: 'Work Sans',
                             fontSize: 12,/// responsive olacak
@@ -392,9 +390,9 @@ class _LoginPageState extends State<LoginPage> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      title: Text("Kullanıcı bilgileri hatalı"),
-      content: Text(message,
-        style: const TextStyle(
+      title: Text(""),
+      content: const Text("Kullanıcı bilgileri hatalı",
+        style:  TextStyle(
           fontFamily: 'Work Sans',
           fontSize: 16,
           color: Color(0xff000000),

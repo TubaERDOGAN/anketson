@@ -4,21 +4,16 @@ import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:survey_kit/survey_kit.dart';
 import 'home_page.dart';
 
 
 class AnketSayfasi extends StatelessWidget {
-
   final String anketID;
   String unicID = "";
 
   AnketSayfasi({Key? key, required this.anketID}) : super(key: key);
-
   Future<void> sendData(BuildContext context, List<Map> answers) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     unicID = sharedPreferences.getString("unicID") ?? "";
@@ -40,11 +35,7 @@ class AnketSayfasi extends StatelessWidget {
         headers: {"Content-Type": "application/json"},
         body: body
     );
-
-    final returnedData = jsonDecode(response.body);
-
-    //print(response.body);
-
+    final returnedData = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {
       Navigator.pushAndRemoveUntil(
           context,
@@ -101,10 +92,7 @@ class AnketSayfasi extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
               ),
-
-
               Center(
-
                 child:Padding(
                   padding: const EdgeInsets.fromLTRB(0.0,0.0,0.0,0.0 ),
                   child:Align(
@@ -131,9 +119,10 @@ class AnketSayfasi extends StatelessWidget {
                                     answersData.add(cevap);
                                   }
                                   sendData(context, answersData);
+                                  Navigator.of(context, rootNavigator: true).pop(context);
                                 }
                               }else{
-                                Navigator.pop(context);
+                                Navigator.of(context, rootNavigator: true).pop(context);
                               }
                             },
                             task: task,
@@ -230,28 +219,20 @@ class AnketSayfasi extends StatelessWidget {
   }
 
   Future<Task> getJsonTask() async {
-    //final taskJson = await rootBundle.loadString('assets/example_json.json');
-    //final taskMap = json.decode(taskJson);
-
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String unicId = sharedPreferences.getString("unicID") ?? "";
-
     String url = 'http://91.93.203.2:6526/ANKET/hs/getdata/anketsorularisk/';
     Uri urlU = Uri.parse(url);
-
     Map data = {
       'UserUnicID': unicId,
       'UnicID': anketID,
     };
-
     //encode Map to JSON
     var body = json.encode(data);
-
     /*final response = await http.post(urlU,
         headers: {"Content-Type": "application/json"},
         body: body
     );*/
-
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
