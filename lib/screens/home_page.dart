@@ -75,8 +75,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    _GetInfo();
-    getUserData();
     return LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 600) {
@@ -92,6 +90,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   SafeArea MobilePage (){
+    _GetInfo();
+    getUserData();
     return SafeArea( child:Scaffold(
         extendBodyBehindAppBar: true,
         extendBody: true,
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                       currentAccountPicture:  GestureDetector(
                         onTap: () {
                           //Navigator.pop(context);
-                          //Navigator.of(context).pushNamed('/settingprofile');
+                          Navigator.of(context).pushNamed('/settingprofile');
                         },
                         child:CircleAvatar(
                           backgroundColor: Colors.black,
