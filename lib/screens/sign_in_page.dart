@@ -408,13 +408,15 @@ class   _SignInPageState extends State<SignInPage> {
                                             //showAlertDialog(context, "1");
                                             SharedPreferences sharedPreferences = await SharedPreferences
                                                 .getInstance();
-                                            if(sharedPreferences.getString("username") == "" ||sharedPreferences.getString("email") == ""){
+                                            if(sharedPreferences.getString("username") != "" ||sharedPreferences.getString("email") != ""){
                                               postRequest(context,
                                                   usernameController.value.text,
                                                   emailController.value.text,
                                                   passwordController.value.text);
+
+                                                  Navigator.of(context).pushNamed('/secondsignin');
                                             }else{
-                                              Navigator.of(context).pushNamed('/secondsignin');
+                                              //Navigator.of(context).pushNamed('/secondsignin');
                                             }
                                           }
                                         } else {
@@ -511,8 +513,20 @@ class   _SignInPageState extends State<SignInPage> {
     );
 
     final returnedData = jsonDecode(response.body);
+    print('*************************************************');
+    print('*************************************************');
+    print('*************************************************');
+    print('*************************************************');
+    print('*************************************************');
+    print(response.statusCode);
+
+
 
     if (response.statusCode == 200) {
+      print('*************************************************');
+      print('GELEN UNIQUE ID ==> ');
+      print(returnedData["UnicID"]);
+      print('*************************************************');
       SharedPreferences sharedPreferences = await SharedPreferences
           .getInstance();
       sharedPreferences.setString("email", email);
@@ -532,7 +546,13 @@ class   _SignInPageState extends State<SignInPage> {
       }else if(returnedData["ErrorCode"] == 4){
         showAlertDialog1(context, "Mail adresi ile daha önce kayıt olunmuş!");
       }else{
-
+        print('*************************************************');
+        print('*************************************************');
+        print('*************************************************');
+        print('BUYUK IHTIMALLE BURAYA GIRIYOR');
+        print('*************************************************');
+        print('*************************************************');
+        print('*************************************************');
       }
 
     }

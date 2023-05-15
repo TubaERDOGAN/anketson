@@ -55,6 +55,8 @@ class _HomePageState extends State<HomePage> {
       AnketAdedi = returnedData['AnketAdedi'].toString();
       TestAdedi = returnedData['TestAdedi'].toString();
     }
+
+    setState(){};
   }
 
   void _GetInfo() async {
@@ -63,6 +65,8 @@ class _HomePageState extends State<HomePage> {
     email = prefs.getString("email")  ?? "";
     String   user = (username);
     result = user[0];
+
+    setState(){};
   }
 
   void _Cikiss() async {
@@ -71,6 +75,12 @@ class _HomePageState extends State<HomePage> {
     prefs.setString('username',"");
     prefs.setString('unicID',"");
     prefs.setString('email',"");
+  }
+
+  @override
+  void initState() {
+    _GetInfo();
+    getUserData();
   }
 
   @override
@@ -90,8 +100,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   SafeArea MobilePage (){
-    _GetInfo();
-    getUserData();
     return SafeArea( child:Scaffold(
         extendBodyBehindAppBar: true,
         extendBody: true,
@@ -100,7 +108,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: [
                 Container(
-                  height:MediaQuery.of(context).size.height * 0.27,///responsive yapılacak
+                  //height:MediaQuery.of(context).size.height * 0.27,///responsive yapılacak
                   decoration: const BoxDecoration(
                     color: Color(0x66ffffff),
                     borderRadius: BorderRadius.only(bottomRight:  Radius.circular(21),bottomLeft:Radius.circular(21) ),
@@ -285,6 +293,31 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).pushNamed('/testler');
                   },
                 ),
+                ListTile(
+                  leading: IconButton(
+                    onPressed: null,
+                    icon: Image.asset(
+                      'lib/assets/icons/menu_icons/anket.png',
+                      width: 24.0,
+                      height: 24.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  title:  const Text(
+                    '2023 Seçim Anketi',
+                    style: TextStyle(
+                      fontFamily: 'Work Sans',
+                      fontSize: 20,
+                      color: Color(0xff000000),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).pushNamed('/secimAnket');
+                  },
+                ),
+
                 SizedBox(height:MediaQuery.of(context).size.height * 0.32),/// responsive
                 const Divider(thickness: 1,),
                 ListTile(
@@ -426,7 +459,7 @@ class _HomePageState extends State<HomePage> {
               //backgroundColor: Colors.transparent,
               centerTitle: true,
               title: const Text(
-                'Günlük Anketler',
+                'IGODO',
                 style:  TextStyle(
                   fontFamily: 'Work Sans',
                   fontSize: 18,
@@ -436,23 +469,15 @@ class _HomePageState extends State<HomePage> {
               ),
               leading: Builder(
                 builder: (BuildContext context) {
-                  return Padding(
-                      padding: const EdgeInsets.fromLTRB(4.0,0.0,0.0,0.0),
-                      child:IconButton(
-                        icon: CircleAvatar(
-                          radius:25,
-                          backgroundColor:Colors.black,
-                          child: CircleAvatar(
-                            backgroundColor: const Color(0xffffffff),
-                            radius:15,
-                            child: Center(child: Text(result,
-                            )),
-                          ),),
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                      ));
+                  return IconButton(
+                    icon:const Icon(Icons.menu,
+                      color: Color(0xffffffff),
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  );
                 },
               ),
             ),

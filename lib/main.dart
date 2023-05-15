@@ -4,15 +4,19 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:ankets/page/setting_profile_page.dart';
 import 'package:ankets/screens/anket_sayfasi.dart';
 import 'package:ankets/screens/anketler.dart';
+import 'package:ankets/screens/cumhurSecimPage.dart';
+import 'package:ankets/screens/genelSecimPage.dart';
 import 'package:ankets/screens/home_page.dart';
 import 'package:ankets/screens/login_page.dart';
 import 'package:ankets/screens/profile_page.dart';
 import 'package:ankets/screens/second_sign_in_page.dart';
 import 'package:ankets/screens/sign_in_page.dart';
 import 'package:ankets/screens/testler.dart';
+import 'package:ankets/screens/secimMainPage.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:ankets/constants.dart';
+import 'package:ankets/screens/mvsecimsonuc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:ui';
 import 'package:flutter/services.dart';
@@ -92,6 +96,11 @@ class MyApp extends StatelessWidget {
           '/testler': (BuildContext context) => Testler(),
           '/profile': (BuildContext context) => ProfilePage(),
           '/settingprofile': (BuildContext context) => SettingProfilePage(),
+          '/secimAnket': (BuildContext context) => SecimMain(),
+          '/cumhurSecimPage': (BuildContext context) => cumhurSecim(),
+          '/genelSecimPage': (BuildContext context) => genelSecim(),
+          '/mvsecimsonuc': (BuildContext context) => mvSonuc(),
+
         },
         theme: ThemeData(
           primaryColor: Color(0xffc45d54),

@@ -179,7 +179,7 @@ class FullScreenModal extends ModalRoute {
 
 
                         Container(
-                            height: MediaQuery.of(context).size.height * 0.85,
+                            height: MediaQuery.of(context).size.height * 0.75,
                             //color: Colors.tealAccent,
                             child:ListView.separated(
                                 separatorBuilder: (BuildContext context, int index) => SizedBox(
@@ -401,6 +401,10 @@ class _TestlerState extends State<Testler> {
                   fit: BoxFit.fill,
                 ),
               ),
+
+
+
+              /*
               Center(
                   child: FutureBuilder(
                       future: getKategorilerVeTestler(),
@@ -459,7 +463,7 @@ class _TestlerState extends State<Testler> {
                                                     color: Colors.white60,
                                                     image: DecorationImage(
                                                       image: NetworkImage(snapshot.data[index].Testler[indexTest].ImageUrl),
-                                                      fit: BoxFit.fill,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 child: GestureDetector(
@@ -484,6 +488,28 @@ class _TestlerState extends State<Testler> {
                       }
                   )
               )
+
+
+              */
+
+
+              Container(
+                color: Color(0x66ffffff),
+                child: Center(
+                  child: Text(
+                    'Çok yakında...',
+                    style: TextStyle(
+                      fontFamily: 'Work Sans',
+                      fontSize: 24,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+
+
+
             ]
         )
     )));

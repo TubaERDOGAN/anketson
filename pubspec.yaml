@@ -102,7 +102,52 @@ flutter:
     - assets/example_json.json
     - assets/profil.png
     - assets/megasoft.png
+    - assets/akparti.png
+    - assets/chp.png
+    - assets/iyiparti.png
+    - assets/mhp.png
+    - assets/hdp.png
+    - assets/zaferparti.png
+    - assets/memleketparti.png
+    - assets/anavatanpartisi.png
+    - assets/adaletbirlikpartisi.png
+    - assets/buyukturkiyepartisi.png
+    - assets/adaletpartisi.png
+    - assets/bbp.png
+    - assets/deva.png
+    - assets/dsp.png
+    - assets/demokratparti.png
+    - assets/emekpartisi.png
+    - assets/gelecekpartisi.png
+    - assets/gencparti.png
+    - assets/gucbirligiparti.png
+    - assets/hakozgurlukparti.png
+    - assets/hkp.png
+    - assets/hudapar.png
+    - assets/milletpartisi.png
+    - assets/saadetpartisi.png
+    - assets/solparti.png
+    - assets/turkiyedegisim.png
+    - assets/turkiyeisciparti.png
+    - assets/turkiyekomunist.png
+    - assets/vatanparti.png
+    - assets/yenidenrefah.png
+    - assets/yenilikparti.png
+    - assets/yeniturkiyeparti.png
+    - assets/yesilsolparti.png
+    - assets/milliyolparti.png
+    - assets/tkh.png
+    - assets/btp.png
     - assets/country.json
+    - lib/assets/igodoAssets/igodoLogo.png
+    - lib/assets/igodoAssets/rectangleOrange.png
+    - lib/assets/igodoAssets/toplu.jpg
+    - lib/assets/igodoAssets/buton.png
+    - lib/assets/igodoAssets/meclisPhoto.png
+    - lib/assets/igodoAssets/meclisBackground.png
+    - lib/assets/igodoAssets/toplu2.png
+    - lib/assets/igodoAssets/countdownBackground.png
+    - lib/assets/igodoAssets/mvsocun.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

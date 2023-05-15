@@ -177,7 +177,7 @@ class FullScreenModal extends ModalRoute {
 
 
                         Container(
-                            height: MediaQuery.of(context).size.height * 0.85,
+                            height: MediaQuery.of(context).size.height * 0.75,
                             //color: Colors.tealAccent,
                             child:ListView.separated(
                             separatorBuilder: (BuildContext context, int index) => SizedBox(
@@ -350,24 +350,12 @@ class _AnketlerState extends State<Anketler> {
                 ));
           },
         ),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  _showModal(context);
-                },
-                child: Icon(
-                  Icons.search,
-                  size: 26.0,
-                ),
-              )
-          ),
-        ],
+        actions: <Widget>[],
       ),
     ],
           body: Stack(
               children: <Widget>[
+
            Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
@@ -391,6 +379,7 @@ class _AnketlerState extends State<Anketler> {
                     fit: BoxFit.fill,
                   ),
                 ),
+                /*
                 Center(
                     child: FutureBuilder(
                         future: getKategorilerVeAnketler(),
@@ -450,7 +439,7 @@ class _AnketlerState extends State<Anketler> {
                                                     image: DecorationImage(
 
                                                       image: NetworkImage(snapshot.data[index].Anketler[indexAnket].ImageUrl),
-                                                      fit: BoxFit.fill,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                   //color: Colors.lightBlue,
@@ -476,8 +465,26 @@ class _AnketlerState extends State<Anketler> {
                         }
                     )
                 )
+ */
+
+                Container(
+                  color: Color(0x66ffffff),
+                  child: Center(
+                    child: Text(
+                      'Çok yakında...',
+                      style: TextStyle(
+                        fontFamily: 'Work Sans',
+                        fontSize: 24,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               ]
-          ))
+
+          ),
+      )
       ),);
   }
 }

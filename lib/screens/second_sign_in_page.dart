@@ -734,7 +734,9 @@ class _SecondSignInPage extends State<SecondSignInPage> {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     String unicId = sharedPreferences.getString("unicID") ?? "";
-
+    print('*************************************************');
+    print(unicId);
+    print('*************************************************');
     Map data = {
       'UnicID': unicId,
       'City': city,
